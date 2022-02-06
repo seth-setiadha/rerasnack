@@ -5,27 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = intval($request->query('perPage'));
+        $page = intval($request->query('page'));
+        $page = $page > 0 ? $page : 1;
+
+        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
+        $offset = ($page - 1) * $perPage;
+
+        $items = Item::select('id', 'item_code', 'item_name', 'bal_kg')->offset($offset)->limit($perPage)->get();
+        $nItem = Item::count();
+        return view('items.index', [
+            'items' => $items,
+            'count' => $nItem,
+            'page' => $page,
+            'nPage' => ceil($nItem / $perPage)
+        ]);
+
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $item = new Item();
+
+        return view('items.create', [
+            'items' => $item
+        ]);
     }
 
     /**

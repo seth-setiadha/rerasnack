@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-
 Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('/items', ItemController::class);
+    Route::resources([
+        '/items' => ItemController::class,
+        '/stocks' => StockController::class,
+    ]);
 });
