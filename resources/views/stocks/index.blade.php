@@ -7,12 +7,12 @@
         <div class="col-md-12">
             
         
-            <div class="d-flex align-items-center p-3 my-3 bg-info p-2 text-dark bg-opacity-25 rounded shadow-sm">
-                <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Master Items') }}</h3>
+            <div class="d-flex align-items-center p-3 my-3 bg-warning p-2 text-dark bg-opacity-25 rounded shadow-sm">
+            <div class="me-auto">
+                    <h3 class="mb-0 lh-1">{{ __('Stock Barang') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-info" href="{{ route('items.create') }}">{{ __('Add Item') }}</a>
+                    <a class="btn btn-warning" href="{{ route('items.create') }}">{{ __('Stock Adjusment') }}</a>
                 </div>
             </div>
             
@@ -26,18 +26,18 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Kode Barang</th>
+                                    <th scope="col">Tgl. Masuk</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">kg/bal</th>
+                                    <th scope="col">Sisa</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $row)
                                 <tr>
-                                    <td>{{ $row->item_code }}</td>
+                                    <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->bal_kg }}</td>
+                                    <td>{{ $row->qty_kg }}</td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 @endforeach                                
