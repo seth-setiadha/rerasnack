@@ -12,7 +12,7 @@
                     <h3 class="mb-0 lh-1">{{ __('Master Items') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-info" href="{{ route('items.create') }}">{{ __('Add Item') }}</a>
+                    <a class="btn btn-info" href="{{ route('items.create') }}">{{ __('Tambah Item') }}</a>
                 </div>
             </div>
             

@@ -22,8 +22,6 @@ class CreateInventoriesTable extends Migration
             $table->unsignedSmallInteger('qty');
             $table->enum('unit', ['bal', '1kg', '500gr', '250gr', '150gr', '100gr']);
 
-            $table->unsignedDecimal('bal_kg', 8,2); // DATA FROM MASTER ITEM KG /BAL
-
             $table->unsignedDecimal('qty_kg', 8,2); // STOCK IN/OUT PER KG, DPT DARI QTY * BAL_KG
             $table->unsignedDecimal('qty_gr', 8,2); // AUTO DARI BAL_KG * QTY * 1000
 
@@ -32,7 +30,7 @@ class CreateInventoriesTable extends Migration
             $table->unsignedMediumInteger('unit_price');    //
             $table->unsignedMediumInteger('unit_price_gr'); // unit price modal untuk [IN] , unit price jual untuk [OUT]
             $table->unsignedInteger('sub_total');
-            $table->enum('stock', ['IN', 'OUT']);
+            $table->enum('stock', ['IN', 'OUT', 'ADJ']);
 
             $table->timestamps();
         });

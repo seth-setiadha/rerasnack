@@ -41,10 +41,10 @@ class ItemController extends Controller
      */
     public function create(Request $request)
     {
-        $item = new Item();
+        $data = new Item();
 
         return view('items.create', [
-            'items' => $item
+            'data' => $data
         ]);
     }
 

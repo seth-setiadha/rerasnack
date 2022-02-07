@@ -9,10 +9,10 @@
         
             <div class="d-flex align-items-center p-3 my-3 bg-warning p-2 text-dark bg-opacity-25 rounded shadow-sm">
             <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Stock Barang') }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Daftar Stock Adjusment') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Stock Adjusment') }}</a>
+                    <a class="btn btn-warning mx-10" href="{{ route('stocks.index') }}">{{ __('Stock Barang') }}</a>
                     <a class="btn btn-warning" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a>
                 </div>
             </div>
@@ -27,8 +27,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tgl. Masuk</th>
+                                    <th scope="col">Tgl. Adjusment</th>
                                     <th scope="col">Nama Barang</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Unit</th>
                                     <th scope="col">Sisa</th>
                                     <!-- <th scope="col">Action</th> -->
                                 </tr>
@@ -38,7 +40,9 @@
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty_kg }}</td>
+                                    <td>{{ $row->qty }}</td>
+                                    <td>{{ $row->unit }}</td>
+                                    <td>{{ $row->sisa }}</td>
                                     <!-- <td>&nbsp;</td> -->
                                 </tr>
                                 @endforeach                                
@@ -61,11 +65,11 @@
                          } ?>
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item @if ($page <= 1) {{ 'disabled' }} @endif "><a class="page-link " href="{{ route('stocks.index') . '/?page=' . ($page - 1) }}">Previous</a></li>
+                                <li class="page-item @if ($page <= 1) {{ 'disabled' }} @endif "><a class="page-link " href="{{ route('stocks.adjustment') . '/?page=' . ($page - 1) }}">Previous</a></li>
                                 @for ($i=$start; $i<=$end;$i++)
-                                <li class="page-item @if ($page == $i) {{ 'disabled' }} @endif"><a class="page-link" href="{{ route('stocks.index') . '/?page=' . $i }}">{{ $i }}</a></li>
+                                <li class="page-item @if ($page == $i) {{ 'disabled' }} @endif"><a class="page-link" href="{{ route('stocks.adjustment') . '/?page=' . $i }}">{{ $i }}</a></li>
                                 @endfor
-                                <li class="page-item @if ($page >= $nPage) {{ 'disabled' }} @endif "><a class="page-link" href="{{ route('stocks.index') . '/?page=' . ($page + 1) }}">Next</a></li>
+                                <li class="page-item @if ($page >= $nPage) {{ 'disabled' }} @endif "><a class="page-link" href="{{ route('stocks.adjustment') . '/?page=' . ($page + 1) }}">Next</a></li>
                             </ul>
                         </nav>
                     </div>

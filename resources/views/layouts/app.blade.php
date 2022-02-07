@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -34,13 +35,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('items.index') }}">Modal</a>
+                            <a class="nav-link" href="{{ route('pembelian.index') }}">Modal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('stocks.index') }}">Stock</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('modals.index') }}">Penjualan</a>
+                            <a class="nav-link" href="{{ route('penjualan.index') }}">Penjualan</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('items.index') }}">Laporan</a>

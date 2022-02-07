@@ -7,13 +7,12 @@
         <div class="col-md-12">
             
         
-            <div class="d-flex align-items-center p-3 my-3 bg-warning p-2 text-dark bg-opacity-25 rounded shadow-sm">
-            <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Stock Barang') }}</h3>
+            <div class="d-flex align-items-center p-3 my-3 bg-{{ $colorTheme }} p-2 text-dark bg-opacity-25 rounded shadow-sm">
+                <div class="me-auto">
+                    <h3 class="mb-0 lh-1">{{ ucwords(__($pageName)) }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Stock Adjusment') }}</a>
-                    <a class="btn btn-warning" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a>
+                    <a class="btn btn-{{ $colorTheme }}" href="{{ route($pageName . '.create') }}">{{ __('Tambah '. ucwords($pageName)) }}</a>
                 </div>
             </div>
             
@@ -27,21 +26,27 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tgl. Masuk</th>
+                                    <th scope="col">Tanggal</th>
                                     <th scope="col">Nama Barang</th>
+                                    @if ($stock == "IN") <th scope="col">Bal/kg</th> @endif
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Harga / Unit</th>
+                                    <th scope="col">Subtotal</th>
                                     <th scope="col">Sisa</th>
-                                    <!-- <th scope="col">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
-                                    <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty_kg }}</td>
-                                    <!-- <td>&nbsp;</td> -->
+                                    <td>{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>
+                                    @if ($stock == "IN") <td>{{ $row->bal_kg }}</td> @endif
+                                    <td>{{ $row->qty }}</td>
+                                    <td>{{ $row->unit_price . ' / ' . $row->unit }}</td>
+                                    <td>{{ $row->sub_total }}</td>
+                                    <td>{{ $row->sisa }} kg</td>
                                 </tr>
-                                @endforeach                                
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -61,11 +66,11 @@
                          } ?>
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item @if ($page <= 1) {{ 'disabled' }} @endif "><a class="page-link " href="{{ route('stocks.index') . '/?page=' . ($page - 1) }}">Previous</a></li>
+                                <li class="page-item @if ($page <= 1) {{ 'disabled' }} @endif "><a class="page-link " href="{{ route($pageName . '.index') . '/?page=' . ($page - 1) }}">Previous</a></li>
                                 @for ($i=$start; $i<=$end;$i++)
-                                <li class="page-item @if ($page == $i) {{ 'disabled' }} @endif"><a class="page-link" href="{{ route('stocks.index') . '/?page=' . $i }}">{{ $i }}</a></li>
+                                <li class="page-item @if ($page == $i) {{ 'disabled' }} @endif"><a class="page-link" href="{{ route($pageName . '.index') . '/?page=' . $i }}">{{ $i }}</a></li>
                                 @endfor
-                                <li class="page-item @if ($page >= $nPage) {{ 'disabled' }} @endif "><a class="page-link" href="{{ route('stocks.index') . '/?page=' . ($page + 1) }}">Next</a></li>
+                                <li class="page-item @if ($page >= $nPage) {{ 'disabled' }} @endif "><a class="page-link" href="{{ route($pageName . '.index') . '/?page=' . ($page + 1) }}">Next</a></li>
                             </ul>
                         </nav>
                     </div>

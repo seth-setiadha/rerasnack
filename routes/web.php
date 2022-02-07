@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,12 @@ Auth::routes();
 Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+    Route::get('/stocks/adjustment', [StockController::class, 'adjustment'])->name('stocks.adjustment');
+
     Route::resources([
         '/items' => ItemController::class,
         '/stocks' => StockController::class,
-        '/modals' => InventoryController::class,
+        '/pembelian' => InventoryController::class,
+        '/penjualan' => PenjualanController::class,        
     ]);
 });
