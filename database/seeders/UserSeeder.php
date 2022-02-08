@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Item;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class ItemSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        Item::factory()->count(300)->create();
+        User::factory()->count(5)->create();
     }
 }

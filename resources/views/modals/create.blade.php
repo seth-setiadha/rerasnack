@@ -18,10 +18,12 @@
             </div>
             
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
+                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
                 @endif
+                @error('tanggal') 
+                    <div class="alert alert-success" role="alert">{{ $message }}</div>
+                @enderror
+                
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                     <!-- <div class="me-auto">
                         <h3 class="mb-0 lh-1">{{ __('Tambah ' . ucwords($pageName)) }}</h3>
@@ -35,18 +37,33 @@
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
                                 <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
-                                <!-- <div class="valid-feedback">Looks good!</div> -->
+                                <div class="valid-feedback">Looks good!</div>
                             </div>
                             @if ($stock == "IN")
                             <div class="col-md-4">
                                 <label for="item_id" class="form-label">Nama Barang</label>
                                 <input type="text" class="form-control" name="item_id" id="item_id" value="" required>
-                                <!-- <div class="valid-feedback">Looks good!</div> -->
+                                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js">
+                                </script>
+                                <script type="text/javascript">
+                                    var route = "{{ route('items.autocomplete') }}";
+                                    $('#item_id').typeahead({
+                                        source: function (query, process) {
+                                            return $.get(route, {
+                                                query: query
+                                            }, function (data) {
+                                                return process(data);
+                                            });
+                                        }
+                                    });
+                                </script>
                             </div>
                             @elseif ($stock == "OUT")
                             <div class="col-md-4">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
                                 <input type="text" class="form-control" name="stock_id" id="stock_id" value="" required>
+                                
                                 <!-- <div class="valid-feedback">Looks good!</div> -->
                             </div>
                             @endif

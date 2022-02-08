@@ -87,9 +87,9 @@ class PenjualanController extends Controller
         ];
         $inventory = Inventory::create($data);
         if(! $inventory) {
-            return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
+            return view('modals.create', ["message" => "Data belum berhasil ditambahkan", "data" => $data ]);
         }
-        return response()->json(["message" => "Data berhasil ditambahkan", "data" => $inventory]);
+        return view('modals.create',["message" => "Data berhasil ditambahkan", "data" => $inventory]);
     }
 
     /**

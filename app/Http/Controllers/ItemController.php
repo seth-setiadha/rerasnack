@@ -34,6 +34,12 @@ class ItemController extends Controller
         ]);
     }
 
+    public function autocomplete(Request $request) {
+        $query = $request->get('query');
+        $filterResult = Item::select('id', 'item_name')->where('item_name', 'LIKE', '%'. $query. '%')->orWhere('item_code', 'LIKE', '%' . $query . '%')->limit(10)->get();
+        return response()->json($filterResult);
+    }
+
     /**
      * Show the form for creating a new resource.
      * @param  Illuminate\Http\Request $request
