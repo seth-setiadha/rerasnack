@@ -38,11 +38,7 @@ class ItemController extends Controller
     public function autocomplete(Request $request) {
         // $query = $request->get('query');
         $query = $request->get('term');
-        $items = Item::select('id', 'item_name')->where('item_name', 'LIKE', '%'. $query. '%')->orWhere('item_code', 'LIKE', '%' . $query . '%')->limit(10)->get();
-        $itemsArr = [];
-        foreach($items as $item) {
-            $itemsArr[$item->id] = $item->item_name;
-        }
+        $items = Item::select('id', 'item_name', 'bal_kg', 'item_code')->where('item_name', 'LIKE', '%'. $query. '%')->orWhere('item_code', 'LIKE', '%' . $query . '%')->limit(10)->get();   
         return response()->json($items);
     }
 

@@ -2,6 +2,10 @@
 
 @section('content')
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 <div class="container">
     <div class="row justify-content-center">
 
@@ -41,52 +45,63 @@
                             </div>
                             @if ($stock == "IN")
                             <div class="col-md-4">
-                                <label for="item_id" class="form-label">Nama Barang</label>
-                                <!-- <input type="text" class="form-control" name="item_id" id="item_id" value="" required> -->
-                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                                <label for="item_id" class="form-label">Nama Barang</label>                             
                                 
                                 <select class="form-control" id="item_id" name="item_id"></select>
                                 
                                 <script type="text/javascript">
-                                $('#item_id').select2({
-                                    placeholder: 'Pilih barang',
-                                    ajax: {
-                                        url: "{{ route('items.autocomplete') }}",
-                                        dataType: 'json',
-                                        delay: 250,
-                                        processResults: function (data) {
-                                            return {
-                                                results: $.map(data, function (item) {
-                                                    return {
-                                                        text: item.item_name,
-                                                        id: item.id
-                                                    }
-                                                })
-                                            };
-                                        },
-                                        cache: true
-                                    }
-                                });
-                            </script>
+                                    $('#item_id').select2({
+                                        placeholder: 'Pilih barang',
+                                        ajax: {
+                                            url: "{{ route('items.autocomplete') }}",
+                                            dataType: 'json',
+                                            delay: 250,
+                                            processResults: function (data) {
+                                                return {
+                                                    results: $.map(data, function (item) {
+                                                        return {
+                                                            text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
+                                                            id: item.id
+                                                        }
+                                                    })
+                                                };
+                                            },
+                                            cache: true
+                                        }
+                                    });
+                                </script>
                             </div>
                             @elseif ($stock == "OUT")
                             <div class="col-md-4">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
-                                <input type="text" class="form-control" name="stock_id" id="stock_id" value="" required>
-                                
-                                <!-- <div class="valid-feedback">Looks good!</div> -->
+                                <select class="form-control" id="stock_id" name="stock_id"></select>
+                                <script type="text/javascript">
+                                    $('#stock_id').select2({
+                                        placeholder: 'Pilih barang',
+                                        ajax: {
+                                            url: "{{ route('stocks.autocomplete') }}",
+                                            dataType: 'json',
+                                            delay: 250,
+                                            processResults: function (data) {
+                                                return {
+                                                    results: $.map(data, function (item) {
+                                                        return {
+                                                            text: item.item_name + '. Sisa: ' + item.sisa + ' kg',
+                                                            id: item.id
+                                                        }
+                                                    })
+                                                };
+                                            },
+                                            cache: true
+                                        }
+                                    });
+                                </script>                            
                             </div>
                             @endif
                             
                             <div class="col-md-1">
                                 <label for="qty" class="form-label">Qty</label>
-                                <!-- <div class="input-group has-validation">                                 -->
                                     <input type="text" class="form-control" id="qty" name="qty" required>
-                                    <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
-                                    <!-- <div class="invalid-feedback">Please choose a username.</div> -->
-                                <!-- </div> -->
                             </div>
                             <div class="col-md-2">
                                 <label for="unit" class="form-label">Unit</label>

@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/stocks/adjustment', [StockController::class, 'adjustment'])->name('stocks.adjustment');
+    Route::get('/stocks/autocomplete', [StockController::class, 'autocomplete'])->name('stocks.autocomplete');
     Route::get('/items/autocomplete', [ItemController::class, 'autocomplete'])->name('items.autocomplete');
 
     Route::resources([

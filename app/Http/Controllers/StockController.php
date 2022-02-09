@@ -82,6 +82,15 @@ class StockController extends Controller
         ]);
     }
 
+    public function autocomplete(Request $request) {
+        // $query = $request->get('query');
+        $query = $request->get('term');
+        $items = Stock::select('stocks.id', 'stocks.item_name')->selectRaw('FORMAT(stocks.qty / 1000,2) AS sisa')
+        ->where('stocks.qty', '>', 0)
+        ->where('item_name', 'LIKE', '%'. $query. '%')->limit(10)->get();
+        return response()->json($items);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
