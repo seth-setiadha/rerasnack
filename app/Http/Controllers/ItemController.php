@@ -75,7 +75,7 @@ class ItemController extends Controller
             // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
         }
-        return redirect( route('items.index') );
+        return redirect( route('items.show', ['item' => $item->id ]) );
     }
 
     /**
@@ -121,7 +121,7 @@ class ItemController extends Controller
         if(! $item->update( $request->all() ) ) {
             return redirect( route('items.edit') );
         }
-        return redirect( route('items.index') );
+        return redirect( route('items.show', ['item' => $item->id ]) );
     }
 
     /**

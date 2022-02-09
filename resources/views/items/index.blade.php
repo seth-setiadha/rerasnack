@@ -35,9 +35,9 @@
                             <tbody>
                                 @foreach ($data as $row)
                                 <tr>
-                                    <td>{{ $row->item_code }}</td>
-                                    <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->bal_kg }}</td>
+                                    <td><a href="{{ route('items.show', ['item' => $row->id]) }}">{{ $row->item_code }}</a></td>
+                                    <td><a href="{{ route('items.show', ['item' => $row->id]) }}">{{ $row->item_name }}</a></td>
+                                    <td><a href="{{ route('items.show', ['item' => $row->id]) }}">{{ $row->bal_kg }}</a></td>
                                     <!-- <td>&nbsp;</td> -->
                                 </tr>
                                 @endforeach                                

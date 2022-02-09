@@ -10,7 +10,7 @@
         
             <div class="d-flex align-items-center p-3 my-3 bg-info p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Tambah Barang') }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Ubah Data Barang') }}</h3>
                 </div>
                 <div class="ms-auto">
                 <a class="btn btn-info" href="{{ route('items.index') }}">{{ __('kembali') }}</a>
