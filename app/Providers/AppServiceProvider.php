@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $item->bal_gr = intval($item->bal_kg * 1000);
         });
 
-        Inventory::creating(function ($inventory) {
+        Inventory::saving(function ($inventory) {
             // DI PEMBELIAN DROPDOWN MENGGUNAKAN TABLE ITEM, DI PENJUALAN MENGGUNAKNA STOCK
             if($inventory->stock == "IN") {
                 $dataItem = Item::where("id", "=", $inventory->item_id)->first();

@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -62,7 +63,19 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        $data = [
+            "item_code" => $request->item_code,
+            "item_name" => $request->item_name,
+            "item_description" => $request->item_description,
+            "bal_kg" => $request->bal_kg,
+            "user_id" => Auth::user()->id,
+        ];
+        $item = Item::create($data);
+        if(! $item) {
+            // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
+            return redirect( route('items.create') );
+        }
+        return redirect( route('items.index') );
     }
 
     /**
@@ -73,7 +86,11 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        if(! $item) {
+            // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
+            return redirect( route('items.create') );
+        }
+        return view('items.edit', ['data' => $item]);
     }
 
     /**
@@ -84,7 +101,12 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        if($item) {
+            return view('items.edit', ['data' => $item]);
+        } else {
+            return redirect( route('items.index') );
+        }
+        
     }
 
     /**
@@ -96,7 +118,10 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        if(! $item->update( $request->all() ) ) {
+            return redirect( route('items.edit') );
+        }
+        return redirect( route('items.index') );
     }
 
     /**

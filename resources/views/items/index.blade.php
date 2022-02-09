@@ -29,7 +29,7 @@
                                     <th scope="col">Kode Barang</th>
                                     <th scope="col">Nama Barang</th>
                                     <th scope="col">kg/bal</th>
-                                    <th scope="col">Action</th>
+                                    <!-- <th scope="col">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +38,7 @@
                                     <td>{{ $row->item_code }}</td>
                                     <td>{{ $row->item_name }}</td>
                                     <td>{{ $row->bal_kg }}</td>
-                                    <td>&nbsp;</td>
+                                    <!-- <td>&nbsp;</td> -->
                                 </tr>
                                 @endforeach                                
                             </tbody>
