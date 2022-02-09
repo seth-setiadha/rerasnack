@@ -42,22 +42,34 @@
                             @if ($stock == "IN")
                             <div class="col-md-4">
                                 <label for="item_id" class="form-label">Nama Barang</label>
-                                <input type="text" class="form-control" name="item_id" id="item_id" value="" required>
-                                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js">
-                                </script>
+                                <!-- <input type="text" class="form-control" name="item_id" id="item_id" value="" required> -->
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                                
+                                <select class="form-control" id="item_id" name="item_id"></select>
+                                
                                 <script type="text/javascript">
-                                    var route = "{{ route('items.autocomplete') }}";
-                                    $('#item_id').typeahead({
-                                        source: function (query, process) {
-                                            return $.get(route, {
-                                                query: query
-                                            }, function (data) {
-                                                return process(data);
-                                            });
-                                        }
-                                    });
-                                </script>
+                                $('#item_id').select2({
+                                    placeholder: 'Pilih barang',
+                                    ajax: {
+                                        url: "{{ route('items.autocomplete') }}",
+                                        dataType: 'json',
+                                        delay: 250,
+                                        processResults: function (data) {
+                                            return {
+                                                results: $.map(data, function (item) {
+                                                    return {
+                                                        text: item.item_name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        },
+                                        cache: true
+                                    }
+                                });
+                            </script>
                             </div>
                             @elseif ($stock == "OUT")
                             <div class="col-md-4">
