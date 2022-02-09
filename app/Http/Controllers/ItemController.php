@@ -72,9 +72,11 @@ class ItemController extends Controller
         ];
         $item = Item::create($data);
         if(! $item) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
             // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
         }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
         return redirect( route('items.show', ['item' => $item->id ]) );
     }
 
@@ -119,8 +121,10 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         if(! $item->update( $request->all() ) ) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('items.edit') );
         }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
         return redirect( route('items.show', ['item' => $item->id ]) );
     }
 

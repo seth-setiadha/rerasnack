@@ -13,7 +13,7 @@
                     <h3 class="mb-0 lh-1">{{ __('Ubah Data Barang') }}</h3>
                 </div>
                 <div class="ms-auto">
-                <a class="btn btn-info" href="{{ route('items.index') }}">{{ __('kembali') }}</a>
+                    <a class="btn btn-info" href="{{ route('items.index') }}">{{ __('kembali') }}</a>
                 </div>
             </div>
             
@@ -22,9 +22,11 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                @error('item_code')
-                    <h2>Error Item Code</h2>
-                @enderror
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
                         <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('items.update', ['item' => $data->id]) }}">                                                
