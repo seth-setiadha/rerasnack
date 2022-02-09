@@ -12,8 +12,16 @@
                     <h3 class="mb-0 lh-1">{{ __('Stock Barang') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjusment') }}</a>
-                    <a class="btn btn-warning" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a>
+                    <div class="dropdown">
+                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownStock" data-bs-toggle="dropdown" aria-expanded="false">
+                            Stock/Adjustment
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownStock">
+                            <li><a class="dropdown-item" href="#">{{ __('Stock Barang Habis') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjusment') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
