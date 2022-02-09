@@ -87,9 +87,11 @@ class PenjualanController extends Controller
         ];
         $inventory = Inventory::create($data);
         if(! $inventory) {
-            return view('modals.create', ["message" => "Data belum berhasil ditambahkan", "data" => $data ]);
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('penjualan.create') );
         }
-        return view('modals.create',["message" => "Data berhasil ditambahkan", "data" => $inventory]);
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('penjualan.index') );
     }
 
     /**
@@ -100,7 +102,15 @@ class PenjualanController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
+        if(! $inventory) {
+            return redirect( route('penjualan.create') );
+        }
+        return view('modals.edit', [
+            'data' => $inventory,
+            'stock' => 'OUT',
+            'pageName' => 'penjualan',
+            'colorTheme' => 'primary'
+        ]);
     }
 
     /**
@@ -111,7 +121,11 @@ class PenjualanController extends Controller
      */
     public function edit(Inventory $inventory)
     {
-        //
+        if($inventory) {
+            return view('modals.edit', ['data' => $inventory]);
+        } else {
+            return redirect( route('penjualan.index') );
+        }
     }
 
     /**
@@ -123,7 +137,12 @@ class PenjualanController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
-        //
+        if(! $inventory->update( $request->all() ) ) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('penjualan.edit') );
+        }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('penjualan.show', ['penjualan' => $inventory->id ]) );
     }
 
     /**

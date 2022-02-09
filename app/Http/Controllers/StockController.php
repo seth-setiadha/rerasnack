@@ -32,7 +32,7 @@ class StockController extends Controller
                     $query->on("stocks.id", "=", "inventories.stock_id")
                     ->where("inventories.stock", "=", "IN");
                 })
-                ->orderBy("inventories.tanggal", "ASC")
+                ->orderBy("inventories.tanggal", "DESC")
                 ->orderBy("stocks.qty", "DESC")
                 ->offset($offset)->limit($perPage)->get();
 
@@ -115,7 +115,12 @@ class StockController extends Controller
             "stock" => "ADJ",
         ];
         $stock = Inventory::create($data);
-        return response()->json(["message" => "Data berhasil diupdate", "data" => $stock]);
+        if(! $stock) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('stocks.create') );
+        }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('stocks.adjustment') );
     }
 
     /**

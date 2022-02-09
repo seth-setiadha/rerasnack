@@ -12,18 +12,19 @@
                     <h3 class="mb-0 lh-1">{{ __('Stock Barang') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Stock Adjusment') }}</a>
+                    <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjusment') }}</a>
                     <a class="btn btn-warning" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a>
                 </div>
             </div>
             
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
+                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
                 @endif
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                    <div>
+                    <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>

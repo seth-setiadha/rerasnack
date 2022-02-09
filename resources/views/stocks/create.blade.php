@@ -13,7 +13,7 @@
                     <h3 class="mb-0 lh-1">{{ __('Buat Stock Adjusment') }}</h3>
                 </div>
                 <div class="ms-auto">
-                <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Stock Adjustment') }}</a>
+                <a class="btn btn-warning" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjustment') }}</a>
                 <a class="btn btn-warning" href="{{ route('stocks.index') }}">{{ __('kembali') }}</a>
                 </div>
             </div>

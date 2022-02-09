@@ -84,9 +84,11 @@ class InventoryController extends Controller
         ];
         $inventory = Inventory::create($data);
         if(! $inventory) {
-            return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('pembelian.create') );
         }
-        return response()->json(["message" => "Data berhasil ditambahkan", "data" => $inventory]);
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('pembelian.index') );
     }
 
     /**
@@ -97,7 +99,10 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
+        if(! $inventory) {
+            return redirect( route('pembelian.create') );
+        }
+        return view('modals.edit', ['data' => $inventory]);
     }
 
     /**
@@ -108,7 +113,11 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory)
     {
-        //
+        if($inventory) {
+            return view('modals.edit', ['data' => $inventory]);
+        } else {
+            return redirect( route('pembelian.index') );
+        }
     }
 
     /**
@@ -120,7 +129,12 @@ class InventoryController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
-        //
+        if(! $inventory->update( $request->all() ) ) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('pembelian.edit') );
+        }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('pembelian.show', ['inventory' => $inventory->id ]) );
     }
 
     /**
