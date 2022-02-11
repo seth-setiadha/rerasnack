@@ -20,10 +20,7 @@ class StockController extends Controller
     public function index(Request $request)
     {
         $perPage = intval($request->query('perPage'));
-        $page = intval($request->query('page'));
-        $page = $page > 0 ? $page : 1;
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $offset = ($page - 1) * $perPage;
 
         $data = Stock::where("stocks.qty", ">", 0)
                 ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal")
@@ -34,15 +31,36 @@ class StockController extends Controller
                 })
                 ->orderBy("inventories.tanggal", "DESC")
                 ->orderBy("stocks.qty", "DESC")
-                ->offset($offset)->limit($perPage)->get();
-
-        $count = Stock::where("stocks.qty", ">", 0)->count();
-
+                ->paginate($perPage);
+                
         return view('stocks.index', [
-            'data' => $data,
-            'count' => $count,
-            'page' => $page,
-            'nPage' => ceil($count / $perPage)
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function habis(Request $request)
+    {
+        $perPage = intval($request->query('perPage'));
+        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
+
+        $data = Stock::where("stocks.qty", "<", 1)
+                ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal")
+                ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
+                ->leftjoin('inventories', function($query) {
+                    $query->on("stocks.id", "=", "inventories.stock_id")
+                    ->where("inventories.stock", "=", "IN");
+                })
+                ->orderBy("inventories.tanggal", "DESC")
+                ->paginate($perPage);
+                
+        return view('stocks.habis', [
+            'data' => $data
         ]);
     }
 
@@ -54,12 +72,8 @@ class StockController extends Controller
      */
     public function adjustment(Request $request)
     {
-        // dd("masuk");
         $perPage = intval($request->query('perPage'));
-        $page = intval($request->query('page'));
-        $page = $page > 0 ? $page : 1;
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $offset = ($page - 1) * $perPage;
         $stock = "ADJ";
 
         $data = Inventory::select("inventories.*", "items.item_name", "items.item_code", "stocks.bal_kg")
@@ -67,18 +81,11 @@ class StockController extends Controller
                         ->selectRaw("FORMAT(stocks.qty / 1000,2) AS sisa")
                         ->where("stock", $stock)
                         ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")
-                        ->offset($offset)
+                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")                        
                         ->orderBy("inventories.tanggal", "DESC")
-                        ->limit($perPage)->get();
-
-        $count = Inventory::where("stock", $stock)->count();
-        // dd('inside')
+                        ->paginate($perPage);
         return view('stocks.adjustment', [
-            'data' => $data,
-            'count' => $count,
-            'page' => $page,
-            'nPage' => ceil($count / $perPage),
+            'data' => $data
         ]);
     }
 

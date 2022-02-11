@@ -16,17 +16,7 @@
                     <a class="btn btn-info" href="{{ route('items.index') }}">{{ __('kembali') }}</a>
                 </div>
             </div>
-            
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                <x-alert-component />
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
                         <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('items.update', ['item' => $data->id]) }}">                                                

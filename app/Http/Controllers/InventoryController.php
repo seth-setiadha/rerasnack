@@ -18,10 +18,7 @@ class InventoryController extends Controller
     public function index(Request $request)
     {
         $perPage = intval($request->query('perPage'));
-        $page = intval($request->query('page'));
-        $page = $page > 0 ? $page : 1;
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $offset = ($page - 1) * $perPage;
         $stock = "IN";
 
         $data = Inventory::select("inventories.*", "items.item_name", "items.item_code", "stocks.bal_kg")
@@ -30,17 +27,10 @@ class InventoryController extends Controller
                         ->where("stock", $stock)
                         ->leftjoin("items", "inventories.item_id", "=", "items.id")
                         ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")
-                        ->offset($offset)
                         ->orderBy("inventories.tanggal", "DESC")
-                        ->limit($perPage)->get();
-
-        $count = Inventory::where("stock", $stock)->count();
-        // dd('inside')
+                        ->paginate($perPage);
         return view('modals.index', [
             'data' => $data,
-            'count' => $count,
-            'page' => $page,
-            'nPage' => ceil($count / $perPage),
 
             'stock' => $stock,
             'pageName' => 'pembelian',

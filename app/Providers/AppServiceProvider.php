@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use App\Models\Item;
 use App\Models\Scale;
 use App\Models\Stock;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Paginator::useBootstrapFive();
+
         Item::saving(function ($item) {
             $item->bal_gr = intval($item->bal_kg * 1000);
         });

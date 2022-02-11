@@ -19,19 +19,13 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $perPage = intval($request->query('perPage'));
-        $page = intval($request->query('page'));
-        $page = $page > 0 ? $page : 1;
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $offset = ($page - 1) * $perPage;
 
-        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')->offset($offset)->limit($perPage)->get();
+        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')->paginate($perPage);
         $count = Item::count();
 
         return view('items.index', [
-            'data' => $data,
-            'count' => $count,
-            'page' => $page,
-            'nPage' => ceil($count / $perPage)
+            'data' => $data
         ]);
     }
 

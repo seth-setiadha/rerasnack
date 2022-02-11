@@ -19,7 +19,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownStock">
                             <li><a class="dropdown-item" href="{{ route('stocks.index') }}">{{ __('Stock Barang') }}</a></li>
-                            <li><a class="dropdown-item" href="#">{{ __('Stock Barang Habis') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('stocks.habis') }}">{{ __('Stock Barang Habis') }}</a></li>
                             <li><a class="dropdown-item" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjusment') }}</a></li>                            
                         </ul>
                     </div>

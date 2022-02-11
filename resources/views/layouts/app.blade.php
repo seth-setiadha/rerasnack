@@ -27,7 +27,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     <img src="{{ url('/images/rera_snack_logo.png') }}" height="50" width="" />
                     
                 </a>
@@ -41,6 +41,9 @@
                     @guest
                     @else
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('pembelian.index') }}">Modal</a>
                         </li>
                         <li class="nav-item">
@@ -50,7 +53,7 @@
                             <a class="nav-link" href="{{ route('penjualan.index') }}">Penjualan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('items.index') }}">Laporan</a>
+                            <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('items.index') }}">Master Barang</a>

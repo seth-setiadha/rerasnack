@@ -16,12 +16,8 @@
                 </div>
             </div>
             
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
-                @endif
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
-                @endif
+            <x-alert-component />
+            
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                     <div class="table-responsive">
                         <table class="table">
@@ -51,30 +47,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div>
-
-                        <?php 
-                        $start = 1; $end = $nPage;
-                        if($nPage > 10) { $start = $page - 4; $end = $page + 4; // PAGE RANGE
-                            // echo ($start . " ..1.. " . $end);
-                            $start = $start > 0 ? $start : 1;                   // SET UP END PAGE
-                            $end = ($end - $start) >= 8 ? $end : $start + 8;
-                            // echo ($start . " ..2.. " . $end);
-
-                            $start = ($end - $start) >= 8 && ($nPage - $end) >= 4 ? $start : $nPage - 8;
-                            // echo ($start . " ..3.. " . $end);
-                            $end = $end > $nPage ? $nPage : $end;
-                         } ?>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item @if ($page <= 1) {{ 'disabled' }} @endif "><a class="page-link " href="{{ route($pageName . '.index') . '/?page=' . ($page - 1) }}">Previous</a></li>
-                                @for ($i=$start; $i<=$end;$i++)
-                                <li class="page-item @if ($page == $i) {{ 'disabled' }} @endif"><a class="page-link" href="{{ route($pageName . '.index') . '/?page=' . $i }}">{{ $i }}</a></li>
-                                @endfor
-                                <li class="page-item @if ($page >= $nPage) {{ 'disabled' }} @endif "><a class="page-link" href="{{ route($pageName . '.index') . '/?page=' . ($page + 1) }}">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <x-pagination :links="$data" />
                 </div>
             
             

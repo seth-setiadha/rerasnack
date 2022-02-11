@@ -9,7 +9,7 @@
         
             <div class="d-flex align-items-center p-3 my-3 bg-warning p-2 text-dark bg-opacity-25 rounded shadow-sm">
             <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Daftar Adjusment') }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Stock Barang Habis') }}</h3>
                 </div>
                 <div class="ms-auto">
                     <div class="dropdown">
@@ -18,7 +18,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownStock">
                             <li><a class="dropdown-item" href="{{ route('stocks.index') }}">{{ __('Stock Barang') }}</a></li>
-                            <li><a class="dropdown-item" href="{{ route('stocks.habis') }}">{{ __('Stock Barang Habis') }}</a></li>                            
+                            <li><a class="dropdown-item" href="{{ route('stocks.adjustment') }}">{{ __('Daftar Adjusment') }}</a></li>
                             <li><a class="dropdown-item" href="{{ route('stocks.create') }}">{{ __('Buat Adjusment') }}</a></li>
                         </ul>
                     </div>
@@ -26,19 +26,18 @@
             </div>
             
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
+                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
                 @endif
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                    <div>
+                    <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tgl. Adjusment</th>
+                                    <th scope="col">Tgl. Masuk</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Unit</th>
                                     <th scope="col">Sisa</th>
                                     <!-- <th scope="col">Action</th> -->
                                 </tr>
@@ -48,9 +47,7 @@
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty }}</td>
-                                    <td>{{ $row->unit }}</td>
-                                    <td>{{ $row->sisa }}</td>
+                                    <td>{{ $row->qty_kg }}</td>
                                     <!-- <td>&nbsp;</td> -->
                                 </tr>
                                 @endforeach                                
