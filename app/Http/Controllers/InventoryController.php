@@ -84,27 +84,27 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $modal
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show(Inventory $modal)
     {
-        if(! $inventory) {
+        if(! $modal) {
             return redirect( route('modal.create') );
         }
-        return view('modals.edit', ['data' => $inventory]);
+        return view('modals.edit', ['data' => $modal]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $modal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inventory $inventory)
+    public function edit(Inventory $modal)
     {
-        if($inventory) {
-            return view('modals.edit', ['data' => $inventory]);
+        if($modal) {
+            return view('modals.edit', ['data' => $modal]);
         } else {
             return redirect( route('modal.index') );
         }
@@ -114,27 +114,34 @@ class InventoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateInventoryRequest  $request
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $modal
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInventoryRequest $request, Inventory $inventory)
+    public function update(UpdateInventoryRequest $request, Inventory $modal)
     {
-        if(! $inventory->update( $request->all() ) ) {
+        if(! $modal->update( $request->all() ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('modal.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('modal.show', ['inventory' => $inventory->id ]) );
+        return redirect( route('modal.show', ['inventory' => $modal->id ]) );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $modal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy(Request $request, Inventory $modal)
     {
-        //
+        if(! $modal->delete() ) {
+            $request->session()->flash('error', 'Data belum berhasil dihapus');
+            
+        } else {
+            $request->session()->flash('status', 'Data sudah berhasil dihapus');
+        }        
+
+        return redirect()->back(); 
     }
 }

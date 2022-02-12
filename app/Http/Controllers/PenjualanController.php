@@ -76,8 +76,8 @@ class PenjualanController extends Controller
             "unit_price" => $request->unit_price,
             "stock" => "OUT",
         ];
-        $inventory = Inventory::create($data);
-        if(! $inventory) {
+        $penjualan = Inventory::create($data);
+        if(! $penjualan) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('penjualan.create') );
         }
@@ -88,16 +88,16 @@ class PenjualanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show(Inventory $penjualan)
     {
-        if(! $inventory) {
+        if(! $penjualan) {
             return redirect( route('penjualan.create') );
         }
         return view('modals.edit', [
-            'data' => $inventory,
+            'data' => $penjualan,
             'stock' => 'OUT',
             'pageName' => 'penjualan',
             'colorTheme' => 'primary'
@@ -107,13 +107,13 @@ class PenjualanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inventory $inventory)
-    {
-        if($inventory) {
-            return view('modals.edit', ['data' => $inventory]);
+    public function edit(Inventory $penjualan)
+    {        
+        if($penjualan) {
+            return view('modals.edit', ['data' => $penjualan]);
         } else {
             return redirect( route('penjualan.index') );
         }
@@ -123,27 +123,35 @@ class PenjualanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateInventoryRequest  $request
-     * @param  \App\Models\Inventory  $inventory
+     * @param  \App\Models\Inventory  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInventoryRequest $request, Inventory $inventory)
+    public function update(UpdateInventoryRequest $request, Inventory $penjualan)
     {
-        if(! $inventory->update( $request->all() ) ) {
+        if(! $penjualan->update( $request->all() ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('penjualan.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('penjualan.show', ['penjualan' => $inventory->id ]) );
+        return redirect( route('penjualan.show', ['penjualan' => $penjualan->id ]) );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Inventory  $inventory
+     * @param  Illuminate\Http\Request $request
+     * @param  \App\Models\Inventory  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy(Request $request, Inventory $penjualan)
     {
-        //
+        if(! $penjualan->delete() ) {
+            $request->session()->flash('error', 'Data belum berhasil dihapus');
+            
+        } else {
+            $request->session()->flash('status', 'Data sudah berhasil dihapus');
+        }        
+
+        return redirect()->back(); 
     }
 }

@@ -37,12 +37,12 @@ class AppServiceProvider extends ServiceProvider
             $item->bal_gr = intval($item->bal_kg * 1000);
         });
 
-        Inventory::saving(function ($inventory) {
+        Inventory::creating(function ($inventory) {
             // DI PEMBELIAN DROPDOWN MENGGUNAKAN TABLE ITEM, DI PENJUALAN MENGGUNAKNA STOCK
             if($inventory->stock == "IN") {
                 $dataItem = Item::where("id", "=", $inventory->item_id)->first();
             } else if($inventory->stock == "OUT" || $inventory->stock == "ADJ") {
-                $dataItem = Stock::where("id", "=", $inventory->stock_id)->first();                
+                $dataItem = Stock::where("id", "=", $inventory->stock_id)->first();
                 $inventory->item_id = $dataItem->item_id;
             }
 
@@ -72,6 +72,16 @@ class AppServiceProvider extends ServiceProvider
                 $dataItem->qty -= $inventory->qty_gr;
                 $dataItem->save();
             }            
+        });
+
+        Inventory::deleting(function ($inventory) {
+            if($inventory->stock == "OUT") {
+                $stock = Stock::where("id", "=", $inventory->stock_id)->first();
+                $stock->qty += $inventory->qty_gr;
+                $stock->save();
+            } elseif($inventory->stock == "IN") {
+                $stock = Stock::where("id", "=", $inventory->stock_id)->delete();
+            }
         });
         
     }

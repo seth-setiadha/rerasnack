@@ -83,6 +83,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        dd($item);
         if(! $item) {
             // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
