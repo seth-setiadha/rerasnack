@@ -20,7 +20,7 @@ class ReportController extends Controller
     }
 
     public function penjualan(Request $request) {
-        return Excel::download(new PenjualanExport, 'modals-' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new PenjualanExport, 'penjualan-' . date('Y-m-d') . '.xlsx');
     }
 
     public function summary(Request $request) {
