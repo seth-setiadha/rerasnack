@@ -58,7 +58,7 @@
                 </div>
                 <div class="collapse" id="collapsePenjualan">
                     <div class="card-body">
-                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.pembelian') }}">
+                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.penjualan') }}">
                             @method('POST')
                             @csrf
                             <div class="col-sm-1">
