@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Models\Inventory;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class RerasnackExport implements FromCollection
+class RerasnackExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection

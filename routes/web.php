@@ -34,10 +34,10 @@ Route::middleware('auth')->group(function() {
     Route::get('/items/autocomplete', [ItemController::class, 'autocomplete'])->name('items.autocomplete');
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('reports/pembelian', [ReportController::class, 'pembelian'])->name('reports.pembelian');
-    Route::get('reports/penjualan', [ReportController::class, 'penjualan'])->name('reports.penjualan');
-    Route::get('reports/summary', [ReportController::class, 'summary'])->name('reports.summary');
-    Route::get('reports/rerasnack', [ReportController::class, 'rerasnack'])->name('reports.rerasnack');
+    Route::post('reports/pembelian', [ReportController::class, 'pembelian'])->name('reports.pembelian');
+    Route::post('reports/penjualan', [ReportController::class, 'penjualan'])->name('reports.penjualan');
+    Route::post('reports/summary', [ReportController::class, 'summary'])->name('reports.summary');
+    Route::post('reports/rerasnack', [ReportController::class, 'rerasnack'])->name('reports.rerasnack');
 
     Route::resources([
         '/items' => ItemController::class,

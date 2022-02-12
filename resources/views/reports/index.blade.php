@@ -14,12 +14,12 @@
             <x-alert-component />
 
             <div class="card border-0 rounded shadow-sm my-3">
-                <div class="card-header bg-success bg-opacity-25" role="button" data-bs-toggle="collapse" data-bs-target="#collapseModal" aria-expanded="false" aria-controls="collapseModal">                    
+                <div class="card-header bg-success bg-opacity-25" role="button" data-bs-toggle="collapse" data-bs-target="#collapseModal" aria-expanded="true" aria-controls="collapseModal">                    
                     <h5 class="mb-0">{{ __('Modal') }}</h5>
                 </div>
                 <div class="collapse" id="collapseModal">
                     <div class="card-body">
-                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.pembelian') }}">
+                        <form class="row g-3 needs-validation" target="_blank" novalidate method="POST" action="{{ route('reports.pembelian') }}">
                             @method('POST')
                             @csrf
                             <div class="col-sm-1 align-middle">

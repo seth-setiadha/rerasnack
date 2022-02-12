@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Models\Inventory;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class SummaryExport implements FromCollection
+class SummaryExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
