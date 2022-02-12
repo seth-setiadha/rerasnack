@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Inventory;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class PenjualanExport implements FromCollection, WithHeadings
 {
@@ -16,7 +17,7 @@ class PenjualanExport implements FromCollection, WithHeadings
                 ->selectRaw('SUM(inventories.qty) AS qty, SUM(inventories.sub_total) as sub_total')
                 ->where("stock", "OUT")
                 ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                ->groupBy(["inventories.tanggal", "items.item_code", "items.item_name", "inventories.unit_price", "items.bal_kg"])
+                ->groupBy(["inventories.tanggal", "items.item_code", "items.item_name", "inventories.unit", "inventories.unit_price"])
                 ->orderBy("inventories.tanggal", "ASC")
                 ->orderBy("items.item_code", "ASC")
                 ->orderBy("inventories.unit_price", "ASC")
