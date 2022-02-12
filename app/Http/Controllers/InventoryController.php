@@ -33,7 +33,7 @@ class InventoryController extends Controller
             'data' => $data,
 
             'stock' => $stock,
-            'pageName' => 'pembelian',
+            'pageName' => 'modal',
             'colorTheme' => 'success'
         ]);
     }
@@ -50,7 +50,7 @@ class InventoryController extends Controller
         return view('modals.create', [
             'data' => $data,
             'stock' => 'IN',
-            'pageName' => 'pembelian',
+            'pageName' => 'modal',
             'colorTheme' => 'success'
         ]);
     }
@@ -75,10 +75,10 @@ class InventoryController extends Controller
         $inventory = Inventory::create($data);
         if(! $inventory) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
-            return redirect( route('pembelian.create') );
+            return redirect( route('modal.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('pembelian.index') );
+        return redirect( route('modal.index') );
     }
 
     /**
@@ -90,7 +90,7 @@ class InventoryController extends Controller
     public function show(Inventory $inventory)
     {
         if(! $inventory) {
-            return redirect( route('pembelian.create') );
+            return redirect( route('modal.create') );
         }
         return view('modals.edit', ['data' => $inventory]);
     }
@@ -106,7 +106,7 @@ class InventoryController extends Controller
         if($inventory) {
             return view('modals.edit', ['data' => $inventory]);
         } else {
-            return redirect( route('pembelian.index') );
+            return redirect( route('modal.index') );
         }
     }
 
@@ -121,10 +121,10 @@ class InventoryController extends Controller
     {
         if(! $inventory->update( $request->all() ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
-            return redirect( route('pembelian.edit') );
+            return redirect( route('modal.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('pembelian.show', ['inventory' => $inventory->id ]) );
+        return redirect( route('modal.show', ['inventory' => $inventory->id ]) );
     }
 
     /**

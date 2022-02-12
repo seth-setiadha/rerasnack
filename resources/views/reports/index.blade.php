@@ -19,7 +19,7 @@
                 </div>
                 <div class="collapse" id="collapseModal">
                     <div class="card-body">
-                        <form class="row g-3 needs-validation" target="_blank" novalidate method="POST" action="{{ route('reports.pembelian') }}">
+                        <form class="row g-3 needs-validation" target="_blank" novalidate method="POST" action="{{ route('reports.modal') }}">
                             @method('POST')
                             @csrf
                             <div class="col-sm-1 align-middle">
@@ -64,7 +64,7 @@
                             <div class="col-sm-1">
                                 Dari Bulan
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm mt-0 mt-sm-3">
                                 <select class="form-control" id="from" name="from">
                                     <option>Jan 2022</option>
                                     <option>Dec 2021</option>
@@ -75,7 +75,7 @@
                             <div class="col-sm-1 text-start text-sm-center">
                                 s/d
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm mt-0 mt-sm-3">
                                 <select class="form-control" id="from" name="from">
                                     <option>Jan 2022</option>
                                     <option>Dec 2021</option>

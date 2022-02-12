@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/items/autocomplete', [ItemController::class, 'autocomplete'])->name('items.autocomplete');
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::post('reports/pembelian', [ReportController::class, 'pembelian'])->name('reports.pembelian');
+    Route::post('reports/modal', [ReportController::class, 'modal'])->name('reports.modal');
     Route::post('reports/penjualan', [ReportController::class, 'penjualan'])->name('reports.penjualan');
     Route::post('reports/summary', [ReportController::class, 'summary'])->name('reports.summary');
     Route::post('reports/rerasnack', [ReportController::class, 'rerasnack'])->name('reports.rerasnack');
@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function() {
     Route::resources([
         '/items' => ItemController::class,
         '/stocks' => StockController::class,
-        '/pembelian' => InventoryController::class,
+        '/modal' => InventoryController::class,
         '/penjualan' => PenjualanController::class,        
     ]);
 });

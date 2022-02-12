@@ -15,8 +15,8 @@ class ReportController extends Controller
         return view('reports.index');
     }
 
-    public function pembelian(Request $request) {
-        return Excel::download(new InventoryExport, 'modals-' . date('Y-m-d') . '.xlsx');
+    public function modal(Request $request) {
+        return Excel::download(new InventoryExport, 'modal-' . date('Y-m-d') . '.xlsx');
     }
 
     public function penjualan(Request $request) {

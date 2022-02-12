@@ -44,7 +44,7 @@
                             <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pembelian.index') }}">Modal</a>
+                            <a class="nav-link" href="{{ route('modal.index') }}">Modal</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('stocks.index') }}">Stock</a>
