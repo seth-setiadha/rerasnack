@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Scale;
 use App\Models\Stock;
 use App\Observers\InventoryObserver;
+use App\Observers\ItemObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,9 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Inventory::observe(InventoryObserver::class);
 
-        Item::saving(function ($item) {
-            $item->bal_gr = intval($item->bal_kg * 1000);
-        });
+        Item::observe(ItemObserver::class);
 
         Inventory::creating(function ($inventory) {
             // DI PEMBELIAN DROPDOWN MENGGUNAKAN TABLE ITEM, DI PENJUALAN MENGGUNAKNA STOCK
