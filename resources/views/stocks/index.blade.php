@@ -39,7 +39,6 @@
                                     <th scope="col">Tgl. Masuk</th>
                                     <th scope="col">Nama Barang</th>
                                     <th scope="col">Sisa</th>
-                                    <!-- <th scope="col">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +46,7 @@
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty_kg }}</td>
-                                    <!-- <td>&nbsp;</td> -->
+                                    <td>{{ $row->qty_kg }}</td>                                    
                                 </tr>
                                 @endforeach                                
                             </tbody>

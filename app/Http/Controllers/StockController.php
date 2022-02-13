@@ -119,7 +119,7 @@ class StockController extends Controller
      * @param  \App\Http\Requests\StoreStockRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStockRequest $request, Stock $stock)
+    public function store(StoreStockRequest $request)
     {
         $data = [
             "item_id" => 0,
@@ -179,8 +179,15 @@ class StockController extends Controller
      * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stock $stock)
+    public function destroy(Request $request, Inventory $stock)
     {
-        //
+        if(! $stock->delete() ) {
+            $request->session()->flash('error', 'Data belum berhasil dihapus');
+            
+        } else {
+            $request->session()->flash('status', 'Data sudah berhasil dihapus');
+        }        
+
+        return redirect()->back(); 
     }
 }

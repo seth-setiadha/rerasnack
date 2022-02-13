@@ -69,11 +69,14 @@ class InventoryObserver
     {
         if($inventory->stock == "IN") {
             ReportModal::where('modal_id', $inventory->id)->delete();
-
             $stock = Stock::where("id", "=", $inventory->stock_id)->delete();
-        } else if($inventory->stock == "OUT") {
+        }
+        
+        if($inventory->stock == "OUT") {
             ReportPenjualan::where('modal_id', $inventory->id)->delete();
+        }
 
+        if($inventory->stock == "ADJ" || $inventory->stock == "OUT") {
             $stock = Stock::where("id", "=", $inventory->stock_id)->first();
             $stock->qty += $inventory->qty_gr;
             $stock->save();
