@@ -14,7 +14,7 @@ class ScaleSeeder extends Seeder
      */
     public function run()
     {
-        $scalars = [1000 => '1kg', 500 => '500gr', 250 => '250gr', 150 => '150gr', 100 => '100gr'];
+        $scalars = [1000 => '1kg', 500 => '500gr', 300 => '300gr', 250 => '250gr', 200 => '200gr', 150 => '150gr', 100 => '100gr'];
         foreach($scalars as $key => $value) {
             DB::table('scales')->insert([
                 'scalar' => $value,

@@ -2,6 +2,10 @@
 
 @section('content')
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 <div class="container">
     <div class="row justify-content-center">
 
@@ -33,7 +37,7 @@
                 @endif
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
-                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('stocks.store') }}">                        
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route('stocks.store') }}">                        
                         @csrf
                         @method('POST')
                             <div class="col-md-2">
@@ -42,7 +46,28 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
-                                <input type="text" class="form-control" name="stock_id" id="stock_id" value="" required>                                
+                                <select class="form-control" id="stock_id" name="stock_id"></select>
+                                <script type="text/javascript">
+                                    $('#stock_id').select2({
+                                        placeholder: 'Pilih barang',
+                                        ajax: {
+                                            url: "{{ route('stocks.autocomplete') }}",
+                                            dataType: 'json',
+                                            delay: 250,
+                                            processResults: function (data) {
+                                                return {
+                                                    results: $.map(data, function (item) {
+                                                        return {
+                                                            text: item.item_name + '. Sisa: ' + item.sisa + ' kg',
+                                                            id: item.id
+                                                        }
+                                                    })
+                                                };
+                                            },
+                                            cache: true
+                                        }
+                                    });
+                                </script>                            
                             </div>
                             
                             <div class="col-md-1">

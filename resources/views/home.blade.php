@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -16,8 +17,16 @@
 
                     {{ __('Welcome') . " " . Auth::user()->name . "!" }} 
                 </div>
+
+                
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                </figure>
+
+
             </div>
         </div>
     </div>
 </div>
+
 @endsection

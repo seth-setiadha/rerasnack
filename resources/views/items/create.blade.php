@@ -21,7 +21,7 @@
             
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
-                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('items.store') }}">                                                
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route('items.store') }}">                                                
                             @method('POST')
                             @csrf
                             @include('items.form')

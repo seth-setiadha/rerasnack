@@ -20,7 +20,7 @@ class CreateInventoriesTable extends Migration
 
             $table->date('tanggal');
             $table->unsignedSmallInteger('qty');
-            $table->enum('unit', ['bal', '1kg', '500gr', '250gr', '150gr', '100gr']);
+            $table->string('unit', 10);
 
             $table->unsignedDecimal('qty_kg', 8,2); // STOCK IN/OUT PER KG, DPT DARI QTY * BAL_KG
             $table->unsignedDecimal('qty_gr', 8,2); // AUTO DARI BAL_KG * QTY * 1000

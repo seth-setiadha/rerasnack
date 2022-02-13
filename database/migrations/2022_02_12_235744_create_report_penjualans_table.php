@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemsTable extends Migration
+class CreateReportPenjualansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,21 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('report_penjualans', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedInteger('modal_id');
+            $table->date('tanggal');
             $table->string('item_code', 10);
             $table->string('item_name', 50);
-            $table->string('item_description')->nullable();
-            $table->string('item_image')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
-            $table->unsignedDecimal('bal_kg', 8,2);
-            $table->unsignedMediumInteger('bal_gr');
-
-            $table->enum('active', ['Y', 'N'])->default('Y'); 
+            $table->string('unit', 10);
             
+            $table->unsignedMediumInteger('unit_price');
+            $table->unsignedSmallInteger('qty');
+            $table->unsignedInteger('sub_total');
+
+            $table->unsignedInteger('stock_id');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +40,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('report_penjualans');
     }
 }

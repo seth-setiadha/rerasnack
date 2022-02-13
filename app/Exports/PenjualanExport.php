@@ -27,7 +27,7 @@ class PenjualanExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-           ['Tanggal', 'Kode Produk', 'Nama Produk', 'Unit', 'Harga Produk (Per Bal)', 'Jumlah', 'Sum of Total'],           
+           ['Tanggal', 'Kode Produk', 'Nama Produk', 'Unit', 'Harga Produk', 'Jumlah', 'Sum of Total'],           
         ];
     }
 }

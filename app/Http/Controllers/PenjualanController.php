@@ -48,7 +48,7 @@ class PenjualanController extends Controller
     public function create()
     {
         $data = new Inventory();
-        $scales = Scale::all();
+        $scales = Scale::orderBy('pergram', 'DESC')->get();
 
         return view('modals.create', [
             'data' => $data,

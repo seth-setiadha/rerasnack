@@ -3,6 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Inventory;
+use App\Models\Item;
+use App\Models\ReportModal;
+use App\Models\ReportPenjualan;
+use App\Models\Stock;
 
 class InventoryObserver
 {
@@ -14,7 +18,34 @@ class InventoryObserver
      */
     public function created(Inventory $inventory)
     {
-        //
+        if($inventory->stock == "IN") {
+            $item = Item::find($inventory->item_id);
+            ReportModal::create([
+
+                'modal_id' => $inventory->id,
+                'tanggal' => $inventory->tanggal,
+                'item_code' => $item->item_code,
+                'item_name' => $item->item_name,
+                'qty_kg' => $inventory->qty_kg,
+                'unit_price' => $inventory->unit_price,
+                'qty' => $inventory->qty,
+                'sub_total' => $inventory->sub_total,
+                'stock_id' => $inventory->stock_id,
+            ]);
+        } else if($inventory->stock == "OUT") {
+            $item = Item::find($inventory->item_id);
+            ReportPenjualan::create([
+                'modal_id' => $inventory->id,
+                'tanggal' => $inventory->tanggal,
+                'item_code' => $item->item_code,
+                'item_name' => $item->item_name,       
+                'unit' => $inventory->unit,         
+                'unit_price' => $inventory->unit_price,
+                'qty' => $inventory->qty,
+                'sub_total' => $inventory->sub_total,
+                'stock_id' => $inventory->stock_id,
+            ]);
+        }
     }
 
     /**
@@ -36,7 +67,17 @@ class InventoryObserver
      */
     public function deleted(Inventory $inventory)
     {
-        //
+        if($inventory->stock == "IN") {
+            ReportModal::where('modal_id', $inventory->id)->delete();
+
+            $stock = Stock::where("id", "=", $inventory->stock_id)->delete();
+        } else if($inventory->stock == "OUT") {
+            ReportPenjualan::where('modal_id', $inventory->id)->delete();
+
+            $stock = Stock::where("id", "=", $inventory->stock_id)->first();
+            $stock->qty += $inventory->qty_gr;
+            $stock->save();
+        }
     }
 
     /**

@@ -29,7 +29,7 @@
                     </div>
                     <div class="ms-auto"> -->
                         
-                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route($pageName . '.store') }}">                        
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.store') }}">                        
                         @csrf
                         @method('POST')
                         <input type="hidden" name="stock" value="{{ $stock }}" />
@@ -100,7 +100,6 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="unit" class="form-label">Unit</label>
-                                <!-- <input type="text" class="form-control" id="unit" required> -->
                                 <select class="form-select" id="unit" name="unit" required>
                                     <option value="bal">Bal</option>
                                     @if ($stock == "OUT")
@@ -109,30 +108,19 @@
                                         @endforeach
                                     @endif
                                 </select>
-                                <!-- <div class="invalid-feedback">Please provide a valid city.</div> -->
                             </div>
                             <div class="col-md-2">
                                 <label for="unit_price" class="form-label">Harga</label>
                                 <input type="text" class="form-control" id="unit_price" name="unit_price" required>
-                                <!-- <div class="invalid-feedback">Please select a valid state.</div> -->
                             </div>
                             <div class="col-md-2">
                                 <label for="sub_total" class="form-label">Subtotal</label>
                                 <input type="text" class="form-control" id="sub_total" name="sub_total" readonly>
-                                <!-- <div class="invalid-feedback">Please provide a valid zip.</div> -->
                             </div>
-                            <!-- <div class="col-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                    <label class="form-check-label" for="invalidCheck">Data sudah benar semua!</label>
-                                    <div class="invalid-feedback">You must agree before submitting.</div>
-                                </div>
-                            </div> -->
                             <div class="col-12">
                                 <button class="btn btn-primary" type="submit">Submit form</button>
                             </div>
                         </form>
-                    <!-- </div> -->
 
                 </div>
             
