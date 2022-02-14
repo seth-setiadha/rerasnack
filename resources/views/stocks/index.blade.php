@@ -36,11 +36,15 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tgl. Masuk</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">bal/kg</th>
-                                    <th scope="col">Qty. Modal Awal</th>
-                                    <th scope="col">Sisa (kg)</th>
+                                    <th scope="col" rowspan="2" class="align-middle">Tgl. Masuk</th>
+                                    <th scope="col" rowspan="2" class="align-middle">Nama Barang</th>
+                                    <th scope="col" rowspan="2" class="align-middle">bal/kg</th>
+                                    <th colspan="2" class="text-center">Modal Awal</th>
+                                    <th scope="col" rowspan="2" class="align-middle text-center">Sisa (kg)</th>
+                                </tr>
+                                <tr>                                   
+                                    <th scope="col" class="text-center">Qty.</th>
+                                    <th scope="col" class="text-center">kg </th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,9 +52,10 @@
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty_kg }}</td>                                    
+                                    <td>{{ $row->bal_kg }}</td>
+                                    <td class="text-center">{{ $row->qty }}</td>
+                                    <td class="text-center">{{ ($row->qty * $row->bal_kg) }}</td>
+                                    <td class="text-center">{{ $row->qty_kg }}</td>                                    
                                 </tr>
                                 @endforeach                                
                             </tbody>

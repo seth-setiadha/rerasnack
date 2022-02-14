@@ -82,6 +82,9 @@ class PenjualanController extends Controller
             return redirect( route('penjualan.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        if($request->action == "saveplus") {
+            return redirect( route('penjualan.create') );
+        }
         return redirect( route('penjualan.index') );
     }
 

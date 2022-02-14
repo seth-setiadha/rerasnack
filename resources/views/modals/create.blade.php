@@ -117,8 +117,13 @@
                                 <label for="sub_total" class="form-label">Subtotal</label>
                                 <input type="text" class="form-control" id="sub_total" name="sub_total" readonly>
                             </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Submit form</button>
+                            <div class="col-12 d-flex">
+                                <div class="me-auto">
+                                    <button name="action" value="save" class="btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
+                                </div>    
+                                <div class="ms-auto">
+                                    <button name="action" value="saveplus" class="btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
+                                </div>    
                             </div>
                         </form>
 

@@ -78,6 +78,9 @@ class InventoryController extends Controller
             return redirect( route('modal.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        if($request->action == "saveplus") {
+            return redirect( route('modal.create') );
+        }
         return redirect( route('modal.index') );
     }
 

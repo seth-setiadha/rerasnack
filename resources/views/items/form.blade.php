@@ -17,8 +17,11 @@
     </div>
 </div>
 
-<div class="col-12">
+<div class="col-12 d-flex">
     <div class="me-auto">
-        <button class="btn btn-primary" type="submit">Simpan</button>
+        <button name="action" value="save" class="btn btn-info" type="submit">Simpan</button>
+    </div>    
+    <div class="ms-auto">
+        <button name="action" value="saveplus" class="btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
     </div>    
 </div>

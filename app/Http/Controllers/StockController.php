@@ -23,7 +23,7 @@ class StockController extends Controller
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
         $data = Stock::where("stocks.qty", ">", 0)
-                ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal")
+                ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")
                 ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
                 ->leftjoin('inventories', function($query) {
                     $query->on("stocks.id", "=", "inventories.stock_id")

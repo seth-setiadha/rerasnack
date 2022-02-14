@@ -72,6 +72,9 @@ class ItemController extends Controller
             return redirect( route('items.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        if($request->action == "saveplus") {
+            return redirect( route('items.create') );
+        }
         return redirect( route('items.show', ['item' => $item->id ]) );
     }
 
