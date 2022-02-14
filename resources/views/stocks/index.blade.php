@@ -38,13 +38,17 @@
                                 <tr>
                                     <th scope="col">Tgl. Masuk</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Sisa</th>
+                                    <th scope="col">bal/kg</th>
+                                    <th scope="col">Qty. Modal Awal</th>
+                                    <th scope="col">Sisa (kg)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
+                                    <td>{{ $row->item_name }}</td>
+                                    <td>{{ $row->item_name }}</td>
                                     <td>{{ $row->item_name }}</td>
                                     <td>{{ $row->qty_kg }}</td>                                    
                                 </tr>

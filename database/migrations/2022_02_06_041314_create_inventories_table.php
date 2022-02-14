@@ -19,7 +19,7 @@ class CreateInventoriesTable extends Migration
             $table->foreignId('item_id')->constrained();            
 
             $table->date('tanggal');
-            $table->unsignedSmallInteger('qty');
+            $table->unsignedMediumInteger('qty');
             $table->string('unit', 10);
 
             $table->unsignedDecimal('qty_kg', 8,2); // STOCK IN/OUT PER KG, DPT DARI QTY * BAL_KG

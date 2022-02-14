@@ -17,7 +17,7 @@ class CreateStocksTable extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained();
             $table->string('item_name');
-            $table->unsignedSmallInteger('qty');        // per gram
+            $table->unsignedInteger('qty');        // per gram
             $table->unsignedDecimal('bal_kg', 8,2); // DATA FROM MASTER ITEM KG /BAL
             $table->unsignedMediumInteger('modal');     // modal per gram (rupiah) = harga beli / qty beli dlm gram
             $table->timestamps();

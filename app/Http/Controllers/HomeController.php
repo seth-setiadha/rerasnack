@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
+use App\Models\ReportModal;
+use App\Models\ReportPenjualan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $from = date('Y-m-d', strtotime('8 days ago'));
+        $to = date('Y-m-d');
+        $modalDayWeekly = ReportModal::selectRaw("tanggal, SUM(qty) as qty")
+                        ->groupBy(['tanggal'])
+                        ->whereBetween('tanggal', [$from, $to])
+                        ->orderBy('tanggal', 'ASC')
+                        ->get();
+
+        $penjualanDayWeekly = ReportPenjualan::selectRaw("tanggal, SUM(qty) as qty")
+                        ->groupBy(['tanggal'])
+                        ->whereBetween('tanggal', [$from, $to])
+                        ->orderBy('tanggal', 'ASC')
+                        ->get();
+
+        return view('home', [
+            'modalDay' => $modalDayWeekly,
+            'penjualanDayWeekly' => $penjualanDayWeekly
+        ]);
     }
 }
