@@ -26,7 +26,7 @@ class InventoryObserver
                 'tanggal' => $inventory->tanggal,
                 'item_code' => $item->item_code,
                 'item_name' => $item->item_name,
-                'qty_kg' => $inventory->qty_kg,
+                'bal_kg' => $inventory->bal_kg,
                 'unit_price' => $inventory->unit_price,
                 'qty' => $inventory->qty,
                 'sub_total' => $inventory->sub_total,

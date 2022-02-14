@@ -16,6 +16,9 @@
                     @endif
 
                     {{ __('Welcome') . " " . Auth::user()->name . "!" }} 
+
+                    {{ var_dump($modalWeekly) }}
+                    {{ var_dump($penjualanWeekly) }}
                 </div>
 
                 

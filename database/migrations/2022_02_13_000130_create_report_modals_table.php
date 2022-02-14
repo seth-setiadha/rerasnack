@@ -20,7 +20,7 @@ class CreateReportModalsTable extends Migration
             $table->date('tanggal');
             $table->string('item_code', 10);
             $table->string('item_name', 50);
-            $table->unsignedDecimal('qty_kg', 8,2);
+            $table->unsignedDecimal('bal_kg', 8,2);
             $table->unsignedMediumInteger('unit_price');
             $table->unsignedMediumInteger('qty');
             $table->unsignedInteger('sub_total');

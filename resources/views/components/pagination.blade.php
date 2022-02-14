@@ -3,7 +3,7 @@
         Showing {{ $pagination->firstItem() }} to {{ $pagination->lastItem() }} of {{ $pagination->total() }} results. 
         Page {{ $pagination->currentPage() }} out of {{ $pagination->lastPage() }} page(s). 
         <?php 
-        $from = $pagination->currentPage(); $last = $to = $pagination->lastPage(); $current = $pagination->currentPage();
+        $from = 1; $last = $to = $pagination->lastPage(); $current = $pagination->currentPage();
         if($to > 10) {
             $from  = $current - 4; $to = $current + 4;
             if($from < 1) { $from = 1; }
@@ -11,6 +11,7 @@
 
             if($to > $last) { $to = $last; }
             if(($to - $from) <=8) { $from = $to - 8; }
+            if($from < 1) { $from = 1; }
         }
         ?>
         <nav aria-label="Page navigation">

@@ -28,21 +28,21 @@ class HomeController extends Controller
     {
         $from = date('Y-m-d', strtotime('8 days ago'));
         $to = date('Y-m-d');
-        $modalDayWeekly = ReportModal::selectRaw("tanggal, SUM(qty) as qty")
+        $modalWeekly = ReportModal::selectRaw("tanggal, SUM(qty) as qty")
                         ->groupBy(['tanggal'])
                         ->whereBetween('tanggal', [$from, $to])
                         ->orderBy('tanggal', 'ASC')
                         ->get();
 
-        $penjualanDayWeekly = ReportPenjualan::selectRaw("tanggal, SUM(qty) as qty")
+        $penjualanWeekly = ReportPenjualan::selectRaw("tanggal, SUM(qty) as qty")
                         ->groupBy(['tanggal'])
                         ->whereBetween('tanggal', [$from, $to])
                         ->orderBy('tanggal', 'ASC')
                         ->get();
 
         return view('home', [
-            'modalDay' => $modalDayWeekly,
-            'penjualanDayWeekly' => $penjualanDayWeekly
+            'modalWeekly' => $modalWeekly,
+            'penjualanWeekly' => $penjualanWeekly
         ]);
     }
 }
