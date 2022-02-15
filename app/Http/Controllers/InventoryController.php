@@ -17,6 +17,7 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
+        $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
         $stock = "IN";
@@ -27,14 +28,20 @@ class InventoryController extends Controller
                         ->where("stock", $stock)
                         ->leftjoin("items", "inventories.item_id", "=", "items.id")
                         ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")
-                        ->orderBy("inventories.tanggal", "DESC")
-                        ->paginate($perPage);
+                        ->orderBy("inventories.tanggal", "DESC");
+        if(! empty($q)) {
+            $data->where(function($query) use ($q) {
+                $query->where('items.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%')->orWhere('items.item_code', 'LIKE', '%' . $q . '%');
+            });                    
+        }
+        $data = $data->paginate($perPage)->withQueryString();
         return view('modals.index', [
             'data' => $data,
 
             'stock' => $stock,
             'pageName' => 'modal',
-            'colorTheme' => 'success'
+            'colorTheme' => 'success',
+            'q' => $q
         ]);
     }
 

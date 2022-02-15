@@ -37,7 +37,7 @@ class StockController extends Controller
                 $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
             });                    
         }
-        $data = $data->paginate($perPage);
+        $data = $data->paginate($perPage)->withQueryString();
                 
         return view('stocks.index', [
             'data' => $data,
@@ -69,7 +69,7 @@ class StockController extends Controller
                 $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
             });                    
         }
-        $data = $data->paginate($perPage);
+        $data = $data->paginate($perPage)->withQueryString();
                 
         return view('stocks.habis', [
             'data' => $data,
@@ -102,7 +102,7 @@ class StockController extends Controller
                 $query->where('items.item_name', 'LIKE', '%' . $q . '%')->orWhere('items.item_code', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
             });                    
         }
-        $data = $data->paginate($perPage);
+        $data = $data->paginate($perPage)->withQueryString();
 
         return view('stocks.adjustment', [
             'data' => $data,
