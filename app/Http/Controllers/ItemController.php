@@ -19,14 +19,23 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
+        $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
-        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')->paginate($perPage);
-        $count = Item::count();
+        
+        if(! empty($q)) {
+            $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')
+                    ->where('item_code', 'LIKE', '%' . $q . '%')->orWhere('item_name', 'LIKE', '%' . $q . '%')
+                    ->paginate($perPage)->withQueryString();
+        } else {
+            $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')
+                    ->paginate($perPage)->withQueryString();
+        }
 
         return view('items.index', [
-            'data' => $data
+            'data' => $data,
+            'q' => $q
         ]);
     }
 
