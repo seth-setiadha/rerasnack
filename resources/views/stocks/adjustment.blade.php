@@ -25,13 +25,11 @@
                 </div>
             </div>
             
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
+            <x-alert-component />
+
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                    <div>
+                    <x-searchform url="{{ route('stocks.adjustment') }}" color="warning" :q="$q" />
+                    <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -47,7 +45,7 @@
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
-                                    <td>{{ $row->item_name }}</td>
+                                    <td>{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>
                                     <td>{{ $row->qty }}</td>
                                     <td>{{ $row->unit }}</td>
                                     <td>{{ $row->sisa }}</td>

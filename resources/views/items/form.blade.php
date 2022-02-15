@@ -1,16 +1,6 @@
 
 @csrf
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 <div class="col-md-2">
     <label for="item_code" class="form-label">Kode Barang</label>
     <input type="text" class="form-control" @if (! $create) readonly @endif name="item_code" id="item_code" value="{{ old('item_code') ?? $data->item_code }}" required>

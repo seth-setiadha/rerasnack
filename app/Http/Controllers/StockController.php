@@ -19,22 +19,29 @@ class StockController extends Controller
      */
     public function index(Request $request)
     {
+        $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
         $data = Stock::where("stocks.qty", ">", 0)
-                ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")
+                ->select("stocks.id", "stocks.item_name", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")
                 ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
                 ->leftjoin('inventories', function($query) {
                     $query->on("stocks.id", "=", "inventories.stock_id")
                     ->where("inventories.stock", "=", "IN");
                 })
                 ->orderBy("inventories.tanggal", "DESC")
-                ->orderBy("stocks.qty", "DESC")
-                ->paginate($perPage);
+                ->orderBy("stocks.qty", "DESC");
+        if(! empty($q)) {
+            $data->where(function($query) use ($q) {
+                $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
+            });                    
+        }
+        $data = $data->paginate($perPage);
                 
         return view('stocks.index', [
-            'data' => $data
+            'data' => $data,
+            'q' => $q
         ]);
     }
 
@@ -46,21 +53,27 @@ class StockController extends Controller
      */
     public function habis(Request $request)
     {
+        $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
         $data = Stock::where("stocks.qty", "<", 1)
-                ->select("stocks.id", "stocks.item_name", "stocks.qty", "stocks.bal_kg", "inventories.tanggal")
-                ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
+                ->select("stocks.id", "stocks.item_name", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")                
                 ->leftjoin('inventories', function($query) {
                     $query->on("stocks.id", "=", "inventories.stock_id")
                     ->where("inventories.stock", "=", "IN");
                 })
-                ->orderBy("inventories.tanggal", "DESC")
-                ->paginate($perPage);
+                ->orderBy("inventories.tanggal", "DESC");
+        if(! empty($q)) {
+            $data->where(function($query) use ($q) {
+                $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
+            });                    
+        }
+        $data = $data->paginate($perPage);
                 
         return view('stocks.habis', [
-            'data' => $data
+            'data' => $data,
+            'q' => $q
         ]);
     }
 
@@ -72,6 +85,7 @@ class StockController extends Controller
      */
     public function adjustment(Request $request)
     {
+        $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
         $stock = "ADJ";
@@ -82,10 +96,17 @@ class StockController extends Controller
                         ->where("stock", $stock)
                         ->leftjoin("items", "inventories.item_id", "=", "items.id")
                         ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")                        
-                        ->orderBy("inventories.tanggal", "DESC")
-                        ->paginate($perPage);
+                        ->orderBy("inventories.tanggal", "DESC");        
+        if(! empty($q)) {
+            $data->where(function($query) use ($q) {
+                $query->where('items.item_name', 'LIKE', '%' . $q . '%')->orWhere('items.item_code', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
+            });                    
+        }
+        $data = $data->paginate($perPage);
+
         return view('stocks.adjustment', [
-            'data' => $data
+            'data' => $data,
+            'q' => $q
         ]);
     }
 

@@ -25,21 +25,22 @@
                 </div>
             </div>
             
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
-                @endif
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
-                @endif
+            <x-alert-component />
+
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
+                    <x-searchform url="{{ route('stocks.habis') }}" color="warning" :q="$q" />
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tgl. Masuk</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Sisa</th>
-                                    <!-- <th scope="col">Action</th> -->
+                                    <th scope="col" rowspan="2" class="align-middle">Tgl. Masuk</th>
+                                    <th scope="col" rowspan="2" class="align-middle">Nama Barang</th>
+                                    <th scope="col" rowspan="2" class="align-middle">bal/kg</th>
+                                    <th colspan="2" class="text-center">Modal Awal</th>
+                                </tr>
+                                <tr>                                   
+                                    <th scope="col" class="text-center">Qty.</th>
+                                    <th scope="col" class="text-center">&Sigma; kg </th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +48,9 @@
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->item_name }}</td>
-                                    <td>{{ $row->qty_kg }}</td>
-                                    <!-- <td>&nbsp;</td> -->
+                                    <td>{{ $row->bal_kg }}</td>
+                                    <td class="text-center">{{ $row->qty }}</td>
+                                    <td class="text-center">{{ ($row->qty * $row->bal_kg) }}</td>
                                 </tr>
                                 @endforeach                                
                             </tbody>
