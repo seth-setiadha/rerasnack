@@ -17,7 +17,7 @@
 
             <div class="card border-0 rounded shadow-sm my-3">
                 <div class="card-body">
-                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.modal') }}">
+                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.index') }}">
                         @method('POST')
                         @csrf
                         @include('reports.form', ['colorTheme' => 'success'])
@@ -25,7 +25,7 @@
                 </div>
             </div>
                 
-                <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
+                <div class="p-3 my-3 bg-white p-2 text-dark rounded shadow-sm">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>

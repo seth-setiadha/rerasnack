@@ -23,15 +23,11 @@ class ItemController extends Controller
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
-        
+        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg');
         if(! empty($q)) {
-            $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')
-                    ->where('item_code', 'LIKE', '%' . $q . '%')->orWhere('item_name', 'LIKE', '%' . $q . '%')
-                    ->paginate($perPage)->withQueryString();
-        } else {
-            $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')
-                    ->paginate($perPage)->withQueryString();
+            $data->where('item_code', 'LIKE', '%' . $q . '%')->orWhere('item_name', 'LIKE', '%' . $q . '%');                    
         }
+        $data = $data->paginate($perPage)->withQueryString();
 
         return view('items.index', [
             'data' => $data,

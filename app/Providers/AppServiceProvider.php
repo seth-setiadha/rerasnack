@@ -61,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
             
             if($inventory->stock == "IN") {
                 $stock = Stock::create([
+                    'tanggal' => $inventory->tanggal,
                     'item_id' => $inventory->item_id,
                     'item_name' => $dataItem->item_name . " (" . $dataItem->item_code . ")",
                     'bal_kg' => $dataItem->bal_kg,
@@ -71,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
             } else if($inventory->stock == "OUT" || $inventory->stock == "ADJ") {
                 $dataItem->qty -= $inventory->qty_gr;
                 $dataItem->save();
-            }            
+            }
         });      
         
     }

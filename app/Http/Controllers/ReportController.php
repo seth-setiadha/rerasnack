@@ -14,57 +14,43 @@ use Maatwebsite\Excel\Facades\Excel;
 class ReportController extends Controller
 {
     public function index(Request $request) {
-        return view('reports.index');
-    }
-
-    public function modal(Request $request) {
         $from = $request->input('from');
         $to = $request->input('to');
-        if($request->input('action') == 'download') {
-            return Excel::download(new InventoryExport($from, $to), 'modal-' . date('Y-m-d') . '.xlsx');
-        } else {
-            $data = ReportModal::select("item_code", "item_name", "bal_kg", "unit_price")
-            ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
-            ->whereBetween('tanggal', [$from, $to])
-            ->groupBy(["item_code", "item_name", "bal_kg", "unit_price"])
-            ->orderBy("item_code", "ASC")
-            ->orderBy("unit_price", "ASC")
-            ->get();
-            return view('reports.modal', [
-                'data' => $data,
-                'from' => $from, 
-                'to' => $to
-            ]);
-        }           
-    }
+        $laporan = $request->input('laporan') ?? "index";
+        $data = [];
 
-    public function penjualan(Request $request) {
-        $from = $request->input('from');
-        $to = $request->input('to');
         if($request->input('action') == 'download') {
-            return Excel::download(new PenjualanExport($request->input('from'), $request->input('to')), 'penjualan-' . date('Y-m-d') . '.xlsx');
-        } else {
-            $data = ReportPenjualan::select("tanggal", "item_code", "item_name", "unit", "unit_price")
+            if($laporan == "modal") {
+                return Excel::download(new InventoryExport($from, $to), 'modal-' . date('Y-m-d') . '.xlsx');
+            } else if($laporan == "penjualan") {
+                return Excel::download(new PenjualanExport($request->input('from'), $request->input('to')), 'penjualan-' . date('Y-m-d') . '.xlsx');
+            }
+        } else if($request->input('action') == 'show') {            
+            if($laporan == "modal") {
+                $data = ReportModal::select("item_code", "item_name", "bal_kg", "unit_price")
                 ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
                 ->whereBetween('tanggal', [$from, $to])
-                ->groupBy(["tanggal", "item_code", "item_name", "unit", "unit_price"])
-                ->orderBy("tanggal", "ASC")
+                ->groupBy(["item_code", "item_name", "bal_kg", "unit_price"])
                 ->orderBy("item_code", "ASC")
                 ->orderBy("unit_price", "ASC")
                 ->get();
-            return view('reports.penjualan', [
-                'data' => $data,
-                'from' => $from, 
-                'to' => $to
-            ]);
-        }
-    }
-
-    public function summary(Request $request) {
-        return Excel::download(new SummaryExport, 'modals-' . date('Y-m-d') . '.xlsx');
-    }
-
-    public function rerasnack(Request $request) {
-        return Excel::download(new RerasnackExport, 'modals-' . date('Y-m-d') . '.xlsx');
+            } else if($laporan == "penjualan") {
+                $data = ReportPenjualan::select("tanggal", "item_code", "item_name", "unit", "unit_price")
+                            ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
+                            ->whereBetween('tanggal', [$from, $to])
+                            ->groupBy(["tanggal", "item_code", "item_name", "unit", "unit_price"])
+                            ->orderBy("tanggal", "ASC")
+                            ->orderBy("item_code", "ASC")
+                            ->orderBy("unit_price", "ASC")
+                            ->get();
+            }
+        } 
+        return view('reports.' . $laporan, [
+            'data' => $data,
+            'from' => $from, 
+            'laporan' => $laporan,
+            'to' => $to
+        ]);
+        
     }
 }

@@ -2,29 +2,25 @@
  
 $from
 ?>
-<div class="col-sm-1 text-nowrap align-middle">
+<div class="col-sm-2">
+    <select class="form-select" id="laporan" name="laporan">
+        <option value="modal" @if ($laporan == 'modal') {{ 'selected' }} @endif>Modal</option>
+        <option value="penjualan" @if ($laporan == 'penjualan') {{ 'selected' }} @endif>Penjualan</option>
+        <option value="detail" @if ($laporan == 'detail') {{ 'selected' }} @endif>Detail</option>
+        <option value="summary" @if ($laporan == 'summary') {{ 'selected' }} @endif>Summary</option>
+    </select>
+</div>
+<div class="col-sm-1 text-nowrap align-middle pt-2">
     Dari
 </div>
-<div class="col-sm mt-0 mt-sm-3">
-    <select class="form-control" id="from" name="from">
-        <option value="2022-02-01">Feb 2022</option>
-        <option value="2022-01-01">Jan 2022</option>
-        <option value="2021-12-01">Dec 2021</option>
-        <option value="2021-11-01">Nov 2021</option>
-        <option value="2021-10-01">Oct 2021</option>
-    </select>                             
+<div class="col-sm-2 mt-0 mt-sm-3">
+    <input class="form-control" type="text" id="from" value="{{ $from }}" name="from">                           
 </div>
-<div class="col-sm-1 text-start text-sm-center">
+<div class="col-sm-1 text-start text-sm-center pt-2">
     s/d
 </div>
-<div class="col-sm mt-0 mt-sm-3">
-    <select class="form-control" id="to" name="to">
-        <option value="2022-02-31">Feb 2022</option>
-        <option value="2022-01-31">Jan 2022</option>
-        <option value="2021-12-31">Dec 2021</option>
-        <option value="2021-11-31">Nov 2021</option>
-        <option value="2021-10-31">Oct 2021</option>
-    </select>                             
+<div class="col-sm-2 mt-0 mt-sm-3">
+    <input class="form-control" type="text" id="to" value="{{ $to }}" name="to">
 </div>
 <div class="col-sm">
     <button name="action" value="show" class="btn btn-{{ $colorTheme }}" type="submit">Lihat</button> &nbsp;

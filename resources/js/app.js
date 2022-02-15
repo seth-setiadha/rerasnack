@@ -16,31 +16,31 @@ var dateFormat = "yy-mm-dd",
     .datepicker({
         defaultDate: "+1w",
         changeMonth: true,
-        numberOfMonths: 3
+        dateFormat,
+        numberOfMonths: 1
     })
     .on( "change", function() {
         to.datepicker( "option", "minDate", getDate( this ) );
     }),
     to = $( "#to" ).datepicker({
-    defaultDate: "+1w",
-    changeMonth: true,
-    numberOfMonths: 3
+        defaultDate: "+1w",
+        changeMonth: true,
+        dateFormat,
+        numberOfMonths: 1
     })
     .on( "change", function() {
-    from.datepicker( "option", "maxDate", getDate( this ) );
+        from.datepicker( "option", "maxDate", getDate( this ) );
     });
 
 function getDate( element ) {
     var date;
     try {
-    date = $.datepicker.parseDate( dateFormat, element.value );
+        date = $.datepicker.parseDate( dateFormat, element.value );
     } catch( error ) {
-    date = null;
+        date = null;
     }
-
     return date;
-}
-} );
+} } );
 
 // bootstrap need validation
 (function () {

@@ -9,7 +9,7 @@
         
             <div class="d-flex align-items-center p-3 my-3 bg-light p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div>
-                    <h3 class="mb-0 lh-1 text-success">{{ __('Reports: Laporan Penjualan') }}</h3>
+                    <h3 class="mb-0 lh-1 text-primary">{{ __('Reports: Laporan Penjualan') }}</h3>
                 </div>                
             </div>
             
@@ -17,7 +17,7 @@
 
             <div class="card border-0 rounded shadow-sm my-3">
                 <div class="card-body">
-                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.penjualan') }}">
+                    <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.index') }}">
                         @method('POST')
                         @csrf
                         @include('reports.form', ['colorTheme' => 'primary'])
@@ -25,7 +25,7 @@
                 </div>
             </div>
                 
-            <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
+            <div class="p-3 my-3 bg-white p-2 text-dark bg-rounded shadow-sm">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>

@@ -15,7 +15,8 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_id')->constrained();
+            $table->date('tanggal');
+            $table->foreignId('item_id')->constrained();            
             $table->string('item_name');
             $table->unsignedInteger('qty');        // per gram
             $table->unsignedDecimal('bal_kg', 8,2); // DATA FROM MASTER ITEM KG /BAL

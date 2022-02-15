@@ -67,7 +67,7 @@
                                 </script>
                             </div>
                             @elseif ($stock == "OUT")
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
                                 <select class="form-control" id="stock_id" name="stock_id"></select>
                                 <script type="text/javascript">
@@ -81,7 +81,7 @@
                                                 return {
                                                     results: $.map(data, function (item) {
                                                         return {
-                                                            text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Sisa: ' + item.sisa + ' kg',
+                                                            text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Masuk ' + item.tanggal + '. Sisa ' + item.sisa + ' kg',
                                                             id: item.id
                                                         }
                                                     })
