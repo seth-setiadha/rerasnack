@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/items/autocomplete', [ItemController::class, 'autocomplete'])->name('items.autocomplete');
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports', [ReportController::class, 'index'])->name('reports.index');
+    
     Route::post('reports/modal', [ReportController::class, 'modal'])->name('reports.modal');
     Route::post('reports/penjualan', [ReportController::class, 'penjualan'])->name('reports.penjualan');
     Route::post('reports/summary', [ReportController::class, 'summary'])->name('reports.summary');

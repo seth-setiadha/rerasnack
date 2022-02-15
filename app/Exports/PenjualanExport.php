@@ -22,15 +22,13 @@ class PenjualanExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return ReportPenjualan::select("inventories.tanggal", "items.item_code", "items.item_name", "inventories.unit", "inventories.unit_price")
-                ->selectRaw('SUM(inventories.qty) AS qty, SUM(inventories.sub_total) as sub_total')
-                ->where("stock", "OUT")
+        return ReportPenjualan::select("tanggal", "item_code", "item_name", "unit", "unit_price")
+                ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
                 ->whereBetween('tanggal', [$this->from, $this->to])
-                ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                ->groupBy(["inventories.tanggal", "items.item_code", "items.item_name", "inventories.unit", "inventories.unit_price"])
-                ->orderBy("inventories.tanggal", "ASC")
-                ->orderBy("items.item_code", "ASC")
-                ->orderBy("inventories.unit_price", "ASC")
+                ->groupBy(["tanggal", "item_code", "item_name", "unit", "unit_price"])
+                ->orderBy("tanggal", "ASC")
+                ->orderBy("item_code", "ASC")
+                ->orderBy("unit_price", "ASC")
                 ->get();
     }
 

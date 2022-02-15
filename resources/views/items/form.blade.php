@@ -1,8 +1,19 @@
 
 @csrf
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="col-md-2">
     <label for="item_code" class="form-label">Kode Barang</label>
-    <input type="text" class="form-control" name="item_code" id="item_code" value="{{ old('item_code') ?? $data->item_code }}" required>                                
+    <input type="text" class="form-control" @if (! $create) readonly @endif name="item_code" id="item_code" value="{{ old('item_code') ?? $data->item_code }}" required>
 </div>
 <div class="col-md-4">
     <label for="item_name" class="form-label">Nama Barang</label>
@@ -21,7 +32,9 @@
     <div class="me-auto">
         <button name="action" value="save" class="btn btn-info" type="submit">Simpan</button>
     </div>    
+    @if ($create)
     <div class="ms-auto">
         <button name="action" value="saveplus" class="btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
-    </div>    
+    </div>
+    @endif
 </div>

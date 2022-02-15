@@ -81,7 +81,7 @@
                                                 return {
                                                     results: $.map(data, function (item) {
                                                         return {
-                                                            text: item.item_name + '. Sisa: ' + item.sisa + ' kg',
+                                                            text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Sisa: ' + item.sisa + ' kg',
                                                             id: item.id
                                                         }
                                                     })

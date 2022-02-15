@@ -24,6 +24,7 @@ class UpdateItemRequest extends FormRequest
     public function rules()
     {
         return [
+            'item_code' => 'required',
             'item_name' => 'required',
             'bal_kg' => 'required|numeric',
         ];
@@ -37,6 +38,8 @@ class UpdateItemRequest extends FormRequest
     public function messages()
     {
         return [
+            'item_code.unique'      => 'Kode Item sudah ada di system!',
+            'item_code.required'    => 'Kode Item wajib diisi!',
             'item_name.required'    => 'Nama baranglengkap wajib diisi!',
             'bal_kg.required'       => 'Bal/KG wajib diisi!',
             'bal_kg.numeric'        => 'Harap isi dengan angka',

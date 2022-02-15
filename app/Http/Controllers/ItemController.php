@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,23 +57,20 @@ class ItemController extends Controller
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(StoreItemRequest $request): RedirectResponse
     {
-        $data = [
-            "item_code" => $request->item_code,
-            "item_name" => $request->item_name,
-            "item_description" => $request->item_description,
-            "bal_kg" => $request->bal_kg,
-            "user_id" => Auth::user()->id,
-        ];
-        $item = Item::create($data);
+        $validatedData = $request->validated();
+        $validatedData["user_id"] = Auth::user()->id;
+
+        $item = Item::create($validatedData);
         if(! $item) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        if($request->action == "saveplus") {
+        
+        if($request->input('action') == "saveplus") {
             return redirect( route('items.create') );
         }
         return redirect( route('items.show', ['item' => $item->id ]) );
@@ -116,9 +114,10 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item): RedirectResponse
     {
-        if(! $item->update( $request->all() ) ) {
+        $validatedData = $request->validated();
+        if(! $item->update( $validatedData ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('items.edit') );
         }

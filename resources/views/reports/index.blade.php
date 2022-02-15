@@ -17,7 +17,7 @@
                 <div class="card-header bg-success bg-opacity-25" role="button" data-bs-toggle="collapse" data-bs-target="#collapseModal" aria-expanded="true" aria-controls="collapseModal">                    
                     <h5 class="mb-0">{{ __('Modal') }}</h5>
                 </div>
-                <div class="collapse.show" id="collapseModal">
+                <div class="collapse" id="collapseModal">
                     <div class="card-body">
                         <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('reports.modal') }}">
                             @method('POST')
