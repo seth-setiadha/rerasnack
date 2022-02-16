@@ -21,12 +21,17 @@ class InventoryExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return ReportModal::select("item_code", "item_name", "bal_kg", "unit_price")
+        $summary = ReportModal::selectRaw("'Grand Total' AS tanggal, '' AS item_code, '' AS item_name, '' AS bal_kg, '' AS unit_price, SUM(qty) AS qty, SUM(sub_total) as sub_total")
+                    ->whereBetween('tanggal', [$this->from, $this->to]);
+
+        return ReportModal::select("tanggal", "item_code", "item_name", "bal_kg", "unit_price")
                 ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
                 ->whereBetween('tanggal', [$this->from, $this->to])
-                ->groupBy(["item_code", "item_name", "bal_kg", "unit_price"])
+                ->groupBy(["tanggal","item_code", "item_name", "bal_kg", "unit_price"])
+                ->orderBy("tanggal", "ASC")
                 ->orderBy("item_code", "ASC")
                 ->orderBy("unit_price", "ASC")
+                ->union($summary)
                 ->get();
     }
 

@@ -34,23 +34,31 @@
                                 <th scope="col">Kode Barang</th>
                                 <th scope="col">Nama Barang</th>
                                 <th scope="col">Unit</th>
-                                <th scope="col">Harga Jual Per Unit</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Total Harga</th>
+                                <th scope="col" class="text-center">Harga Jual Per Unit</th>
+                                <th scope="col" class="text-center">Qty</th>
+                                <th scope="col" class="text-center">Total Harga</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $row)
+                            <?php $sumQty = $sumTotal = 0; ?>   
+                                @foreach ($data as $row) 
+                            <?php $sumQty += $row->qty; $sumTotal += $row->sub_total; ?>
                             <tr>
                                 <td>{{ $row->tanggal }}</td>
                                 <td>{{ $row->item_code }}</td>
                                 <td>{{ $row->item_name }}</td>
                                 <td>{{ $row->unit }}</td>
-                                <td>{{ $row->unit_price }}</td>
-                                <td>{{ $row->qty }}</td>
-                                <td>{{ $row->sub_total }}</td>
+                                <td class="text-end pe-3">{{ number_format($row->unit_price) }}</td>
+                                <td class="text-center">{{ $row->qty }}</td>
+                                <td class="text-end">{{ number_format($row->sub_total) }}</td>
                             </tr>
-                            @endforeach                                
+                            @endforeach        
+                            <tr class="bg-primary bg-opacity-25 fw-bold">
+                                    <td colspan="5">Grand Total</td>
+                                    
+                                    <td class="text-center">{{ $sumQty }}</td>
+                                    <td class="text-end">{{ number_format($sumTotal) }}</td>
+                                </tr>                           
                         </tbody>
                     </table>
                 </div>                    
