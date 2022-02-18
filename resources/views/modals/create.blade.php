@@ -40,10 +40,8 @@
                             </div>
                             @if ($stock == "IN")
                             <div class="col-md-4">
-                                <label for="item_id" class="form-label">Nama Barang</label>                             
-                                
-                                <select class="form-control" id="item_id" name="item_id"></select>
-                                
+                                <label for="item_id" class="form-label">Nama Barang</label>    
+                                <select class="form-control" id="item_id" name="item_id" required></select>                                
                                 <script type="text/javascript">
                                     $('#item_id').select2({
                                         placeholder: 'Pilih barang',
@@ -68,29 +66,12 @@
                             </div>
                             @elseif ($stock == "OUT")
                             <div class="col-md-6">
-                                <label for="stock_id" class="form-label">Stock Barang</label>
-                                <select class="form-control" id="stock_id" name="stock_id"></select>
-                                <script type="text/javascript">
-                                    $('#stock_id').select2({
-                                        placeholder: 'Pilih barang',
-                                        ajax: {
-                                            url: "{{ route('stocks.autocomplete') }}",
-                                            dataType: 'json',
-                                            delay: 250,
-                                            processResults: function (data) {
-                                                return {
-                                                    results: $.map(data, function (item) {
-                                                        return {
-                                                            text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Masuk ' + item.tanggal + '. Sisa ' + item.sisa + ' kg',
-                                                            id: item.id
-                                                        }
-                                                    })
-                                                };
-                                            },
-                                            cache: true
-                                        }
-                                    });
-                                </script>                            
+                                <label for="stock_id" class="form-label">Stock Barang</label>                         
+                                <input type="hidden" id="stocksisa" value="" />
+                                <input type="hidden" id="balkg" value="" />
+                                <input type="hidden" id="sisa" class="form-control" value="" required />
+                                <select class="form-control" id="stock_id" name="stock_id" required></select>
+                                
                             </div>
                             @endif
                             
@@ -119,10 +100,10 @@
                             </div>
                             <div class="col-12 d-flex">
                                 <div class="me-auto">
-                                    <button name="action" value="save" class="btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
+                                    <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
                                 </div>    
                                 <div class="ms-auto">
-                                    <button name="action" value="saveplus" class="btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
+                                    <button name="action" value="saveplus" class="saveButton btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
                                 </div>    
                             </div>
                         </form>
@@ -133,5 +114,30 @@
         </div>
     </div>
 </div>
+
+@if ($stock == "OUT")
+@include('modals.js') 
+@endif
+
+<script type="text/javascript">    
+    $('#qty').focusout(function() {
+        checkSubTotal();
+    });
+    $('#unit_price').focusout(function() {
+        checkSubTotal();
+    });
+
+    function checkSubTotal() {
+        $('#sub_total').val(0);
+        var qty = parseInt($('#qty').val());
+        var unit_price = parseInt($('#unit_price').val());
+
+        if( qty > 0 && unit_price > 0) {
+            $('#sub_total').val( qty * unit_price );
+        } else {
+            console.log('masuk else');
+        }
+    }    
+</script>
 
 @endsection

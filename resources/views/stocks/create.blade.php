@@ -47,27 +47,9 @@
                             <div class="col-md-6">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
                                 <select class="form-control" id="stock_id" name="stock_id"></select>
-                                <script type="text/javascript">
-                                    $('#stock_id').select2({
-                                        placeholder: 'Pilih barang',
-                                        ajax: {
-                                            url: "{{ route('stocks.autocomplete') }}",
-                                            dataType: 'json',
-                                            delay: 250,
-                                            processResults: function (data) {
-                                                return {
-                                                    results: $.map(data, function (item) {
-                                                        return {
-                                                            text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Masuk ' + item.tanggal + '. Sisa ' + item.sisa + ' kg',
-                                                            id: item.id
-                                                        }
-                                                    })
-                                                };
-                                            },
-                                            cache: true
-                                        }
-                                    });
-                                </script>                            
+                                <input type="hidden" id="stocksisa" value="" />
+                                <input type="hidden" id="balkg" value="" />
+                                <input type="hidden" id="sisa" class="form-control" value="" required />                        
                             </div>
                             
                             <div class="col-md-1">
@@ -84,7 +66,7 @@
                                 </select>
                             </div>                            
                             <div class="col-12">
-                                <button class="btn btn-warning" type="submit">Submit form</button>
+                                <button class="saveButton btn btn-warning" type="submit">Simpan</button>
                             </div>
                         </form>
 
@@ -94,5 +76,6 @@
         </div>
     </div>
 </div>
+@include('modals.js')
 
 @endsection
