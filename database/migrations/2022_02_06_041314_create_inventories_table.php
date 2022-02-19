@@ -33,6 +33,7 @@ class CreateInventoriesTable extends Migration
             $table->enum('stock', ['IN', 'OUT', 'ADJ']);
 
             $table->timestamps();
+            $table->index(['tanggal']);
         });
     }
 

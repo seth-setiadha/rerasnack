@@ -29,6 +29,7 @@ class CreateReportModalsTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['tanggal', 'item_code', 'item_name', 'stock_id']);
         });
     }
 

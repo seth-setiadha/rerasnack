@@ -15,7 +15,7 @@ class CreateScalesTable extends Migration
     {
         Schema::create('scales', function (Blueprint $table) {
             $table->id();
-            $table->string('scalar');
+            $table->string('scalar',50);
             $table->unsignedSmallInteger('pergram');
             $table->timestamps();
             $table->softDeletes();
