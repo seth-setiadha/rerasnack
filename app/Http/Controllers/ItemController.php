@@ -23,7 +23,7 @@ class ItemController extends Controller
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
-        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg');
+        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')->orderBy('item_code', 'ASC');
         if(! empty($q)) {
             $data->where('item_code', 'LIKE', '%' . $q . '%')->orWhere('item_name', 'LIKE', '%' . $q . '%');                    
         }
