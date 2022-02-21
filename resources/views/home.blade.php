@@ -76,43 +76,51 @@
                         <div id="qtyChart"></div>
                     </figure>
 
-                    <div class="card border-primary mb-3" style="max-width: 18rem;">
-                        <div class="card-header bg-primary bg-opacity-25 h3">Top 3 Penjualan</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Top 3 penjualan 30 hari terakhir</h5>
-                            <p class="">
-                                <ul>
-                                @foreach ($top3 as $idx => $top)
-                                    <li>{{ $top->item_code . " " . $top->item_name . ": " . $top->qty . " buah (Rp. " . number_format($top->sub_total) . ")" }}</li>
-                                @endforeach
-                                </ul>
-                            </p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-12 my-2">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Top 3 Penjualan</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Top 3 Penjualan 30 hari terakhir</h6>
+                                    <ul>
+                                    @foreach ($top3['penjualan'] as $idx => $top)
+                                        <li>{{ $top->item_code . " " . $top->item_name . ": " . $top->qty . " buah (Rp. " . number_format($top->sub_total) . ")" }}</li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-12 my-2">
+                            <div class="card border-warning">
+                                <div class="card-body">
+                                    <h5 class="card-title">3 Stock Hampir Abis</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Stock dengan qty (kg) yang hampir habis</h6>
+                                    <ul>
+                                    @foreach ($top3['stock'] as $idx => $top)
+                                        <li>{{ $top->item_name . ": " . $top->qty . " kg" }}</li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-12 my-2">
+                            <div class="card border-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Top 3 Modal</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Top 3 Modal 30 hari terakhir</h6>
+                                    <ul>
+                                    @foreach ($top3['modal'] as $idx => $top)
+                                        <li>{{ $top->item_code . " " . $top->item_name . ": " . $top->qty . " buah (Rp. " . number_format($top->sub_total) . ")" }}</li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card border-primary mb-3" style="max-width: 18rem;">
-                        <div class="card-header bg-primary bg-opacity-25 h3">Top 3 Penjualan</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Top 3 penjualan 30 hari terakhir</h5>
-                            <p class="">
-                                <ul>
-                                @foreach ($top3 as $idx => $top)
-                                    <li>{{ $top->item_code . " " . $top->item_name . ": " . $top->qty . " buah (Rp. " . number_format($top->sub_total) . ")" }}</li>
-                                @endforeach
-                                </ul>
-                            </p>
-                        </div>
-                    </div>
-
-                    
-
-                    
                     <figure class="highcharts-figure">
                         <div id="subtotalChart"></div>
                     </figure>
-
-                    
-                    
 
                 </div>
 

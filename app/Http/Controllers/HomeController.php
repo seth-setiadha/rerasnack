@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -48,11 +49,25 @@ class HomeController extends Controller
                         ->orderBy('tanggal', 'ASC')
                         ->get();
 
-        $top3 = ReportPenjualan::selectRaw("item_code, item_name, SUM(qty) as qty, SUM(sub_total) as sub_total")
+        $top3['penjualan'] = ReportPenjualan::selectRaw("item_code, item_name, SUM(qty) as qty, SUM(sub_total) as sub_total")
                         ->groupBy(['item_code', 'item_name'])
                         ->whereBetween('tanggal', [$from30, $to])
                         ->orderBy('qty', 'DESC')
                         ->limit(3)
+                        ->get();
+
+        $top3['modal'] = ReportModal::selectRaw("item_code, item_name, SUM(qty) as qty, SUM(sub_total) as sub_total")
+                        ->groupBy(['item_code', 'item_name'])
+                        ->whereBetween('tanggal', [$from30, $to])
+                        ->orderBy('qty', 'DESC')
+                        ->limit(3)
+                        ->get();
+
+        $top3['stock'] = Stock::selectRaw("item_name, FORMAT(SUM(qty) / 1000,2) AS qty")
+                        ->groupBy(['item_name'])
+                        ->where('qty', '>', 0)
+                        ->orderBy('qty', 'ASC')
+                        ->limit(5)
                         ->get();
 
         
