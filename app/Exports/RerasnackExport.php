@@ -2,14 +2,17 @@
 
 namespace App\Exports;
 
+use App\Models\Misc;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use App\Models\ReportRerasnack;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class RerasnackExport implements FromCollection, WithHeadings
+class RerasnackExport implements FromCollection, WithHeadings, WithEvents
 {
     protected $from;
     protected $to;
@@ -75,7 +78,18 @@ class RerasnackExport implements FromCollection, WithHeadings
                 
                 ReportRerasnack::create($data);
             }            
-        // });
+        $modalLains = Misc::selectRaw('misc_name, unit_price, SUM(qty) AS qty, SUM(sub_total) AS sub_total')
+            ->groupBy(['misc_name', 'unit_price'])
+            ->whereBetween('tanggal', [$this->from, $this->to])
+            ->orderBy('misc_name', 'ASC')
+            ->get();
+        foreach($modalLains as $row) {
+            $data = [];
+            $data['item_name'] = $row->misc_name;
+            $data['qty'] = $row->qty;
+            $data['sub_total'] = $row->sub_total;
+            ReportRerasnack::create($data);
+        }
 
         return ReportRerasnack::selectRaw('item_code, item_name, bal_kg, unit_price, qty, (bal_kg * qty) AS qty_kg, sub_total, qty_bal, qty_1kg, qty_500gr, qty_300gr, qty_250gr, qty_200gr, qty_150gr, qty_100gr, qty_total, profit_bal, profit_1kg, profit_500gr, profit_300gr, profit_250gr, profit_200gr, profit_150gr, profit_100gr, profit_total, omset_bal, omset_1kg, omset_500gr, omset_300gr, omset_250gr, omset_200gr, omset_150gr, omset_100gr, omset_total, sisa')
                 ->orderBy('id', 'ASC')
@@ -86,12 +100,36 @@ class RerasnackExport implements FromCollection, WithHeadings
     {
         return [
             [
+                'LAPORAN PENJUALAN PRODUK RERA SNACK'
+            ],
+            [
+                'PERIODE ' . date('j F Y', strtotime($this->from)) . " s/d " . date('j F Y', strtotime($this->to))
+            ],
+            [
                 'KODE PRODUK', 'NAMA PRODUK', 'ISI per bal (kg)', 'HARGA (per bal)', 'Jlh PEMBELIAN (bal)', 'JLH PEMBELIAN (kg)', 'TOTAL HARGA',
                 'bal', '1kg', '500gr', '300gr', '250gr', '200gr', '150gr', '100gr', 'TOTAL PENJUALAN',
                 'bal', '1kg', '500gr', '300gr', '250gr', '200gr', '150gr', '100gr', 'TOTAL PROFIT',
                 'bal', '1kg', '500gr', '300gr', '250gr', '200gr', '150gr', '100gr', 'TOTAL OMSET',
                 'SISA (kg)'
             ],
-        ];
+        ];    
     }
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class    => function(AfterSheet $event) {
+                $cellRange = 'A1:W2'; 
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
+                $event->sheet->getDelegate()->getStyle("A3:W3")->getFont()->setSize(12);
+                // $event->sheet->getDelegate()->getStyle('A3:G3')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF00');
+            },
+        ];
+
+        /***
+         * $spreadsheet->getActiveSheet()->getStyle('B3:B7')->getFill()
+    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+    ->getStartColor()->setARGB('FFFF0000');
+         */
+    }
+
 }

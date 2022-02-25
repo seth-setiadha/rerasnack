@@ -34,6 +34,7 @@ class ReportController extends Controller
                 } else {
                     $request->session()->flash('error', 'Laporan belum berhasil digenerate. Coba lagi!');
                 }
+                $laporan = "index";
             } else {
                 $laporan = "index";
             }
