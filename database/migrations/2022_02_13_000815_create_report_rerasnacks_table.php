@@ -28,31 +28,35 @@ class CreateReportRerasnacksTable extends Migration
             $table->unsignedMediumInteger('qty_500gr')->nullable();
             $table->unsignedMediumInteger('qty_300gr')->nullable();
             $table->unsignedMediumInteger('qty_250gr')->nullable();
+            $table->unsignedMediumInteger('qty_200gr')->nullable();
             $table->unsignedMediumInteger('qty_150gr')->nullable();
             $table->unsignedMediumInteger('qty_100gr')->nullable();
             $table->unsignedMediumInteger('qty_total')->nullable();
 
-            $table->unsignedMediumInteger('profit_bal')->nullable();
-            $table->unsignedMediumInteger('profit_1kg')->nullable();
-            $table->unsignedMediumInteger('profit_500gr')->nullable();
-            $table->unsignedMediumInteger('profit_300gr')->nullable();
-            $table->unsignedMediumInteger('profit_250gr')->nullable();
-            $table->unsignedMediumInteger('profit_150gr')->nullable();
-            $table->unsignedMediumInteger('profit_100gr')->nullable();
-            $table->unsignedMediumInteger('profit_total')->nullable();
+            $table->unsignedInteger('profit_bal')->nullable();
+            $table->unsignedInteger('profit_1kg')->nullable();
+            $table->unsignedInteger('profit_500gr')->nullable();
+            $table->unsignedInteger('profit_300gr')->nullable();
+            $table->unsignedInteger('profit_250gr')->nullable();
+            $table->unsignedInteger('profit_200gr')->nullable();
+            $table->unsignedInteger('profit_150gr')->nullable();
+            $table->unsignedInteger('profit_100gr')->nullable();
+            $table->unsignedInteger('profit_total')->nullable();
 
-            $table->unsignedMediumInteger('omset_bal')->nullable();
-            $table->unsignedMediumInteger('omset_1kg')->nullable();
-            $table->unsignedMediumInteger('omset_500gr')->nullable();
-            $table->unsignedMediumInteger('omset_300gr')->nullable();
-            $table->unsignedMediumInteger('omset_250gr')->nullable();
-            $table->unsignedMediumInteger('omset_150gr')->nullable();
-            $table->unsignedMediumInteger('omset_100gr')->nullable();
-            $table->unsignedMediumInteger('omset_total')->nullable();
+            $table->unsignedInteger('omset_bal')->nullable();
+            $table->unsignedInteger('omset_1kg')->nullable();
+            $table->unsignedInteger('omset_500gr')->nullable();
+            $table->unsignedInteger('omset_300gr')->nullable();
+            $table->unsignedInteger('omset_250gr')->nullable();
+            $table->unsignedInteger('omset_200gr')->nullable();
+            $table->unsignedInteger('omset_150gr')->nullable();
+            $table->unsignedInteger('omset_100gr')->nullable();
+            $table->unsignedInteger('omset_total')->nullable();
 
             $table->unsignedMediumInteger('sisa')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['item_code', 'item_name', 'stock_id']);
         });

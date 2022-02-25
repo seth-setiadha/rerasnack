@@ -47,6 +47,9 @@
                             <a class="nav-link" href="{{ route('modal.index') }}">Modal</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('misc.index') }}">Modal Lain</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('stocks.index') }}">Stock</a>
                         </li>
                         <li class="nav-item">
@@ -57,7 +60,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('items.index') }}">Master Barang</a>
-                        </li>                        
+                        </li>
                     @endguest
                     </ul>
 

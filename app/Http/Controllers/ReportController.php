@@ -6,10 +6,12 @@ use App\Exports\InventoryExport;
 use App\Exports\PenjualanExport;
 use App\Exports\RerasnackExport;
 use App\Exports\SummaryExport;
+use App\Jobs\ReportDetail;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -23,7 +25,15 @@ class ReportController extends Controller
             if($laporan == "modal") {
                 return Excel::download(new InventoryExport($from, $to), 'modal-' . date('Y-m-d') . '.xlsx');
             } else if($laporan == "penjualan") {
-                return Excel::download(new PenjualanExport($request->input('from'), $request->input('to')), 'penjualan-' . date('Y-m-d') . '.xlsx');
+                return Excel::download(new PenjualanExport($from, $to), 'penjualan-' . date('Y-m-d') . '.xlsx');
+            } else if($laporan == "detail") {
+                $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');
+                // ReportDetail::dispatch($from, $to);
+                if ($reportSaved) {
+                    $request->session()->flash('status', 'Laporan sudah berhasil digenerate');
+                } else {
+                    $request->session()->flash('error', 'Laporan belum berhasil digenerate. Coba lagi!');
+                }
             } else {
                 $laporan = "index";
             }
@@ -45,17 +55,31 @@ class ReportController extends Controller
                         ->orderBy("tanggal", "ASC")
                         ->orderBy("item_code", "ASC")
                         ->orderBy("unit_price", "ASC")
-                        ->get();
+                        ->get();            
             } else {
                 $laporan = "index";
             }
         } 
+
+        $files = Storage::files('/reports');        
+
         return view('reports.' . $laporan, [
             'data' => $data,
+            'files' => $files,
             'from' => $from, 
             'laporan' => $laporan,
             'to' => $to
         ]);
         
+    }
+
+    public function download(Request $request)
+    {
+        $file = $request->query('file');        
+        if (Storage::exists($file)) {
+            return Storage::download($file);
+        } else {
+            echo "File doesn't exist " . $file;
+        }
     }
 }

@@ -93,7 +93,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4 col-12 my-2">
                             <div class="card border-warning">
                                 <div class="card-body">
-                                    <h5 class="card-title">3 Stock Hampir Abis</h5>
+                                    <h5 class="card-title">5 Stock Hampir Abis</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Stock dengan qty (kg) yang hampir habis</h6>
                                     <ul>
                                     @foreach ($top3['stock'] as $idx => $top)

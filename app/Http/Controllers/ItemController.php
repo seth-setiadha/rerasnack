@@ -70,7 +70,6 @@ class ItemController extends Controller
         $item = Item::create($validatedData);
         if(! $item) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
-            // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
@@ -90,7 +89,6 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         if(! $item) {
-            // return response()->json(["message" => "Data belum berhasil ditambahkan", "data" => $data ], 400);    
             return redirect( route('items.create') );
         }
         return view('items.edit', ['data' => $item]);

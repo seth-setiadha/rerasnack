@@ -3,7 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Inventory;
+use App\Models\ReportModal;
+use App\Models\ReportPenjualan;
+use App\Models\ReportRerasnack;
+use App\Models\Stock;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Command
 {
@@ -12,7 +17,7 @@ class Dashboard extends Command
      *
      * @var string
      */
-    protected $signature = 'dashboard:daily';
+    protected $signature = 'reportdetail:daily';
 
     /**
      * The console command description.
@@ -37,16 +42,30 @@ class Dashboard extends Command
      * @return int
      */
     public function handle()
-    {
-        $from = date('Y-m-d', strtotime('yesterday'));
-        $to = date('Y-m-d', strtotime('8 days ago'));
-        $modal = Inventory::selectRaw('SUM(qty)')
-                    ->where('stock', 'IN')
-                    ->whereBetween('reservation_from', [$from, $to])
-                    ->orderBy('total', 'DESC')
-                    ->limit(3)
+    {        
+        $stocks = Stock::selectRaw('GROUP_CONCAT(id) AS ids')
+                    ->where('qty', '<', 1)->groupBy(['item_name', 'bal_kg', 'modal'])
                     ->get();
+        if($stocks) {            
+            foreach($stocks as $stock) {
+                DB::transaction(function () use($stock) {
+                    $ids = explode(',', $stock->ids);
+                    $modal = ReportModal::selectRaw('item_code, item_name, bal_kg, unit_price, SUM(qty) AS qty, SUM(sub_total) AS sub_total')
+                            ->groupBy(['item_code', 'item_name', 'unit_price'])
+                            ->whereIn('stock_id', $ids)                            
+                            ->first()->toArray();
+                            
+                    $penjualans = ReportPenjualan::selectRaw('SUM(qty) AS qty, SUM(sub_total) AS sub_total, unit, unit_price')
+                            ->groupBy(['unit', 'unit_price'])
+                            ->whereIn('stock_id', $ids)
+                            ->get();
 
+                    foreach($penjualans as $penjualan) {
+                        ReportRerasnack::create();
+                    }                    
+                });
+            }    
+        }
 
         return 'OK';
     }

@@ -8,7 +8,6 @@ use App\Models\Scale;
 use App\Models\Stock;
 use App\Observers\InventoryObserver;
 use App\Observers\ItemObserver;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

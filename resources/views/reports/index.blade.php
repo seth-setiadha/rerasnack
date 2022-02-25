@@ -21,6 +21,9 @@
                     @include('reports.form', ['colorTheme' => 'secondary'])
                 </form>  
             </div>
+
+            @include('reports.detail')
+
         </div>
     </div>
 </div>
