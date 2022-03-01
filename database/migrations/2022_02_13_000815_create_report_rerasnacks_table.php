@@ -15,7 +15,6 @@ class CreateReportRerasnacksTable extends Migration
     {
         Schema::create('report_rerasnacks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('stock_id');
             $table->string('item_code', 10)->nullable();
             $table->string('item_name', 50)->nullable();
             $table->unsignedDecimal('bal_kg', 8,2)->nullable();
@@ -33,15 +32,15 @@ class CreateReportRerasnacksTable extends Migration
             $table->unsignedMediumInteger('qty_100gr')->nullable();
             $table->unsignedMediumInteger('qty_total')->nullable();
 
-            $table->unsignedInteger('profit_bal')->nullable();
-            $table->unsignedInteger('profit_1kg')->nullable();
-            $table->unsignedInteger('profit_500gr')->nullable();
-            $table->unsignedInteger('profit_300gr')->nullable();
-            $table->unsignedInteger('profit_250gr')->nullable();
-            $table->unsignedInteger('profit_200gr')->nullable();
-            $table->unsignedInteger('profit_150gr')->nullable();
-            $table->unsignedInteger('profit_100gr')->nullable();
-            $table->unsignedInteger('profit_total')->nullable();
+            $table->integer('profit_bal')->nullable();
+            $table->integer('profit_1kg')->nullable();
+            $table->integer('profit_500gr')->nullable();
+            $table->integer('profit_300gr')->nullable();
+            $table->integer('profit_250gr')->nullable();
+            $table->integer('profit_200gr')->nullable();
+            $table->integer('profit_150gr')->nullable();
+            $table->integer('profit_100gr')->nullable();
+            $table->integer('profit_total')->nullable();
 
             $table->unsignedInteger('omset_bal')->nullable();
             $table->unsignedInteger('omset_1kg')->nullable();

@@ -47,9 +47,9 @@ class RerasnackExport implements FromCollection, WithHeadings, WithEvents
                 $price_gr = $modal->unit_price / ($modal->bal_kg * 1000);
 
                 $stock_ids = explode(',', $modal->stock_ids);
-                $penjualans = ReportPenjualan::selectRaw('unit, unit_price, SUM(qty) AS qty, SUM(sub_total) AS sub_total')
+                $penjualans = ReportPenjualan::selectRaw('unit, SUM(qty) AS qty, SUM(sub_total) AS sub_total')
                                 ->whereIn('stock_id', $stock_ids)
-                                ->groupBy(['unit', 'unit_price'])
+                                ->groupBy(['unit'])
                                 ->get();
 
                 $totalQty = $totalProfit = $totalOmset = $totalGram = 0; 
@@ -117,17 +117,179 @@ class RerasnackExport implements FromCollection, WithHeadings, WithEvents
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class    => function(AfterSheet $event) {
+            AfterSheet::class => function(AfterSheet $event) {
                 $cellRange = 'A1:W2'; 
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
                 $event->sheet->getDelegate()->getStyle("A3:W3")->getFont()->setSize(12);
-                // $event->sheet->getDelegate()->getStyle('A3:G3')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF00');
+                $event->sheet->getDelegate()->getStyle('A3:G3')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFFFFF00');                
+                $event->sheet->getDelegate()->getStyle('H3:P3')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FF00FFCC');
+                $event->sheet->getDelegate()->getStyle('Q3:Y3')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFFF9999');
+                $event->sheet->getDelegate()->getStyle('Z3:AH3')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FF00FF00');
+                $event->sheet->getDelegate()->getStyle('AI3')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF8CBAD');
+                
+                // for($i=5;$i<50;$i=+2) {
+                    $event->sheet->getDelegate()->getStyle('A5:AI5')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A7:AI7')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A9:AI9')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A11:AI11')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A13:AI13')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A15:AI15')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A17:AI17')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A19:AI19')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A21:AI21')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A23:AI23')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A25:AI25')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A27:AI27')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A29:AI29')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A31:AI31')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A33:AI33')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');
+                    $event->sheet->getDelegate()->getStyle('A35:AI35')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A37:AI37')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A39:AI39')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A41:AI41')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A43:AI43')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A45:AI45')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A47:AI47')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A49:AI49')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A51:AI51')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A53:AI53')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A55:AI55')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A57:AI57')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A59:AI59')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A61:AI61')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A63:AI63')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A65:AI65')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A67:AI67')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A69:AI69')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A71:AI71')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A73:AI73')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A75:AI75')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A77:AI77')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A79:AI79')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A81:AI81')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A83:AI83')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A85:AI85')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A87:AI87')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A89:AI89')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2');  
+                    $event->sheet->getDelegate()->getStyle('A91:AI91')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A93:AI93')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A95:AI95')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A97:AI97')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                    $event->sheet->getDelegate()->getStyle('A99:AI99')->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFF2F2F2'); 
+                // }
+                
             },
         ];
 
         /***
          * $spreadsheet->getActiveSheet()->getStyle('B3:B7')->getFill()
-    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+    ->setFillType(Fill::FILL_SOLID)
     ->getStartColor()->setARGB('FFFF0000');
          */
     }
