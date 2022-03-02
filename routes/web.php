@@ -7,6 +7,7 @@ use App\Http\Controllers\MiscController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,11 +44,15 @@ Route::middleware('auth')->group(function() {
     Route::post('reports/summary', [ReportController::class, 'summary'])->name('reports.summary');
     Route::post('reports/rerasnack', [ReportController::class, 'rerasnack'])->name('reports.rerasnack');
 
+    Route::get('resetpassword', [UserController::class, 'resetpwd'])->name('users.reset');
+    Route::post('resetpassword', [UserController::class, 'resetpwd'])->name('users.reset');
+
     Route::resources([
         '/items' => ItemController::class,
         '/stocks' => StockController::class,
         '/modal' => InventoryController::class,
         '/penjualan' => PenjualanController::class,        
         '/misc' => MiscController::class,  
+        '/users' => UserController::class, 
     ]);
 });

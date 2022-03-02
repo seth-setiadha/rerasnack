@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exports\InventoryExport;
 use App\Exports\PenjualanExport;
-use App\Exports\RerasnackExport;
-use App\Exports\SummaryExport;
 use App\Jobs\ReportDetail;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
@@ -19,7 +17,7 @@ class ReportController extends Controller
         $from = $request->input('from');
         $to = $request->input('to');
         $laporan = $request->input('laporan') ?? "index";
-        $data = [];
+        $data = [];       
 
         if($request->input('action') == 'download') {
             if($laporan == "modal") {
@@ -27,13 +25,14 @@ class ReportController extends Controller
             } else if($laporan == "penjualan") {
                 return Excel::download(new PenjualanExport($from, $to), 'penjualan-' . date('Y-m-d') . '.xlsx');
             } else if($laporan == "detail") {
-                $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');
-                // ReportDetail::dispatch($from, $to);
-                if ($reportSaved) {
-                    $request->session()->flash('status', 'Laporan sudah berhasil digenerate');
-                } else {
-                    $request->session()->flash('error', 'Laporan belum berhasil digenerate. Coba lagi!');
-                }
+                ReportDetail::dispatch($from, $to);
+                
+                // $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');                
+                // if ($reportSaved) {
+                //     $request->session()->flash('status', 'Laporan sudah berhasil digenerate');
+                // } else {
+                //     $request->session()->flash('error', 'Laporan belum berhasil digenerate. Coba lagi!');
+                // }
                 $laporan = "index";
             } else {
                 $laporan = "index";

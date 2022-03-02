@@ -67,6 +67,8 @@
                             @elseif ($stock == "OUT")
                             <div class="col-md-6">
                                 <label for="stock_id" class="form-label">Stock Barang</label>                         
+                                <input type="hidden" id="modal" value="" />
+                                <input type="hidden" id="qty_gr" value="" />
                                 <input type="hidden" id="stocksisa" value="" />
                                 <input type="hidden" id="balkg" value="" />
                                 <input type="hidden" id="sisa" class="form-control" value="" required />
@@ -75,10 +77,7 @@
                             </div>
                             @endif
                             
-                            <div class="col-md-1">
-                                <label for="qty" class="form-label">Qty</label>
-                                    <input type="text" class="form-control" id="qty" name="qty" required>
-                            </div>
+                            
                             <div class="col-md-2">
                                 <label for="unit" class="form-label">Unit</label>
                                 <select class="form-select" id="unit" name="unit" required>
@@ -90,6 +89,10 @@
                                     @endif
                                 </select>
                             </div>
+                            <div class="col-md-1">
+                                <label for="qty" class="form-label">Qty</label>
+                                    <input type="text" class="form-control" id="qty" name="qty" required>
+                            </div>
                             <div class="col-md-2">
                                 <label for="unit_price" class="form-label">Harga</label>
                                 <input type="text" class="form-control" id="unit_price" name="unit_price" required>
@@ -98,6 +101,12 @@
                                 <label for="sub_total" class="form-label">Subtotal</label>
                                 <input type="text" class="form-control" id="sub_total" name="sub_total" readonly>
                             </div>
+                            @if ($stock == "OUT")
+                            <div class="col-md-2">
+                                <label for="profit" class="form-label">Profit</label>
+                                <input type="text" class="form-control" id="profit" name="profit" readonly>
+                            </div>
+                            @endif
                             <div class="col-12 d-flex">
                                 <div class="me-auto">
                                     <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
@@ -123,6 +132,9 @@
     $('#qty').focusout(function() {
         checkSubTotal();
     });
+    $('#unit').change(function() {
+        
+    });
     $('#unit_price').focusout(function() {
         checkSubTotal();
     });
@@ -131,11 +143,25 @@
         $('#sub_total').val(0);
         var qty = parseInt($('#qty').val());
         var unit_price = parseInt($('#unit_price').val());
-
+        
         if( qty > 0 && unit_price > 0) {
             $('#sub_total').val( qty * unit_price );
         } else {
-            console.log('masuk else');
+            // console.log('masuk else');
+        }
+
+        if( $("#profit").length > 0 && $("#modal").length > 0 ) {
+            var modal = parseInt( $('#modal').val() );
+            var qty_gr = parseInt( $('#qty_gr').val() );
+            var sub_total = parseInt( $('#sub_total').val() );
+
+            if(sub_total > 0) {
+                let profit = sub_total - (qty * qty_gr * modal);
+                if(profit > 0) { } else {
+                    alert('Profit minus!');
+                }
+                $("#profit").val(profit);
+            }
         }
     }    
 </script>
