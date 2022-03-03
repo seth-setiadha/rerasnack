@@ -7,42 +7,18 @@ use App\Http\Requests\StoreStockRequest;
 use App\Http\Requests\UpdateStockRequest;
 use App\Models\Inventory;
 use App\Models\Scale;
+use App\Repositories\InventoryRepository;
+use App\Repositories\StockRepository;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $q = $request->query('q');
-        $perPage = intval($request->query('perPage'));
-        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
+    private $stockRepository;
 
-        $data = Stock::where("stocks.qty", ">", 0)
-                ->select("stocks.id", "stocks.item_name", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")
-                ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
-                ->leftjoin('inventories', function($query) {
-                    $query->on("stocks.id", "=", "inventories.stock_id")
-                    ->where("inventories.stock", "=", "IN");
-                })
-                ->orderBy("inventories.tanggal", "DESC")
-                ->orderBy("stocks.qty", "DESC");
-        if(! empty($q)) {
-            $data->where(function($query) use ($q) {
-                $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
-            });                    
-        }
-        $data = $data->paginate($perPage)->withQueryString();
-                
-        return view('stocks.index', [
-            'data' => $data,
-            'q' => $q
-        ]);
+    public function __construct()
+    {
+        $this->stockRepository = new StockRepository;
+        $this->inventoryRepository = new InventoryRepository;
     }
 
     /**
@@ -51,30 +27,11 @@ class StockController extends Controller
      * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function habis(Request $request)
-    {
-        $q = $request->query('q');
-        $perPage = intval($request->query('perPage'));
-        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-
-        $data = Stock::where("stocks.qty", "<", 1)
-                ->select("stocks.id", "stocks.item_name", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")                
-                ->leftjoin('inventories', function($query) {
-                    $query->on("stocks.id", "=", "inventories.stock_id")
-                    ->where("inventories.stock", "=", "IN");
-                })
-                ->orderBy("inventories.tanggal", "DESC");
-        if(! empty($q)) {
-            $data->where(function($query) use ($q) {
-                $query->where('stocks.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
-            });                    
-        }
-        $data = $data->paginate($perPage)->withQueryString();
+    public function index()
+    {        
+        $data = $this->stockRepository->index(">");
                 
-        return view('stocks.habis', [
-            'data' => $data,
-            'q' => $q
-        ]);
+        return view('stocks.index', $data);
     }
 
     /**
@@ -83,31 +40,24 @@ class StockController extends Controller
      * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function adjustment(Request $request)
+    public function habis()
     {
-        $q = $request->query('q');
-        $perPage = intval($request->query('perPage'));
-        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $stock = "ADJ";
+        $data = $this->stockRepository->index("<=");
+                
+        return view('stocks.habis', $data);
+    }
 
-        $data = Inventory::select("inventories.*", "items.item_name", "items.item_code", "stocks.bal_kg")
-                        ->selectRaw("FORMAT(inventories.sub_total, 2) AS sub_total, FORMAT(inventories.unit_price, 2) AS unit_price")
-                        ->selectRaw("FORMAT(stocks.qty / 1000,2) AS sisa")
-                        ->where("stock", $stock)
-                        ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")                        
-                        ->orderBy("inventories.tanggal", "DESC");        
-        if(! empty($q)) {
-            $data->where(function($query) use ($q) {
-                $query->where('items.item_name', 'LIKE', '%' . $q . '%')->orWhere('items.item_code', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%');
-            });                    
-        }
-        $data = $data->paginate($perPage)->withQueryString();
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function adjustment()
+    {        
+        $data = $this->inventoryRepository->index("ADJ");
 
-        return view('stocks.adjustment', [
-            'data' => $data,
-            'q' => $q
-        ]);
+        return view('stocks.adjustment', $data);
     }
 
     public function autocomplete(Request $request) {

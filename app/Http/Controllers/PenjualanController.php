@@ -6,10 +6,17 @@ use App\Models\Inventory;
 use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Scale;
+use App\Repositories\InventoryRepository;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
+    private $inventoryRepository;
+
+    public function __construct(InventoryRepository $inventoryRepository)
+    {
+        $this->inventoryRepository = $inventoryRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,33 +25,12 @@ class PenjualanController extends Controller
      */
     public function index(Request $request)
     {
-        $q = $request->query('q');
-        $perPage = intval($request->query('perPage'));
-        $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
-        $stock = "OUT";
+        $data = $this->inventoryRepository->index($stock="OUT");
+        $data['stock'] = $stock;
+        $data['pageName'] = 'penjualan';
+        $data['colorTheme'] = 'primary';
 
-        $data = Inventory::select("inventories.*", "items.item_name", "items.item_code", "stocks.bal_kg")
-                        ->selectRaw("FORMAT(inventories.sub_total, 2) AS sub_total, FORMAT(inventories.unit_price, 2) AS unit_price")
-                        ->selectRaw("FORMAT(stocks.qty / 1000,2) AS sisa")
-                        ->where("stock", $stock)
-                        ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")
-                        ->orderBy("inventories.tanggal", "DESC");
-        if(! empty($q)) {
-            $data->where(function($query) use ($q) {
-                $query->where('items.item_name', 'LIKE', '%' . $q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $q . '%')->orWhere('items.item_code', 'LIKE', '%' . $q . '%');
-            });                    
-        }
-        $data = $data->paginate($perPage)->withQueryString();
-
-        return view('modals.index', [
-            'data' => $data,
-
-            'stock' => $stock,
-            'pageName' => 'penjualan',
-            'colorTheme' => 'primary',
-            'q' => $q
-        ]);
+        return view('modals.index', $data);
     }
 
     /**
