@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\InventoryExport;
 use App\Exports\PenjualanExport;
-use App\Jobs\ReportDetail;
+use App\Exports\RerasnackExport;
+use App\Jobs\ReportDetailJob;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use Illuminate\Http\Request;
@@ -25,8 +26,8 @@ class ReportController extends Controller
             } else if($laporan == "penjualan") {
                 return Excel::download(new PenjualanExport($from, $to), 'penjualan-' . date('Y-m-d') . '.xlsx');
             } else if($laporan == "detail") {
-                ReportDetail::dispatch($from, $to);
                 
+                ReportDetailJob::dispatch($from, $to);
                 // $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');                
                 // if ($reportSaved) {
                 //     $request->session()->flash('status', 'Laporan sudah berhasil digenerate');

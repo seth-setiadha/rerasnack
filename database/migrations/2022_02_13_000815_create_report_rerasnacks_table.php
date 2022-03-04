@@ -57,7 +57,7 @@ class CreateReportRerasnacksTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index(['item_code', 'item_name', 'stock_id']);
+            $table->index(['item_code', 'item_name']);
         });
     }
 

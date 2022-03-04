@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ReportDetail implements ShouldQueue, ShouldBeUnique
+class ReportDetailJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $dateFrom;
@@ -36,6 +36,7 @@ class ReportDetail implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
+        // throw new \Exception('Failed');
         Excel::store(new RerasnackExport($this->dateFrom, $this->dateTo), '/reports/detail-from-' . date('d', strtotime($this->dateFrom)) . "-sd-" . date('d-m-Y', strtotime($this->dateTo)) . '.xlsx');
     }
 
