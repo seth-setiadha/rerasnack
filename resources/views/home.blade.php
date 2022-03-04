@@ -54,19 +54,19 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header d-flex">
-                    <div class="me-auto">
-                        {{ __('Dashboard') }}
-                    </div>
-                    <div class="ms-auto">
-                        {{ __('Welcome') . " " . Auth::user()->name . "!" }} 
-                    </div>
 
+            <div class="d-flex align-items-center p-3 mb-3 bg-secondary p-2 text-dark bg-opacity-25 rounded shadow-sm">
+                <div class="me-auto">
+                    <h3 class="mb-0 lh-1">{{ __('Dashboard') }}</h3>
                 </div>
+                <div class="ms-auto">
+                    {{ __('Welcome') . " " . Auth::user()->name . "!" }} 
+                </div>
+            </div>
 
-                <div class="card-body">
-                    <x-alert-component />
+            <x-alert-component />
+
+            <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
 
                     <figure class="highcharts-figure">
                         <div id="qtyChart"></div>
@@ -117,10 +117,6 @@
                     <figure class="highcharts-figure">
                         <div id="subtotalChart"></div>
                     </figure>
-
-                </div>
-
-                
 
 
             </div>

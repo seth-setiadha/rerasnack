@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Repositories\UserRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +27,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $data = $this->userRepository->index();
+        return view("users.index", $data);
     }
 
     /**
@@ -28,7 +38,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $data = new User();
+
+        return view('users.create', ['data' => $data] );
     }
 
     /**
@@ -37,9 +49,22 @@ class UserController extends Controller
      * @param  \App\Http\Requests\StoreUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        //
+        $validatedData = $request->validated();   // return array
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $user = User::create($validatedData);
+        if(! $user) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('users.create') );
+        }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        
+        if($request->input('action') == "saveplus") {
+            return redirect( route('users.create') );
+        }
+        return redirect( route('users.show', ['user' => $user->id ]) );
     }
 
     /**
@@ -50,7 +75,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        if(! $user) {
+            return redirect( route('users.create') );
+        }
+        return view('users.edit', ['data' => $user]);
     }
 
     /**
@@ -61,7 +89,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        if($user) {
+            return view('users.edit', ['data' => $user]);
+        } else {
+            return redirect( route('users.index') );
+        }
     }
 
     /**
@@ -73,7 +105,20 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $validatedData = $request->validated();
+
+        if(! empty($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        } else {
+            unset($validatedData['password']);
+        }
+
+        if(! $user->update( $validatedData ) ) {
+            $request->session()->flash('error', 'Data belum berhasil disimpan');
+            return redirect( route('users.edit') );
+        }
+        $request->session()->flash('status', 'Data sudah berhasil disimpan');
+        return redirect( route('users.show', ['user' => $user->id ]) );
     }
 
     /**

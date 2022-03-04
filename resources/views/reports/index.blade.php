@@ -6,7 +6,7 @@
 
         <div class="col-md-12">
 
-            <div class="d-flex align-items-center p-3 bg-light text-dark bg-opacity-25 rounded shadow-sm">                
+            <div class="d-flex align-items-center p-3 mb-3 bg-light text-dark bg-opacity-25 rounded shadow-sm">                
                 <h3 class="mb-0 lh-1">{{ __('Reports') }}</h3>                
             </div>
             

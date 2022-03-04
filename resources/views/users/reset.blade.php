@@ -6,7 +6,7 @@
 
         <div class="col-md-12">            
         
-            <div class="d-flex align-items-center p-3 my-3 bg-danger p-2 text-dark bg-opacity-25 rounded shadow-sm">
+            <div class="d-flex align-items-center p-3 mb-3 bg-light p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
                     <h3 class="mb-0 lh-1">{{ __('Reset Password') }}</h3>
                 </div>
@@ -46,7 +46,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-secondary">
                                     {{ __('Reset Password') }}
                                 </button>
                             </div>

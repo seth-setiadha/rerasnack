@@ -8,12 +8,12 @@
         <div class="col-md-12">
             
         
-            <div class="d-flex align-items-center p-3 mb-3 bg-info p-2 text-dark bg-opacity-25 rounded shadow-sm">
+            <div class="d-flex align-items-center p-3 mb-3 bg-light p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Tambah Barang Baru') }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Tambah User Baru') }}</h3>
                 </div>
                 <div class="ms-auto">
-                <a class="btn btn-info" href="{{ route('items.index') }}">{{ __('kembali') }}</a>
+                <a class="btn btn-secondary" href="{{ route('users.index') }}">{{ __('kembali') }}</a>
                 </div>
             </div>
             
@@ -21,10 +21,10 @@
             
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
-                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route('items.store') }}">                                                
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route('users.store') }}">                                                
                             @method('POST')
                             @csrf
-                            @include('items.form', ['create' => true])
+                            @include('users.form', ['create' => true])
                         </form>
 
                 </div>

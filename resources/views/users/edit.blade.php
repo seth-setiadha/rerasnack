@@ -8,20 +8,20 @@
         <div class="col-md-12">
             
         
-            <div class="d-flex align-items-center p-3 mb-3 bg-secondary p-2 text-dark bg-opacity-25 rounded shadow-sm">
+            <div class="d-flex align-items-center p-3 mb-3 bg-light p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Ubah Modal Lain-Lain') }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Ubah Data User') }}</h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-secondary" href="{{ route('misc.index') }}">{{ __('kembali') }}</a>
+                    <a class="btn btn-secondary" href="{{ route('users.index') }}">{{ __('kembali') }}</a>
                 </div>
             </div>
                 <x-alert-component />
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         
-                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('misc.update', ['misc' => $data->id]) }}">                                                
+                        <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('users.update', ['user' => $data->id]) }}">                                                
                             @method('PUT')
-                            @include('miscs.form', ['create' => false])
+                            @include('users.form', ['create' => false])
                         </form>
 
                 </div>
