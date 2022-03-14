@@ -7,6 +7,7 @@ use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Scale;
 use App\Repositories\InventoryRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -58,17 +59,11 @@ class PenjualanController extends Controller
      * @param  \App\Http\Requests\StoreInventoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInventoryRequest $request)
+    public function store(StoreInventoryRequest $request): RedirectResponse
     {
-        $data = [
-            "item_id" => $request->item_id,
-            "stock_id" => $request->stock_id,
-            "tanggal" => $request->tanggal,
-            "qty" => $request->qty,
-            "unit" => $request->unit,
-            "unit_price" => $request->unit_price,
-            "stock" => "OUT",
-        ];
+        $data = $request->validated();
+        $data["stock"] = "OUT";
+
         $penjualan = Inventory::create($data);
         if(! $penjualan) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');

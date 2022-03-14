@@ -13,7 +13,7 @@
 <div class="col-md-2">
     <label for="bal_kg" class="form-label">bal/kg</label>
     <div class="input-group">
-        <input type="text" class="form-control" id="bal_kg" name="bal_kg" value="{{ old('bal_kg') ?? $data->bal_kg }}" required>
+        <input type="number" step="0.01" class="form-control" id="bal_kg" min="0.5" name="bal_kg" value="{{ old('bal_kg') ?? $data->bal_kg }}" required>
         <div class="input-group-text">kg</div>
     </div>
 </div>

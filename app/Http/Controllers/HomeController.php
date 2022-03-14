@@ -29,9 +29,9 @@ class HomeController extends Controller
     {
         $from30 = date('Y-m-d', strtotime('30 days ago'));
         $from = date('Y-m-d', strtotime('10 days ago'));
-        $to = date('Y-m-d', strtotime('1 days ago'));
+        $to = date('Y-m-d');
         $indexes = $modals = $penjualans = [];
-        for($i=10; $i >= 1; $i--) {
+        for($i=11; $i >= 1; $i--) {
             $index =  date('Y-m-d', strtotime( $i .' days ago'));
             $indexes[] = "'" . date('M j', strtotime($index)) . "'";
             $modals['qty'][$index] = $modals['sub_total'][$index] = $penjualans['sub_total'][$index] = $penjualans['qty'][$index] = 0;

@@ -84,18 +84,23 @@
                                     <option value="bal">Bal</option>
                                     @if ($stock == "OUT")
                                         @foreach ($scales as $scale)
-                                            <option value="{{ $scale->scalar }}">{{ $scale->scalar }}</option>
+                                            
+                                            @if (old('unit') == $scale->scalar)
+                                                <option value="{{ $scale->scalar }}" selected>{{ $scale->scalar }}</option>
+                                            @else
+                                                <option value="{{ $scale->scalar }}">{{ $scale->scalar }}</option>
+                                            @endif
                                         @endforeach
                                     @endif
                                 </select>
                             </div>
                             <div class="col-md-1">
                                 <label for="qty" class="form-label">Qty</label>
-                                    <input type="text" class="form-control" id="qty" name="qty" required>
+                                    <input type="number" class="form-control" min="1" id="qty" name="qty" value="{{ old('qty') }}" required>
                             </div>
                             <div class="col-md-2">
                                 <label for="unit_price" class="form-label">Harga</label>
-                                <input type="text" class="form-control" id="unit_price" name="unit_price" required>
+                                <input type="number" class="form-control" id="unit_price" name="unit_price" value="{{ old('unit_price') }}" required>
                             </div>
                             <div class="col-md-2">
                                 <label for="sub_total" class="form-label">Subtotal</label>
@@ -157,10 +162,13 @@
 
             if(sub_total > 0) {
                 let profit = sub_total - (qty * qty_gr * modal);
-                if(profit > 0) { } else {
+                if(profit >= 0) { } else {
                     alert('Profit minus!');
                 }
                 $("#profit").val(profit);
+                $('.saveButton').prop('disabled', false);
+            } else {
+                $('.saveButton').prop('disabled', true);
             }
         }
     }    

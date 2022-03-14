@@ -26,7 +26,7 @@
                                 <tr>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Nama Barang</th>
-                                    @if ($stock == "IN") <th scope="col">Bal/kg</th> @endif
+                                    @if ($stock == "IN") <th scope="col">kg/bal</th> @endif
                                     <th scope="col">Qty</th>
                                     <th scope="col">Harga / Unit</th>
                                     <th scope="col">Subtotal</th>

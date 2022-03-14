@@ -34,8 +34,10 @@
         checkSisa();
     });
     $('#unit').change(function() {
-        checkSisa();
-        checkSubTotal();
+        checkSubTotal(function() {
+            checkSisa();
+        });
+        
     });
     $('#stock_id').change(function() {
         checkSisa();
@@ -67,5 +69,7 @@
                 $('.saveButton').prop('disabled', true);
             }
         }
+
+        // checkSubTotal();
     }        
 </script>

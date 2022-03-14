@@ -12,11 +12,11 @@
 </div>
 <div class="col-md-2">
     <label for="qty" class="form-label">Qty</label>
-    <input type="text" class="form-control" name="qty" id="qty" value="{{ old('qty') ?? $data->qty }}" required>
+    <input type="number" class="form-control" name="qty" id="qty" min="1" value="{{ old('qty') ?? $data->qty }}" required>
 </div>
 <div class="col-md-2">
     <label for="unit_price" class="form-label">Harga Satuan</label>
-    <input type="text" class="form-control" name="unit_price" id="unit_price" value="{{ old('unit_price') ?? $data->unit_price }}" required>
+    <input type="number" class="form-control" name="unit_price" id="unit_price" value="{{ old('unit_price') ?? $data->unit_price }}" required>
 </div>
 <div class="col-md-2">
     <label for="sub_total" class="form-label">Sub Total</label>

@@ -24,7 +24,12 @@ class StoreInventoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "item_id" => 'numeric',
+            "stock_id" => 'numeric',
+            "tanggal" => 'date',
+            "qty" => 'numeric',
+            "unit" => '',
+            "unit_price" => 'numeric',
         ];
     }
 }

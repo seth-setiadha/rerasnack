@@ -54,14 +54,18 @@
                             
                             <div class="col-md-1">
                                 <label for="qty" class="form-label">Qty</label>
-                                    <input type="text" class="form-control" id="qty" name="qty" required>
+                                    <input type="number" class="form-control" id="qty" name="qty" required>
                             </div>
                             <div class="col-md-2">
                                 <label for="unit" class="form-label">Unit</label>
                                 <select class="form-select" id="unit" name="unit" required>
                                     <option value="bal">Bal</option>
                                     @foreach ($scales as $scale)
-                                        <option value="{{ $scale->scalar }}">{{ $scale->scalar }}</option>
+                                        @if (old('unit') == $scale->scalar)
+                                            <option value="{{ $scale->scalar }}" selected>{{ $scale->scalar }}</option>
+                                        @else
+                                            <option value="{{ $scale->scalar }}">{{ $scale->scalar }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>                            

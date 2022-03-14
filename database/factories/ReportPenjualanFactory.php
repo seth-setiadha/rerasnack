@@ -14,7 +14,13 @@ class ReportPenjualanFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'item_id' => $this->faker->name(),
+            'tanggal'   => $this->faker->date(),
+            'item_code' => $this->faker->name(),
+            'item_name' => $this->faker->date(),
+            'unit'      => $this->faker->date(),
+            'unit_price'=> $this->faker->date(),
+            'qty'       => $this->faker->date(),
         ];
     }
 }
