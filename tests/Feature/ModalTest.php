@@ -6,16 +6,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ItemsTest extends TestCase
+class ModalTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
-
+    
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->setBaseRoute('items');
-        $this->setBaseModel('App\Models\Item');
+        $this->setBaseRoute('modal');
+        $this->setBaseModel('App\Models\Inventory');
     }
 
     /**
