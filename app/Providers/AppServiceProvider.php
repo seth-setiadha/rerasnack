@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $inventory->sub_total = $inventory->qty * $inventory->unit_price;
-            $inventory->unit_price_gr = round($inventory->sub_total / $inventory->qty_gr);
+            $inventory->unit_price_gr = round($inventory->sub_total / $inventory->qty_gr, 4);
             
             if($inventory->stock == "IN") {
                 $stock = Stock::create([

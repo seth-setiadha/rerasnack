@@ -69,7 +69,8 @@ class InventoryObserver
     {
         if($inventory->stock == "IN") {
             ReportModal::where('modal_id', $inventory->id)->delete();
-            $stock = Stock::where("id", "=", $inventory->stock_id)->delete();
+            Stock::destroy($inventory->stock_id);
+            // Stock::where("id", "=", $inventory->stock_id)->delete();
         }
         
         if($inventory->stock == "OUT") {

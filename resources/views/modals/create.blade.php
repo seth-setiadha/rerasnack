@@ -156,7 +156,7 @@
         }
 
         if( $("#profit").length > 0 && $("#modal").length > 0 ) {
-            var modal = parseInt( $('#modal').val() );
+            var modal = parseFloat( $('#modal').val() );
             var qty_gr = parseInt( $('#qty_gr').val() );
             var sub_total = parseInt( $('#sub_total').val() );
 

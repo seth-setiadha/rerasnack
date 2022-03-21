@@ -38,7 +38,7 @@ class InventoryExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-           ['Kode Produk', 'Nama Produk', 'Isi Per Bal (KG)', 'Harga Produk (Per Bal)', 'Jumlah', 'Sum of Total'],           
+           ['Tanggal Masuk', 'Kode Produk', 'Nama Produk', 'Isi Per Bal (KG)', 'Harga Produk (Per Bal)', 'Jumlah', 'Sum of Total'],           
         ];
     }
 

@@ -11,7 +11,7 @@
                 return {
                     results: $.map(data, function (item) {                                                        
                         return {
-                            modal: parseInt(item.modal),
+                            modal: parseFloat(item.modal),
                             sisa: parseInt(1000 * item.sisa),
                             balkg: parseInt(1000 * item.bal_kg),
                             text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Masuk ' + item.tanggal + '. Sisa ' + item.sisa + ' kg',

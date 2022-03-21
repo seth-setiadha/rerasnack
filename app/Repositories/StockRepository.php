@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Stock;
-use Illuminate\Http\Request;
 
 class StockRepository
 {
