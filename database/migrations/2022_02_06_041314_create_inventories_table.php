@@ -23,12 +23,12 @@ class CreateInventoriesTable extends Migration
             $table->string('unit', 10);
 
             $table->unsignedDecimal('qty_kg', 8,2); // STOCK IN/OUT PER KG, DPT DARI QTY * BAL_KG
-            $table->unsignedDecimal('qty_gr', 8,2); // AUTO DARI BAL_KG * QTY * 1000
+            $table->unsignedDecimal('qty_gr', 10,2); // AUTO DARI BAL_KG * QTY * 1000
 
             $table->foreignId('stock_id')->constrained();   // KL [IN] berarti stock masuk  disimpan, kl [OUT] berarti stock keluar ambil dr record ini
             
             $table->unsignedMediumInteger('unit_price');    //
-            $table->unsignedMediumInteger('unit_price_gr'); // unit price modal untuk [IN] , unit price jual untuk [OUT]
+            $table->unsignedDecimal('unit_price_gr', 10,4); // unit price modal untuk [IN] , unit price jual untuk [OUT]
             $table->unsignedInteger('sub_total');
             $table->enum('stock', ['IN', 'OUT', 'ADJ']);
 

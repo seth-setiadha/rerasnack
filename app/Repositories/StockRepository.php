@@ -2,6 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Inventory;
+use App\Models\ReportModal;
+use App\Models\ReportPenjualan;
 use App\Models\Stock;
 
 class StockRepository
@@ -37,5 +40,29 @@ class StockRepository
             });                    
         }
         return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q];
+    }
+
+    public function detailByStockID($stockID) {
+        $stockID = is_object($stockID) ? $stockID->id : $stockID;
+        $dataModal = ReportModal::where('stock_id', '=', $stockID)->get();
+        return $this->detail($dataModal);
+    }
+
+    public function detailByItemID($itemID) {
+        $itemID = is_object($itemID) ? $itemID->id : $itemID;
+        $dataModal = ReportModal::where('item_id', '=', $itemID)->orderBy('tanggal', 'DESC')->get();
+        return $this->detail($dataModal);
+    }
+
+    public function detail($dataModal) {
+        $data = [];
+        foreach($dataModal as $value) {
+            $dataPenjualan = ReportPenjualan::where('stock_id', '=', $value->stock_id)->orderBy('tanggal', 'DESC')->get();
+            $dataAdj = Inventory::where('stock_id', '=', $value->stock_id)->orderBy('tanggal', 'DESC')->where('stock', '=', 'ADJ')->get();
+            $value->penjualan = $dataPenjualan;
+            $value->adjustment = $dataAdj;
+            $data[] = $value;
+        }
+        return $data;
     }
 }

@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function() {
     Route::get('resetpassword', [UserController::class, 'resetpwd'])->name('users.reset');
     Route::post('resetpassword', [UserController::class, 'resetpwd'])->name('users.reset');
 
+    Route::get('/items/detail/{itemID}', [StockController::class, 'detail'])->name('items.detail');
+
     Route::resources([
         '/items' => ItemController::class,
         '/stocks' => StockController::class,

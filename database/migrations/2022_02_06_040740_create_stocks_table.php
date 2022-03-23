@@ -20,7 +20,7 @@ class CreateStocksTable extends Migration
             $table->string('item_name');
             $table->unsignedInteger('qty');        // per gram
             $table->unsignedDecimal('bal_kg', 8,2); // DATA FROM MASTER ITEM KG /BAL
-            $table->unsignedMediumInteger('modal');     // modal per gram (rupiah) = harga beli / qty beli dlm gram
+            $table->unsignedDecimal('modal', 10,4);     // modal per gram (rupiah) = harga beli / qty beli dlm gram
             $table->timestamps();
             $table->index(['tanggal', 'item_name']);
         });
