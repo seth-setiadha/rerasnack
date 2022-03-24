@@ -48,9 +48,9 @@ class StockRepository
         return $this->detail($dataModal);
     }
 
-    public function detailByItemID($itemID) {
-        $itemID = is_object($itemID) ? $itemID->id : $itemID;
-        $dataModal = ReportModal::where('item_id', '=', $itemID)->orderBy('tanggal', 'DESC')->get();
+    public function detailByItemID($itemCode) {
+        $itemCode = is_object($itemCode) ? $itemCode->item_code : $itemCode;
+        $dataModal = ReportModal::where('item_code', '=', $itemCode)->orderBy('tanggal', 'DESC')->get();
         return $this->detail($dataModal);
     }
 
@@ -59,8 +59,10 @@ class StockRepository
         foreach($dataModal as $value) {
             $dataPenjualan = ReportPenjualan::where('stock_id', '=', $value->stock_id)->orderBy('tanggal', 'DESC')->get();
             $dataAdj = Inventory::where('stock_id', '=', $value->stock_id)->orderBy('tanggal', 'DESC')->where('stock', '=', 'ADJ')->get();
+            $dataStock = $this->model->where('id', $value->stock_id)->first();
             $value->penjualan = $dataPenjualan;
             $value->adjustment = $dataAdj;
+            $value->stock = $dataStock;
             $data[] = $value;
         }
         return $data;

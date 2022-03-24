@@ -121,7 +121,9 @@ class StockController extends Controller
         $data = $this->stockRepository->detailByStockID($stock);
         return view('stocks.show', [
             'data' => $data,
-            "stock" => $stock
+            "stock" => $stock,
+            "labelX" => "item", 
+            "label" => "stock"
         ]);
     }
 

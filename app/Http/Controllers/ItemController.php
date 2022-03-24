@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Repositories\StockRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,9 +90,11 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         if(! $item) {
-            return redirect( route('items.create') );
+            return 404;
         }
-        return view('items.edit', ['data' => $item]);
+        $stockRepo = new StockRepository();
+        $data = $stockRepo->detailByItemID($item);
+        return view('stocks.show', ['data' => $data, "stock" => $item, "label" => "item", "labelX" => "stock"]);
     }
 
     /**

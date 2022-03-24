@@ -62,7 +62,13 @@ class ReportController extends Controller
             }
         } 
 
-        $files = Storage::files('/reports');        
+        $files = [];
+        foreach(Storage::files('/reports') as $file) {
+            $files[] = ['filename' => $file,
+                            'lastModified' => Storage::lastModified($file),
+                            'size' => Storage::size($file)
+                        ];
+        }
 
         return view('reports.' . $laporan, [
             'data' => $data,

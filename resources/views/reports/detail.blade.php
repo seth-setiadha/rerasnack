@@ -4,14 +4,16 @@
             <thead>
                 <tr>
                     <th scope="col">File Laporan</th>
-                    <th scope="col"></th>
+                    <th scope="col" class="text-center">Dibuat</th>
+                    <th scope="col" class="text-center">Size</th>
                 </tr>
             </thead>
             <tbody>                        
                 @forelse  ($files as $row) 
                 <tr>
-                    <td><a href="{{ route('reports.download'); }}/?file={{ $row }}" target="_blank">{{ $row }}</a></td>
-                    <td></td>
+                    <td><a href="{{ route('reports.download'); }}/?file={{ $row['filename'] }}" target="_blank">{{ $row['filename'] }}</a></td>
+                    <td class="text-center">{{ date('j F Y H:i', $row['lastModified']) }}</td>
+                    <td class="text-center">{{ number_format($row['size'] / 1024, 2) }} kb</td>
                 </tr>      
                 @empty
                 <tr>

@@ -14,27 +14,31 @@
         
             <div class="d-flex align-items-center p-3 my-3 bg-light p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Stock Detail') . ': ' . $stock->item_name }} </h3>
+                    <h3 class="mb-0 lh-1">{{ __( ucfirst($label) . ' Detail') . ': ' . $stock->item_name }} </h3>
                 </div>
                 <div class="ms-auto">
-                    <a class="btn btn-secondary" href="{{ route('items.show', [ 'item' => $stock->id ]) }}">{{ __('Item Detail') }}</a>
+                    @if ($label == 'stock')                        
+                    <a class="btn btn-secondary" href="{{ route( $labelX . 's.show', [ $labelX => $stock->item_id ?? $stock->id ]) }}">{{ __( ucfirst($labelX) . ' Detail') }}</a>
+                    @else
+                    <a class="btn btn-secondary" href="{{ url()->previous() }}">Back</a>
+                    @endif
                 </div>
             </div>
             
             <x-alert-component />
 
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">    
-                    <ul>
-                        <li>Sisa: {{ ($stock->qty / 1000) }} kg</li>
-                        <li>Hitungan modal: Rp. {{ number_format($stock->modal,2) }} / gram</li>
-                        <li>Modal
+                    @forelse ($data as $modal)
+                    <ul>                        
+                        <li><span class="fw-bold">Modal Tgl. Masuk: {{ date("d F Y", strtotime($modal->tanggal) ) }}</span>
                             <ul>
-                            @foreach ($data as $modal)
-                                <li>Tgl. Masuk: {{ $modal->tanggal }}</li>
                                 <li>Kilo / Bal: {{ $modal->bal_kg }} kg</li>
                                 <li>Qty @ Harga: {{ $modal->qty }} @ Rp.  {{ number_format($modal->unit_price) }} per bal</li>
                                 <li>Stock Awal: {{ ($modal->bal_kg * $modal->qty) }} kg</li>
                                 <li>Sub Total: Rp. {{ number_format($modal->sub_total) }}</li>
+                                <li><span class="fw-bold">Stock Sisa: {{ ($modal->stock->qty / 1000) }} kg</span> 
+                                    dgn hitungan modal: Rp. {{ number_format($modal->stock->modal,2) }} / gram
+                                </li>
                                 <li> Penjualan: 
                                     <ul>
                                 @forelse ($modal->penjualan as $penjualan)
@@ -45,11 +49,13 @@
                                     Belum ada penjualan
                                 @endforelse
                                     </ul>
-                                </li>                        
-                            @endforeach
+                                </li>                                                    
                             </ul>
                         </li>
                     </ul>
+                    @empty
+                        Belum ada data di system
+                    @endforelse
                 </div>
         </div>
     </div>
