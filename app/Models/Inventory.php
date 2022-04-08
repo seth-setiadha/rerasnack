@@ -9,4 +9,14 @@ class Inventory extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function persediaan()
+    {
+        return $this->belongsTo(Stock::class, 'stock_id', 'id');
+    }    
 }

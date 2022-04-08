@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
-    private $inventoryRepository;
+    private $repo;
 
-    public function __construct(InventoryRepository $inventoryRepository)
+    public function __construct(InventoryRepository $repo)
     {
-        $this->inventoryRepository = $inventoryRepository;
+        $this->repo = $repo;
     }
     /**
      * Display a listing of the resource.
@@ -26,12 +26,12 @@ class PenjualanController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->inventoryRepository->index($stock="OUT");
+        $data = $this->repo->index($stock="OUT");
         $data['stock'] = $stock;
         $data['pageName'] = 'penjualan';
         $data['colorTheme'] = 'primary';
 
-        return view('modals.index', $data);
+        return view('penjualan.index', $data);
     }
 
     /**
@@ -44,7 +44,7 @@ class PenjualanController extends Controller
         $data = new Inventory();
         $scales = Scale::orderBy('pergram', 'DESC')->get();
 
-        return view('modals.create', [
+        return view('penjualan.create', [
             'data' => $data,
             'scales' => $scales,
             'stock' => 'OUT',
@@ -87,7 +87,7 @@ class PenjualanController extends Controller
         if(! $penjualan) {
             return redirect( route('penjualan.create') );
         }
-        return view('modals.edit', [
+        return view('penjualan.edit', [
             'data' => $penjualan,
             'stock' => 'OUT',
             'pageName' => 'penjualan',
@@ -104,7 +104,18 @@ class PenjualanController extends Controller
     public function edit(Inventory $penjualan)
     {        
         if($penjualan) {
-            return view('modals.edit', ['data' => $penjualan]);
+            $penjualan->persediaan;
+            $penjualan->unit_gr = $this->repo->toGram($penjualan->unit, $penjualan->persediaan->bal_kg);        
+            $penjualan->profit = $penjualan->sub_total - ($penjualan->qty_gr * $penjualan->persediaan->modal);
+
+            $scales = Scale::orderBy('pergram', 'DESC')->get();            
+            return view('penjualan.edit', [
+                'data' => $penjualan,
+                'scales' => $scales,
+                'stock' => 'OUT',
+                'pageName' => 'penjualan',
+                'colorTheme' => 'primary'
+            ]);
         } else {
             return redirect( route('penjualan.index') );
         }
@@ -119,12 +130,15 @@ class PenjualanController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $penjualan)
     {
-        if(! $penjualan->update( $request->all() ) ) {
+        $data = $request->validated();
+        
+
+        if(! $this->repo->update($penjualan, $data ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('penjualan.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('penjualan.show', ['penjualan' => $penjualan->id ]) );
+        return redirect( route('stocks.show', ['stock' => $penjualan->stock_id ]) );
     }
 
     /**

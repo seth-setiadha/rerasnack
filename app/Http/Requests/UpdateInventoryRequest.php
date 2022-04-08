@@ -23,8 +23,12 @@ class UpdateInventoryRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        return [            
+            "tanggal" => 'date',
+            "qty" => 'numeric',
+            "unit" => '',
+            "balkg" => '',
+            "unit_price" => 'numeric',
         ];
     }
 }

@@ -21,4 +21,21 @@
             </ul>
         </div>
     @endif
+
+    <div id="liveAlertPlaceholder">    
+    </div>
+
+    <script type="text/javascript">
+        var alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+        function functionAlertPlaceholder(message, type, divID) {
+            var wrapper = document.getElementById(divID);
+            if(document.getElementById(divID)) {                 
+            } else {
+                var wrapper = document.createElement('div');
+                wrapper.setAttribute('id', divID);                
+            }
+            wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            alertPlaceholder.append(wrapper);
+        }
+    </script>
 </div>

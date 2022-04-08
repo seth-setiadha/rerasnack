@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Inventory;
+use App\Models\Stock;
 
 class InventoryRepository
 {
@@ -37,5 +38,38 @@ class InventoryRepository
             });                    
         }
         return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q];
+    }
+
+    public function toGram($unit = "bal", $bal_kg = "") {
+        if($unit == "bal") {
+            if(! empty($bal_kg)) {
+                return $bal_kg * 1000;
+            } else {
+            }
+        } elseif ($unit =="1kg") {
+            return 1000;
+        } else {
+            return intval($unit);
+        }
+    }
+
+    public function update($penjualan, $data) {
+        $unit_gr = $this->toGram($data['unit'], $data['balkg']);
+        $data['qty_gr'] = $data['qty'] * $unit_gr;
+
+        $data['sub_total'] = $data['qty'] * $data['unit_price'];
+        $data['unit_price_gr'] = round($data['sub_total'] / $data['qty_gr'], 4);
+        unset($data['balkg']);
+        // var_dump($penjualan); dd($data);
+        if($penjualan->qty == $data['qty'] && $penjualan->unit == $data['unit']) {
+            unset($data['qty']);
+            unset($data['unit']);
+        } else {
+            $stock = Stock::where('id', $penjualan->stock_id)->firstOrFail();
+            $selisih = $penjualan->qty_gr - $data['qty_gr'];
+            $stock->update(['qty' => ($stock->qty + $selisih)]);
+        }
+
+        return $penjualan->update($data);        
     }
 }

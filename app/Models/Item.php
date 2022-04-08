@@ -11,9 +11,14 @@ class Item extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
-    public static  function search($keyword)
+    public static function search($keyword)
     {
         return self::where('item_name', 'LIKE', '%' . $keyword . '%')
             ->orWhere('item_code', 'LIKE', '%' . $keyword . '%');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
     }
 }

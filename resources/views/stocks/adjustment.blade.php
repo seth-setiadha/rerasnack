@@ -49,7 +49,7 @@
                                     <td>{{ $row->qty }}</td>
                                     <td>{{ $row->unit }}</td>
                                     <td>{{ $row->sisa }}</td>
-                                    <td><form method="POST" action="{{ route('stocks.destroy', [ 'stock' => $row->id ]) }}">                        
+                                    <td class="text-end"><form method="POST" action="{{ route('stocks.destroy', [ 'stock' => $row->id ]) }}">                        
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-sm btn-danger" type="submit">
