@@ -87,7 +87,10 @@
         if( $("#profit").length > 0 && $("#modal").length > 0 ) {            
             console.log('modal: ', modal);
             if(sub_total > 0) {
-                profit = sub_total - (qty * unit * modal);
+                profit = (sub_total - (qty * unit * modal)).toFixed(0);
+                if(profit == -0) {
+                    profit = 0;
+                }
                 $("#profit").val(profit);
                 // console.log('qty: ', qty);
                 // console.log('unit: ', unit);

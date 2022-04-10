@@ -24,12 +24,13 @@
             <x-alert-component />
                 
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['penjualan' => $data->id]) }}">                        
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['modal' => $data->id]) }}">                        
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="stock" value="{{ $stock }}" />
                         <input type="hidden" name="item_id" value="{{ $data->item_id }}" />
                         <input type="hidden" name="stock_id" value="{{ $data->stock_id }}" />
+                        <input type="hidden" id="balkg" name="balkg" value="{{ ($data->persediaan->bal_kg * 1000) }}" /> <!-- STOCKS.BAL_KG -->
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
                                 <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ $data->tanggal }}" required>
@@ -38,37 +39,15 @@
                             @if ($stock == "IN")
                             <div class="col-md-4">
                                 <label for="item_id" class="form-label">Nama Barang</label>    
-                                <select class="form-control" id="item_id" name="item_id" required></select>                                
-                                <script type="text/javascript">
-                                    $('#item_id').select2({
-                                        placeholder: 'Pilih barang',
-                                        ajax: {
-                                            url: "{{ route('items.autocomplete') }}",
-                                            dataType: 'json',
-                                            delay: 250,
-                                            processResults: function (data) {
-                                                return {
-                                                    results: $.map(data, function (item) {
-                                                        return {
-                                                            text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
-                                                            id: item.id
-                                                        }
-                                                    })
-                                                };
-                                            },
-                                            cache: true
-                                        }
-                                    });
-                                </script>
+                                <input type="text" class="form-control" readonly value="{{ $data->persediaan->item_name }}" required>
                             </div>
                             @elseif ($stock == "OUT")
                             <div class="col-md-6">
-                                <label for="stock_id" class="form-label">Stock Barang</label>                          <br />
-                                modal: <input type="text" id="modal" value="{{ $data->persediaan->modal }}" /> <!-- STOCKS.MODAL  --><br />
-                                qty_gr: <input type="text" id="qty_gr" value="{{  $data->unit_gr }}" />  <!-- QTY GRAM SUATU UNIT  --> <br />
-                                stocksisa: <input type="text" id="stocksisa" value="{{ $data->persediaan->qty + $data->qty_gr }}" /><br />
-                                balkg: <input type="text" id="balkg" name="balkg" value="{{ ($data->persediaan->bal_kg * 1000) }}" /> <!-- STOCKS.BAL_KG --><br />
-                                sisa: <input type="text" id="sisa" value="{{ $data->persediaan->qty }}" required /> <!-- STOCKS.QTY --><br />
+                                <label for="stock_id" class="form-label">Stock Barang</label>                          
+                                <input type="hidden" id="modal" value="{{ $data->persediaan->modal }}" /> <!-- STOCKS.MODAL  -->
+                                <input type="hidden" id="qty_gr" value="{{  $data->unit_gr }}" />  <!-- QTY GRAM SUATU UNIT  --> 
+                                <input type="hidden" id="stocksisa" value="{{ $data->persediaan->qty + $data->qty_gr }}" />                                
+                                <input type="hidden" id="sisa" value="{{ $data->persediaan->qty }}" required /> <!-- STOCKS.QTY -->
                                 <input type="text" class="form-control" readonly value="{{ $data->persediaan->item_name }}" required>
                                 
                             </div>
@@ -108,9 +87,22 @@
                                 <input type="text" class="form-control" id="profit" name="profit" value="{{ $data->profit }}" readonly>
                             </div>
                             @endif
-                            <div class="col-12 d-flex">                                
-                                <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>                                 
+                            <div class="col-12 d-flex">
+                                <div class="me-auto">
+                                    <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
+                                </div>    
+                                <div class="ms-auto">
+                                    <a class="btn btn-danger" href="#"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('delete-form').submit();">
+                                        {{ __('Delete') }}
+                                    </a>                                    
+                                </div>    
                             </div>
+                        </form>                        
+                        <form id="delete-form" method="POST" action="{{ route($pageName . '.destroy', [ $pageName => $data->id ]) }}" class="d-none">
+                            @csrf
+                            @method('DELETE')
                         </form>
 
                 </div>
@@ -121,6 +113,6 @@
 </div>
 
 
-@include('modals.jsedit') 
+@include('modals.js') 
 
 @endsection

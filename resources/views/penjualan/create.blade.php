@@ -129,6 +129,6 @@
     </div>
 </div>
 
-@include('modals.jsedit') 
+@include('penjualan.jsedit') 
 
 @endsection

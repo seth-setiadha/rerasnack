@@ -53,23 +53,32 @@ class InventoryRepository
         }
     }
 
-    public function update($penjualan, $data) {
-        $unit_gr = $this->toGram($data['unit'], $data['balkg']);
+    public function update($inventory, $data) {
+        $data['balkg'] = $data['balkg'] / 1000;
+        $unit_gr = $this->toGram($data['unit'], $data['balkg']); // $data['balkg'] is in gram, originally in kg, but at edit page is in gram
         $data['qty_gr'] = $data['qty'] * $unit_gr;
-
+        $data['qty_kg'] = round($data['qty_gr'] / 1000, 2);
         $data['sub_total'] = $data['qty'] * $data['unit_price'];
         $data['unit_price_gr'] = round($data['sub_total'] / $data['qty_gr'], 4);
         unset($data['balkg']);
-        // var_dump($penjualan); dd($data);
-        if($penjualan->qty == $data['qty'] && $penjualan->unit == $data['unit']) {
+        // var_dump($inventory); dd($data);
+        if($inventory->qty == $data['qty'] && $inventory->unit == $data['unit']) {
             unset($data['qty']);
             unset($data['unit']);
         } else {
-            $stock = Stock::where('id', $penjualan->stock_id)->firstOrFail();
-            $selisih = $penjualan->qty_gr - $data['qty_gr'];
-            $stock->update(['qty' => ($stock->qty + $selisih)]);
+            $stock = Stock::where('id', $inventory->stock_id)->firstOrFail();
+            $dataStock = [];
+            if($inventory->stock == "OUT") {
+                // dd($inventory->qty_gr,  $data['qty_gr']);
+                $dataStock['qty'] = $stock->qty + ($inventory->qty_gr - $data['qty_gr']);
+            } elseif($inventory->stock == "IN") {
+                $dataStock['qty'] = $stock->qty - ($inventory->qty_gr - $data['qty_gr']);
+                $dataStock['modal'] = $data['unit_price_gr'];
+                $dataStock['tanggal'] = $data['tanggal'];
+            }
+            $stock->update($dataStock);
         }
 
-        return $penjualan->update($data);        
+        return $inventory->update($data);        
     }
 }

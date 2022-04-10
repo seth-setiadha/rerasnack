@@ -106,7 +106,7 @@ class PenjualanController extends Controller
         if($penjualan) {
             $penjualan->persediaan;
             $penjualan->unit_gr = $this->repo->toGram($penjualan->unit, $penjualan->persediaan->bal_kg);        
-            $penjualan->profit = $penjualan->sub_total - ($penjualan->qty_gr * $penjualan->persediaan->modal);
+            $penjualan->profit = floor($penjualan->sub_total - ($penjualan->qty_gr * $penjualan->persediaan->modal));
 
             $scales = Scale::orderBy('pergram', 'DESC')->get();            
             return view('penjualan.edit', [
@@ -157,6 +157,7 @@ class PenjualanController extends Controller
             $request->session()->flash('status', 'Data sudah berhasil dihapus');
         }        
 
-        return redirect()->back(); 
+        // return redirect()->back(); 
+        return redirect( route('penjualan.index') );
     }
 }

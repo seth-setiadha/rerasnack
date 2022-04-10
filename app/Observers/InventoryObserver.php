@@ -57,7 +57,13 @@ class InventoryObserver
     public function updated(Inventory $inventory)
     {
         if($inventory->stock == "IN") {
-            
+            $modal = ReportModal::where('modal_id', $inventory->id);
+            $modal->update([
+                'tanggal' => $inventory->tanggal,  
+                'unit_price' => $inventory->unit_price,
+                'qty' => $inventory->qty,
+                'sub_total' => $inventory->sub_total
+            ]);
         } else if($inventory->stock == "OUT") {
             $penjualan = ReportPenjualan::where('modal_id', $inventory->id);
             $penjualan->update([

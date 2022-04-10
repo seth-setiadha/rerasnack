@@ -109,8 +109,21 @@
                             </div>
                             @endif
                             <div class="col-12 d-flex">                                
-                                <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>                                 
+                                <div class="me-auto">
+                                    <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
+                                </div>    
+                                <div class="ms-auto">
+                                    <a class="btn btn-danger" href="#"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('delete-form').submit();">
+                                        {{ __('Delete') }}
+                                    </a>                                    
+                                </div>    
                             </div>
+                        </form>                        
+                        <form id="delete-form" method="POST" action="{{ route($pageName . '.destroy', [ $pageName => $data->id ]) }}" class="d-none">
+                            @csrf
+                            @method('DELETE')
                         </form>
 
                 </div>

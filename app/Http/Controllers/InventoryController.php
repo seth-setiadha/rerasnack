@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    private $inventoryRepository;
+    private $repo;
     
-    public function __construct(InventoryRepository $inventoryRepository)
+    public function __construct(InventoryRepository $repo)
     {
-        $this->inventoryRepository = $inventoryRepository;
+        $this->repo = $repo;
     }
 
     /**
@@ -26,7 +26,7 @@ class InventoryController extends Controller
      */
     public function index()
     {  
-        $data = $this->inventoryRepository->index($stock="IN");
+        $data = $this->repo->index($stock="IN");
         $data['stock'] = $stock;
         $data['pageName'] = 'modal';
         $data['colorTheme'] = 'success';
@@ -97,7 +97,13 @@ class InventoryController extends Controller
     public function edit(Inventory $modal)
     {
         if($modal) {
-            return view('modals.edit', ['data' => $modal]);
+            $modal->persediaan;
+            return view('modals.edit', [
+                'data' => $modal, 
+                'stock' => 'IN',
+                'pageName' => 'modal',
+                'colorTheme' => 'success'
+            ]);
         } else {
             return redirect( route('modal.index') );
         }
@@ -112,12 +118,14 @@ class InventoryController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $modal)
     {
-        if(! $modal->update( $request->all() ) ) {
+        $data = $request->validated();
+
+        if(! $this->repo->update($modal, $data ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
-            return redirect( route('modal.edit') );
+            return redirect( route('modal.edit', ['modal' => $modal->id ]) );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('modal.show', ['inventory' => $modal->id ]) );
+        return redirect( route('stocks.show', ['stock' => $modal->stock_id ]) );
     }
 
     /**
@@ -135,6 +143,6 @@ class InventoryController extends Controller
             $request->session()->flash('status', 'Data sudah berhasil dihapus');
         }        
 
-        return redirect()->back(); 
+        return redirect( route('modal.index') );
     }
 }

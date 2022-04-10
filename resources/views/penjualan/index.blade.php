@@ -27,10 +27,10 @@
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Nama Barang</th>
                                     @if ($stock == "IN") <th scope="col">kg/bal</th> @endif
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Harga / Unit</th>
-                                    <th scope="col">Subtotal</th>
-                                    <th scope="col">Sisa</th>
+                                    <th scope="col" class="text-center">Qty</th>
+                                    <th scope="col" class="text-center">Harga / Unit</th>
+                                    <th scope="col" class="text-center">Subtotal</th>
+                                    <th scope="col" class="text-center">Sisa</th>
                                     <th scope="col">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -40,10 +40,10 @@
                                     <td>{{ $row->tanggal }}</td>
                                     <td class="text-nowrap">{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>
                                     @if ($stock == "IN") <td>{{ $row->bal_kg }}</td> @endif
-                                    <td>{{ $row->qty }}</td>
-                                    <td>{{ $row->unit_price . ' / ' . $row->unit }}</td>
-                                    <td>{{ $row->sub_total }}</td>
-                                    <td>{{ $row->sisa > 0 ? $row->sisa . '  kg' : 'habis' }}</td>
+                                    <td class="text-center">{{ $row->qty }}</td>
+                                    <td class="text-end">{{ $row->unit_price . ' / ' . $row->unit }}</td>
+                                    <td class="text-end">{{ $row->sub_total }}</td>
+                                    <td class="text-end">{{ $row->sisa > 0 ? $row->sisa . '  kg' : 'habis' }}</td>
                                     <td class="text-end">
                                         
                                             <form method="POST" action="{{ route($pageName . '.destroy', [ $pageName => $row->id ]) }}">                        
