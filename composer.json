@@ -38,7 +38,7 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "/tests/Utilities/functions.php"
+            "tests/Utilities/functions.php"
         ]
     },
     "scripts": {
