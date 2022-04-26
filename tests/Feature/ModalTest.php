@@ -28,14 +28,14 @@ class ModalTest extends TestCase
      *
      * @return void
      */
-    public function test_user_create_modal()
+    public function test_index_modal()
     {       
         $this->signIn();
 
         $response = $this->get('/modal');
         $response->assertStatus(200);
         $response->assertSeeText('Modal');
-        $response->assertSeeText('Tambah Modal');
+        $response->assertSeeText('Tambah Modal');        
     }
 
     /**
