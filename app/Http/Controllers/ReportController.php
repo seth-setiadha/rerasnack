@@ -28,6 +28,7 @@ class ReportController extends Controller
             } else if($laporan == "detail") {
                 
                 ReportDetailJob::dispatch($from, $to);
+                
                 // $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');                
                 // if ($reportSaved) {
                 //     $request->session()->flash('status', 'Laporan sudah berhasil digenerate');
