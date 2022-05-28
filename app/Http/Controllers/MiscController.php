@@ -19,21 +19,37 @@ class MiscController extends Controller
     public function index(Request $request)
     {
         $q = $request->query('q');
+        $sort = $request->query('sort');
+        $sortBy = $request->query('sortBy');
+
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
-        $data = Misc::orderBy("tanggal", "DESC");
+        $data = Misc::select('*');
         if(! empty($q)) {
             $data->where(function($query) use ($q) {
                 $query->where('misc_name', 'LIKE', '%' . $q . '%')->orWhere('tanggal', 'LIKE', '%' . $q . '%');
             });                    
         }
+
+        if(! empty($sortBy)) { 
+            if(empty($sort) && ! in_array($sort, ['ASC', 'DESC'])) {
+                $sort = 'DESC';
+            }
+            $data->orderBy($sortBy, $sort);
+        } else {
+            $data->orderBy("tanggal", "DESC");
+        }
+        
         $data = $data->paginate($perPage)->withQueryString();
         return view('miscs.index', [
             'data' => $data,
 
             'colorTheme' => 'secondary',
-            'q' => $q
+            'q' => $q,
+            "sortBy" => $sortBy, 
+            "sort" => $sort,
+            'link' => route('misc.index')
         ]);
     }
 

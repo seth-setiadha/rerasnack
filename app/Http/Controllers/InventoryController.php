@@ -30,6 +30,7 @@ class InventoryController extends Controller
         $data['stock'] = $stock;
         $data['pageName'] = 'modal';
         $data['colorTheme'] = 'success';
+        $data['link'] = route('modal.index');
         
         return view('modals.index', $data);
     }

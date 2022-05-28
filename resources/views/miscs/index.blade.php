@@ -24,11 +24,11 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Nama</th>                                    
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Harga / Unit</th>
-                                    <th scope="col">Subtotal</th>
+                                    <th scope="col"><x-header-table text="Tanggal" field="tanggal" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Nama" field="misc_name" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Qty" field="qty" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Harga / Unit" field="unit_price" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Subtotal" field="sub_total" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th scope="col">&nbsp;</th>
                                 </tr>
                             </thead>

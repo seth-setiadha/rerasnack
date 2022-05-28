@@ -10,6 +10,8 @@ class InventoryRepository
     public $model;
 
     public $q;
+    public $sort;
+    public $sortBy;
     public $perPage;
 
     public function __construct()
@@ -17,6 +19,8 @@ class InventoryRepository
         $this->model = new Inventory;
 
         $this->q = request()->query('q');
+        $this->sort = request()->query('sort');
+        $this->sortBy = request()->query('sortBy');
         $this->perPage = intval(request()->query('perPage'));
         $this->perPage = $this->perPage > 0 && $this->perPage <= 100 ? $this->perPage : 15;
     }
@@ -30,14 +34,24 @@ class InventoryRepository
         }
                         $data->where("stock", $stock)
                         ->leftjoin("items", "inventories.item_id", "=", "items.id")
-                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id")
-                        ->orderBy("inventories.tanggal", "DESC");
+                        ->leftjoin("stocks", "inventories.stock_id", "=", "stocks.id");
         if(! empty($this->q)) {
             $data->where(function($query) {
-                $query->where('items.item_name', 'LIKE', '%' . $this->q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $this->q . '%')->orWhere('items.item_code', 'LIKE', '%' . $this->q . '%');
+                $query->where('items.item_name', 'LIKE', '%' . $this->q . '%')
+                        ->orWhere('inventories.tanggal', 'LIKE', '%' . $this->q . '%')
+                        ->orWhere('inventories.updated_at', 'LIKE', '%' . $this->q . '%')
+                        ->orWhere('items.item_code', 'LIKE', '%' . $this->q . '%');
             });                    
         }
-        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q];
+        if(! empty($this->sortBy)) { 
+            if(empty($this->sort) && ! in_array($this->sort, ['ASC', 'DESC'])) {
+                $this->sort = 'DESC';
+            }
+            $data->orderBy($this->sortBy, $this->sort);
+        } else {
+            $data->orderBy("inventories.tanggal", "DESC");
+        }
+        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q, "sortBy" => $this->sortBy, "sort" => $this->sort];
     }
 
     public function toGram($unit = "bal", $bal_kg = "") {

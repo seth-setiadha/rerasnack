@@ -30,7 +30,8 @@ class PenjualanController extends Controller
         $data['stock'] = $stock;
         $data['pageName'] = 'penjualan';
         $data['colorTheme'] = 'primary';
-
+        $data['link'] = route('penjualan.index');
+        // dd($data);
         return view('penjualan.index', $data);
     }
 

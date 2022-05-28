@@ -24,13 +24,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Nama Barang</th>
-                                    @if ($stock == "IN") <th scope="col">kg/bal</th> @endif
-                                    <th scope="col" class="text-center">Qty</th>
+                                    <th scope="col"><x-header-table text="Tgl. Transaksi" field="tanggal" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Tgl. Input" field="updated_at" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col"><x-header-table text="Nama Barang" field="item_name" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col" class="text-center"><x-header-table text="Qty" field="qty" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th scope="col" class="text-center">Harga / Unit</th>
-                                    <th scope="col" class="text-center">Subtotal</th>
-                                    <th scope="col" class="text-center">Sisa</th>
+                                    <th scope="col" class="text-center"><x-header-table text="Subtotal" field="sub_total" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col" class="text-center"><x-header-table text="Sisa" field="sisa" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th scope="col">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -38,6 +38,7 @@
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
+                                    <td>{{ date("Y-m-d", strtotime($row->updated_at)) }}</td>
                                     <td class="text-nowrap">{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>
                                     @if ($stock == "IN") <td>{{ $row->bal_kg }}</td> @endif
                                     <td class="text-center">{{ $row->qty }}</td>

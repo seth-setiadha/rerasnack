@@ -98,9 +98,8 @@
                 // console.log('profit: ', profit);
                 if(profit >= 0) { } else {
                     functionAlertPlaceholder('Profit minus!', 'danger', 'idProfit');
-                }
-                
-                // $('.saveButton').prop('disabled', false);
+                }                
+                $('.saveButton').prop('disabled', false);
             }
         }
 
