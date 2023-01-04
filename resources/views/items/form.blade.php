@@ -3,7 +3,7 @@
 
 <div class="col-md-2">
     <label for="item_code" class="form-label">Kode Barang</label>
-    <input type="text" class="form-control" @if (! $create) readonly @endif name="item_code" id="item_code" value="{{ old('item_code') ?? $data->item_code }}" required>
+    <input type="text" class="form-control" @if ($nCount > 0) readonly @endif name="item_code" id="item_code" value="{{ old('item_code') ?? $data->item_code }}" required>
 </div>
 <div class="col-md-4">
     <label for="item_name" class="form-label">Nama Barang</label>

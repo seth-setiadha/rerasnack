@@ -21,7 +21,7 @@
                         
                         <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('items.update', ['item' => $data->id]) }}">                                                
                             @method('PUT')
-                            @include('items.form', ['create' => false])
+                            @include('items.form', ['create' => false, 'nCount' => $nCount])
                         </form>
 
                 </div>

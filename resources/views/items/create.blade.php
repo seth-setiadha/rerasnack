@@ -24,7 +24,7 @@
                         <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route('items.store') }}">                                                
                             @method('POST')
                             @csrf
-                            @include('items.form', ['create' => true])
+                            @include('items.form', ['create' => true, 'nCount' => 0])
                         </form>
 
                 </div>

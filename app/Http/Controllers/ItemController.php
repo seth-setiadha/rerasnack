@@ -9,6 +9,7 @@ use App\Repositories\StockRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -106,7 +107,8 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         if($item) {
-            return view('items.edit', ['data' => $item]);
+            $nCount = DB::table('inventories')->selectRaw("count(item_id) AS nCount")->where('item_id', '=', $item->id)->first('nCount')->nCount;
+            return view('items.edit', ['data' => $item, 'nCount' => $nCount]);
         } else {
             return redirect( route('items.index') );
         }
