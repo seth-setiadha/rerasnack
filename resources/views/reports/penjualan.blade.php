@@ -37,12 +37,13 @@
                                 <th scope="col" class="text-center">Harga Jual Per Unit</th>
                                 <th scope="col" class="text-center">Qty</th>
                                 <th scope="col" class="text-center">Total Harga</th>
+                                <th scope="col" class="text-center">Profit</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $sumQty = $sumTotal = 0; ?>   
+                            <?php $sumProfit = $sumQty = $sumTotal = 0; ?>   
                                 @foreach ($data as $row) 
-                            <?php $sumQty += $row->qty; $sumTotal += $row->sub_total; ?>
+                            <?php $sumQty += $row->qty; $sumTotal += $row->sub_total; $sumProfit += $row->profit; ?>
                             <tr>
                                 <td>{{ $row->tanggal }}</td>
                                 <td>{{ $row->item_code }}</td>
@@ -51,6 +52,7 @@
                                 <td class="text-end pe-3">{{ number_format($row->unit_price) }}</td>
                                 <td class="text-center">{{ $row->qty }}</td>
                                 <td class="text-end">{{ number_format($row->sub_total) }}</td>
+                                <td class="text-end">{{ number_format($row->profit) }}</td>
                             </tr>
                             @endforeach        
                             <tr class="bg-primary bg-opacity-25 fw-bold">
@@ -58,6 +60,7 @@
                                     
                                     <td class="text-center">{{ $sumQty }}</td>
                                     <td class="text-end">{{ number_format($sumTotal) }}</td>
+                                    <td class="text-end">{{ number_format($sumProfit) }}</td>
                                 </tr>                           
                         </tbody>
                     </table>

@@ -22,10 +22,10 @@ class PenjualanExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $summary = ReportPenjualan::selectRaw("'Grand Total' AS tanggal, '' AS item_code, '' AS item_name, '' AS unit, '' AS unit_price, SUM(qty) AS qty, SUM(sub_total) as sub_total")
+        $summary = ReportPenjualan::selectRaw("'Grand Total' AS tanggal, '' AS item_code, '' AS item_name, '' AS unit, '' AS unit_price, SUM(qty) AS qty, SUM(sub_total) as sub_total, SUM(profit) as profit")
                     ->whereBetween('tanggal', [$this->from, $this->to]);
         return ReportPenjualan::select("tanggal", "item_code", "item_name", "unit", "unit_price")
-                ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
+                ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total, SUM(profit) as profit')                
                 ->whereBetween('tanggal', [$this->from, $this->to])
                 ->groupBy(["tanggal", "item_code", "item_name", "unit", "unit_price"])
                 ->orderBy("tanggal", "ASC")
@@ -38,7 +38,7 @@ class PenjualanExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-           ['Tanggal', 'Kode Produk', 'Nama Produk', 'Unit', 'Harga Produk', 'Jumlah', 'Sum of Total'],           
+           ['Tanggal', 'Kode Produk', 'Nama Produk', 'Unit', 'Harga Produk', 'Jumlah', 'Sum of Total', 'Profit'],           
         ];
     }
 }

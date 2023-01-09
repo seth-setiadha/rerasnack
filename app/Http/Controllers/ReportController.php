@@ -28,8 +28,6 @@ class ReportController extends Controller
             } else if($laporan == "detail") {
                 
                 ReportDetailJob::dispatch($from, $to);
-                // jajal
-                
                 // $reportSaved = Excel::store(new RerasnackExport($from, $to), '/reports/detail-from-' . date('d', strtotime($from)) . "-sd-" . date('d-m-Y', strtotime($to)) . '.xlsx');                
                 // if ($reportSaved) {
                 //     $request->session()->flash('status', 'Laporan sudah berhasil digenerate');
@@ -52,7 +50,7 @@ class ReportController extends Controller
                         ->get();
             } else if($laporan == "penjualan") {
                 $data = ReportPenjualan::select("tanggal", "item_code", "item_name", "unit", "unit_price")
-                        ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total')                
+                        ->selectRaw('SUM(qty) AS qty, SUM(sub_total) as sub_total, SUM(profit) as profit')
                         ->whereBetween('tanggal', [$from, $to])
                         ->groupBy(["tanggal", "item_code", "item_name", "unit", "unit_price"])
                         ->orderBy("tanggal", "ASC")

@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use App\Models\Stock;
+use Illuminate\Http\Request;
 
 class InventoryObserver
 {
@@ -43,6 +44,7 @@ class InventoryObserver
                 'unit_price' => $inventory->unit_price,
                 'qty' => $inventory->qty,
                 'sub_total' => $inventory->sub_total,
+                'profit' => request()->profit,
                 'stock_id' => $inventory->stock_id,
             ]);
         }
@@ -71,6 +73,7 @@ class InventoryObserver
                 'unit' => $inventory->unit,         
                 'unit_price' => $inventory->unit_price,
                 'qty' => $inventory->qty,
+                'profit' => request()->profit,
                 'sub_total' => $inventory->sub_total
             ]);
         }
