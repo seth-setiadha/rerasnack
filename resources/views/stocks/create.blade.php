@@ -44,9 +44,11 @@
                             <div class="col-md-6">
                                 <label for="stock_id" class="form-label">Stock Barang</label>
                                 <select class="form-control" id="stock_id" name="stock_id"></select>
+                                <input type="hidden" id="modal" value="" />
+                                <input type="hidden" id="qty_gr" value="" />
                                 <input type="hidden" id="stocksisa" value="" />
                                 <input type="hidden" id="balkg" value="" />
-                                <input type="hidden" id="sisa" class="form-control" value="" required />                        
+                                <input type="hidden" id="sisa" class="form-control" value="" required />                   
                             </div>
                             
                             <div class="col-md-1">
@@ -77,6 +79,6 @@
         </div>
     </div>
 </div>
-@include('modals.js')
+@include('stocks.modals')
 
 @endsection

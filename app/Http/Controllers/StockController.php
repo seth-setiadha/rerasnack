@@ -77,7 +77,7 @@ class StockController extends Controller
     public function create()
     {
         $data = new Stock();
-        $scales = Scale::all();
+        $scales = Scale::orderBy('pergram', 'DESC')->get();
         return view('stocks.create', [
             'data' => $data,
             'scales' => $scales
