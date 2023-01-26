@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class StockController extends Controller
 {
     private $stockRepository;
+    private $inventoryRepository;
 
     public function __construct()
     {
@@ -30,7 +31,7 @@ class StockController extends Controller
     public function index()
     {        
         $data = $this->stockRepository->index(">");
-                
+        $data['link'] = route('stocks.index');
         return view('stocks.index', $data);
     }
 

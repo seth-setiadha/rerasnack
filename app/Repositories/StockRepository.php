@@ -12,6 +12,8 @@ class StockRepository
     public $model;
 
     public $q;
+    public $sort;
+    public $sortBy;
     public $perPage;
 
     public function __construct()
@@ -19,6 +21,8 @@ class StockRepository
         $this->model = new Stock;
 
         $this->q = request()->query('q');
+        $this->sort = request()->query('sort');
+        $this->sortBy = request()->query('sortBy');
         $this->perPage = intval(request()->query('perPage'));
         $this->perPage = $this->perPage > 0 && $this->perPage <= 100 ? $this->perPage : 15;
     }
@@ -32,14 +36,23 @@ class StockRepository
                     $query->on("stocks.id", "=", "inventories.stock_id")
                     ->where("inventories.stock", "=", "IN");
                 })
-                ->orderBy("inventories.tanggal", "DESC")
-                ->orderBy("stocks.qty", "DESC");
+                // ->orderBy("inventories.tanggal", "DESC")
+                // ->orderBy("stocks.qty", "DESC")
+                ;
         if(! empty($this->q)) {
             $data->where(function($query)  {
                 $query->where('stocks.item_name', 'LIKE', '%' . $this->q . '%')->orWhere('inventories.tanggal', 'LIKE', '%' . $this->q . '%');
             });                    
         }
-        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q];
+        if(! empty($this->sortBy)) { 
+            if(empty($this->sort) && ! in_array($this->sort, ['ASC', 'DESC'])) {
+                $this->sort = 'DESC';
+            }
+            $data->orderBy($this->sortBy, $this->sort);
+        } else {
+            $data->orderBy("inventories.tanggal", "DESC");
+        }
+        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q, "sortBy" => $this->sortBy, "sort" => $this->sort];
     }
 
     public function detailByStockID($stockID) {

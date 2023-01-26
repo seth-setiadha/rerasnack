@@ -33,11 +33,11 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col" rowspan="2" class="align-middle">Tgl. Masuk</th>
-                                    <th scope="col" rowspan="2" class="align-middle">Nama Barang</th>
-                                    <th scope="col" rowspan="2" class="align-middle">bal/kg</th>
+                                    <th scope="col" rowspan="2" class="align-middle"><x-header-table text="Tgl. Masuk" field="tanggal" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col" rowspan="2" class="align-middle"><x-header-table text="Nama Barang" field="item_name" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
+                                    <th scope="col" rowspan="2" class="align-middle"><x-header-table text="bal/kg" field="bal_kg" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th colspan="2" class="text-center">Modal Awal</th>
-                                    <th scope="col" rowspan="2" class="align-middle text-center">Sisa (kg)</th>
+                                    <th scope="col" rowspan="2" class="align-middle text-center"><x-header-table text="Sisa (kg)" field="qty_kg" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                 </tr>
                                 <tr>                                   
                                     <th scope="col" class="text-center">Qty.</th>
