@@ -25,7 +25,9 @@ class ItemController extends Controller
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
 
-        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')->orderBy('item_code', 'ASC');
+        $data = Item::select('id', 'item_code', 'item_name', 'bal_kg')
+                ->selectRaw("(SELECT COUNT(inventories.id) FROM `inventories` WHERE inventories.item_id = items.id)  AS nInventories")
+                ->orderBy('item_code', 'ASC');
         if(! empty($q)) {
             $data->where('item_code', 'LIKE', '%' . $q . '%')->orWhere('item_name', 'LIKE', '%' . $q . '%');                    
         }
@@ -141,6 +143,13 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        if(! $item->delete() ) {
+            request()->session()->flash('error', 'Data belum berhasil dihapus');
+            
+        } else {
+            request()->session()->flash('status', 'Data sudah berhasil dihapus');
+        }        
+
+        return redirect()->back(); 
     }
 }
