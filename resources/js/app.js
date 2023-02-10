@@ -6,7 +6,8 @@ window.$ = window.jQuery = $;
 import 'jquery-ui/ui/widgets/datepicker.js';
 // regular date picker
 $('.datepicker').datepicker({
-    dateFormat: "yy-mm-dd"
+    dateFormat: "yy-mm-dd",
+    maxDate: "0D"
   });
 
 // date picker range at reports
