@@ -6,6 +6,7 @@ $from
     <select class="form-select" id="laporan" name="laporan" required>
         <option value="modal" @if ($laporan == 'modal') {{ 'selected' }} @endif>Modal</option>
         <option value="penjualan" @if ($laporan == 'penjualan') {{ 'selected' }} @endif>Penjualan</option>
+        <option value="modallain" @if ($laporan == 'modallain') {{ 'selected' }} @endif>Modal Lain</option>
         <option value="detail" @if ($laporan == 'detail') {{ 'selected' }} @endif>Detail</option>
         <option value="summary" @if ($laporan == 'summary') {{ 'selected' }} @endif>Summary</option>
     </select>

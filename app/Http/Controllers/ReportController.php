@@ -6,6 +6,7 @@ use App\Exports\InventoryExport;
 use App\Exports\PenjualanExport;
 use App\Exports\RerasnackExport;
 use App\Jobs\ReportDetailJob;
+use App\Models\Misc;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use Illuminate\Http\Request;
@@ -57,6 +58,10 @@ class ReportController extends Controller
                         ->orderBy("item_code", "ASC")
                         ->orderBy("unit_price", "ASC")
                         ->get();            
+            } else if($laporan == "modallain") {
+                $data = Misc::whereBetween('tanggal', [$from, $to])
+                        ->orderBy("tanggal", "ASC")
+                        ->get();           
             } else {
                 $laporan = "index";
             }
