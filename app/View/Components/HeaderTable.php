@@ -22,18 +22,30 @@ class HeaderTable extends Component
         $this->field = $field;
         $this->sort = $sort;
         $this->sortBy = $sortBy;       
+        $q = request()->query('q');
+        $tanggal = request()->query('tanggal');
 
-        $this->link = $link . "/?sortBy=" . $field . "&sort=" . "ASC";
+        $queryString = [];
+        if(! empty($q)) {
+            $queryString[] = "q=" . $q;
+        }
+        if(! empty($tanggal)) {
+            $queryString[] = "tanggal=" . $tanggal;
+        }       
 
         if($field == $sortBy) {
-            if(empty($sort)) {
-                // $this->link = $link . "/?sortBy=" . $field . "&sort=" . "ASC";
-            } elseif($sort == "ASC") {
-                $this->link = $link . "/?sortBy=" . $field . "&sort=" . "DESC";
+            if(empty($sort) || $sort == "ASC") {
+                $queryString[] = "sortBy=" . $field;
+                $queryString[] = "sort=DESC";
             } elseif($sort == "DESC") {
-                $this->link = $link;
+                $queryString[] = "sortBy=" . $field;
+                $queryString[] = "sort=ASC";
             }            
+        } else {
+            $queryString[] = "sortBy=" . $field;
+            $queryString[] = "sort=DESC";
         }
+        $this->link = $link . "/?" . implode("&", $queryString);
     }
 
     /**

@@ -10,6 +10,7 @@ class InventoryRepository
     public $model;
 
     public $q;
+    public $tanggalTransaksi;
     public $sort;
     public $sortBy;
     public $perPage;
@@ -19,6 +20,7 @@ class InventoryRepository
         $this->model = new Inventory;
 
         $this->q = request()->query('q');
+        $this->tanggalTransaksi = request()->query('tanggal');
         $this->sort = request()->query('sort');
         $this->sortBy = request()->query('sortBy');
         $this->perPage = intval(request()->query('perPage'));
@@ -43,6 +45,9 @@ class InventoryRepository
                         ->orWhere('items.item_code', 'LIKE', '%' . $this->q . '%');
             });                    
         }
+        if(! empty($this->tanggalTransaksi)) {
+            $data->where('inventories.tanggal', '=', $this->tanggalTransaksi);
+        }
         if(! empty($this->sortBy)) { 
             if(empty($this->sort) && ! in_array($this->sort, ['ASC', 'DESC'])) {
                 $this->sort = 'DESC';
@@ -51,7 +56,7 @@ class InventoryRepository
         } else {
             $data->orderBy("inventories.tanggal", "DESC");
         }
-        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q, "sortBy" => $this->sortBy, "sort" => $this->sort];
+        return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q, "tanggal" => $this->tanggalTransaksi, "sortBy" => $this->sortBy, "sort" => $this->sort];
     }
 
     public function toGram($unit = "bal", $bal_kg = "") {

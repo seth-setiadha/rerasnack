@@ -19,7 +19,7 @@
             <x-alert-component />
             
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                    <x-searchform url="{{ route($pageName . '.index') }}" :color="$colorTheme" :q="$q" />
+                    <x-searchform url="{{ route($pageName . '.index') }}" :tglTransaksi="true" :tanggal="$tanggal" :color="$colorTheme" :q="$q" />
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -35,6 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
