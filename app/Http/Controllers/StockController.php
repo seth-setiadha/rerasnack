@@ -10,6 +10,7 @@ use App\Models\Scale;
 use App\Repositories\InventoryRepository;
 use App\Repositories\StockRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class StockController extends Controller
 {
@@ -119,6 +120,7 @@ class StockController extends Controller
      */
     public function show(Stock $stock)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $this->stockRepository->detailByStockID($stock);
         return view('stocks.show', [
             'data' => $data,

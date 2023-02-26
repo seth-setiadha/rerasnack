@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -27,6 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $this->userRepository->index();
         return view("users.index", $data);
     }
@@ -38,6 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = new User();
 
         return view('users.create', ['data' => $data] );
@@ -51,6 +54,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $validatedData = $request->validated();   // return array
 
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -75,6 +79,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $user) {
             return redirect( route('users.create') );
         }
@@ -89,6 +94,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if($user) {
             return view('users.edit', ['data' => $user]);
         } else {
@@ -105,6 +111,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $validatedData = $request->validated();
 
         if(! empty($validatedData['password'])) {

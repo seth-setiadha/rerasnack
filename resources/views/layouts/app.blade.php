@@ -43,15 +43,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
                         </li>
+                        @if (Auth::user()->email == "seth.setiadha@gmail.com" || Auth::user()->email == "rerasnack17@gmail.com")
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('modal.index') }}">Modal</a>
                         </li>
+                        @endif
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('misc.index') }}">Modal Lain</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('stocks.index') }}">Stock</a>
                         </li>
+                        @if (Auth::user()->email == "seth.setiadha@gmail.com" || Auth::user()->email == "rerasnack17@gmail.com")
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('penjualan.index') }}">Penjualan</a>
                         </li>
@@ -61,6 +65,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('items.index') }}">Master Barang</a>
                         </li>
+                        @endif
+                        
                     @endguest
                     </ul>
 
@@ -86,7 +92,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if (Auth::user()->email == "seth.setiadha@gmail.com" || Auth::user()->email == "rerasnack17@gmail.com")
                                 <a class="dropdown-item" href="{{ route('users.index') }}">User Management</a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('users.reset') }}">Change Password</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

@@ -10,12 +10,14 @@ use App\Models\Misc;
 use App\Models\ReportModal;
 use App\Models\ReportPenjualan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
     public function index(Request $request) {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $from = $request->input('from');
         $to = $request->input('to');
         $laporan = $request->input('laporan') ?? "index";
@@ -87,6 +89,7 @@ class ReportController extends Controller
 
     public function download(Request $request)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $file = $request->query('file');        
         if (Storage::exists($file)) {
             return Storage::download($file);

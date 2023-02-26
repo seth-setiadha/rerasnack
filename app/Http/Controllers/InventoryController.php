@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateInventoryRequest;
 use App\Repositories\InventoryRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InventoryController extends Controller
 {
@@ -26,6 +28,7 @@ class InventoryController extends Controller
      */
     public function index()
     {  
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $this->repo->index($stock="IN");
         $data['stock'] = $stock;
         $data['pageName'] = 'modal';
@@ -42,6 +45,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = new Inventory();
 
         return view('modals.create', [
@@ -60,6 +64,7 @@ class InventoryController extends Controller
      */
     public function store(StoreInventoryRequest $request): RedirectResponse
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
         $data["stock"] = "IN";
         
@@ -83,6 +88,7 @@ class InventoryController extends Controller
      */
     public function show(Inventory $modal)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $modal) {
             return redirect( route('modal.create') );
         }
@@ -97,6 +103,7 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $modal)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if($modal) {
             $modal->persediaan;
             return view('modals.edit', [
@@ -119,6 +126,7 @@ class InventoryController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $modal)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
 
         if(! $this->repo->update($modal, $data ) ) {
@@ -137,6 +145,7 @@ class InventoryController extends Controller
      */
     public function destroy(Request $request, Inventory $modal)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $modal->delete() ) {
             $request->session()->flash('error', 'Data belum berhasil dihapus');
             

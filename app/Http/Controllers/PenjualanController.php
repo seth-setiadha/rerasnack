@@ -9,6 +9,7 @@ use App\Models\Scale;
 use App\Repositories\InventoryRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PenjualanController extends Controller
 {
@@ -26,6 +27,7 @@ class PenjualanController extends Controller
      */
     public function index(Request $request)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $this->repo->index($stock="OUT");
         $data['stock'] = $stock;
         $data['pageName'] = 'penjualan';
@@ -42,6 +44,7 @@ class PenjualanController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = new Inventory();
         $scales = Scale::orderBy('pergram', 'DESC')->get();
 
@@ -62,6 +65,7 @@ class PenjualanController extends Controller
      */
     public function store(StoreInventoryRequest $request): RedirectResponse
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
         $data["stock"] = "OUT";
 
@@ -85,6 +89,7 @@ class PenjualanController extends Controller
      */
     public function show(Inventory $penjualan)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $penjualan) {
             return redirect( route('penjualan.create') );
         }
@@ -104,6 +109,7 @@ class PenjualanController extends Controller
      */
     public function edit(Inventory $penjualan)
     {        
+        if (! Gate::allows('admin-access')) { abort(403); }
         if($penjualan) {
             $penjualan->persediaan;
             $penjualan->unit_gr = $this->repo->toGram($penjualan->unit, $penjualan->persediaan->bal_kg);        
@@ -131,6 +137,7 @@ class PenjualanController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $penjualan)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
         
 
@@ -151,6 +158,7 @@ class PenjualanController extends Controller
      */
     public function destroy(Request $request, Inventory $penjualan)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $penjualan->delete() ) {
             $request->session()->flash('error', 'Data belum berhasil dihapus');
             

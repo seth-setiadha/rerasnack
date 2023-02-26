@@ -7,7 +7,7 @@
 </div>
 <div class="col-md-4">
     <label for="email" class="form-label">Email</label>
-    <input type="text" class="form-control" @if (! $create) readonly @endif name="email" id="email" value="{{ old('email') ?? $data->email }}" required>                    
+    <input type="text" class="form-control" name="email" id="email" value="{{ old('email') ?? $data->email }}" required>                    
 </div>
 <div class="col-md-2">
     <label for="password" class="form-label">Password</label>    

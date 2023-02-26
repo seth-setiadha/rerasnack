@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ItemController extends Controller
 {
@@ -21,6 +22,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $q = $request->query('q');
         $perPage = intval($request->query('perPage'));
         $perPage = $perPage > 0 && $perPage <= 100 ? $perPage : 15;
@@ -53,6 +55,7 @@ class ItemController extends Controller
      */
     public function create(Request $request)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $data = new Item();
 
         return view('items.create', [
@@ -68,6 +71,7 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request): RedirectResponse
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $validatedData = $request->validated();
         $validatedData["user_id"] = Auth::user()->id;
 
@@ -92,6 +96,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $item) {
             return 404;
         }
@@ -108,6 +113,7 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if($item) {
             $nCount = DB::table('inventories')->selectRaw("count(item_id) AS nCount")->where('item_id', '=', $item->id)->first('nCount')->nCount;
             return view('items.edit', ['data' => $item, 'nCount' => $nCount]);
@@ -126,6 +132,7 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item): RedirectResponse
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         $validatedData = $request->validated();
         if(! $item->update( $validatedData ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
@@ -143,6 +150,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        if (! Gate::allows('admin-access')) { abort(403); }
         if(! $item->delete() ) {
             request()->session()->flash('error', 'Data belum berhasil dihapus');
             
