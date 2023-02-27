@@ -60,8 +60,11 @@
                             <a class="nav-link" href="{{ route('penjualan.index') }}">Penjualan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
+                            <a class="nav-link" href="{{ route('reports.index') }}">Catatan Penjualan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
+                        </li>                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('items.index') }}">Master Barang</a>
                         </li>
