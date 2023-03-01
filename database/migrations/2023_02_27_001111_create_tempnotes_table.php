@@ -19,6 +19,7 @@ class CreateTempnotesTable extends Migration
             $table->foreignId('item_id')->constrained();
             $table->string('harga', 100)->nullable();
             $table->string('note', 200)->nullable();
+            $table->boolean('saved')->default(false);
 
             $table->unsignedBigInteger('inventory_id')->nullable();
 

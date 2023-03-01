@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class TempnotesController extends Controller
+class TempnoteController extends Controller
 {
     private $repo;
 
@@ -27,7 +27,8 @@ class TempnotesController extends Controller
     public function index(Request $request)
     {
         if (! Gate::allows('admin-access')) { abort(403); }
-        $data['pageName'] = 'Pencatatan Penjualan Sementara';
+        $data = $this->repo->index();
+        $data['pageName'] = 'tempnotes';
         $data['colorTheme'] = 'primary';
         $data['link'] = route('tempnotes.index');
         // dd($data);
@@ -46,7 +47,7 @@ class TempnotesController extends Controller
 
         return view('tempnotes.create', [
             'data' => $data,
-            'pageName' => 'Pencatatan Penjualan Sementara',
+            'pageName' => 'tempnotes',
             'colorTheme' => 'primary'
         ]);
     }
@@ -80,15 +81,15 @@ class TempnotesController extends Controller
      * @param  \App\Models\Tempnotes  $tempnotes
      * @return \Illuminate\Http\Response
      */
-    public function show(Tempnotes $tempnotes)
+    public function show(Tempnotes $tempnote)
     {
         if (! Gate::allows('admin-access')) { abort(403); }
-        if(! $tempnotes) {
+        if(! $tempnote) {
             return redirect( route('tempnotes.create') );
         }
         return view('tempnotes.edit', [
-            'data' => $tempnotes,
-            'pageName' => 'Pencatatan Penjualan Sementara',
+            'data' => $tempnote,
+            'pageName' => 'tempnotes',
             'colorTheme' => 'primary'
         ]);
     }
@@ -99,13 +100,13 @@ class TempnotesController extends Controller
      * @param  \App\Models\Tempnotes  $tempnotes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tempnotes $tempnotes)
+    public function edit(Tempnotes $tempnote)
     {        
         if (! Gate::allows('admin-access')) { abort(403); }
-        if($tempnotes) {
+        if($tempnote) {
             return view('tempnotes.edit', [
-                'data' => $tempnotes,
-                'pageName' => 'Pencatatan Penjualan Sementara',
+                'data' => $tempnote,
+                'pageName' => 'tempnotes',
                 'colorTheme' => 'primary'
             ]);
         } else {
@@ -120,17 +121,17 @@ class TempnotesController extends Controller
      * @param  \App\Models\Tempnotes  $tempnotes
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTempnotesRequest $request, Tempnotes $tempnotes)
+    public function update(UpdateTempnotesRequest $request, Tempnotes $tempnote)
     {
         if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
-        
-        if(! $this->repo->update($tempnotes, $data ) ) {
+
+        if(! $this->repo->update($tempnote, $data ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('tempnotes.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('stocks.show', ['stock' => $tempnotes->stock_id ]) );
+        return redirect( route('stocks.show', ['stock' => $tempnote->stock_id ]) );
     }
 
     /**
@@ -140,10 +141,10 @@ class TempnotesController extends Controller
      * @param  \App\Models\Tempnotes  $tempnotes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Tempnotes $tempnotes)
+    public function destroy(Request $request, Tempnotes $tempnote)
     {
         if (! Gate::allows('admin-access')) { abort(403); }
-        if(! $tempnotes->delete() ) {
+        if(! $tempnote->delete() ) {
             $request->session()->flash('error', 'Data belum berhasil dihapus');
             
         } else {

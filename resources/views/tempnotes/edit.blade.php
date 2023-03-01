@@ -14,7 +14,7 @@
         
             <div class="d-flex align-items-center p-3 mb-3 bg-{{ $colorTheme }} p-2 text-dark bg-opacity-25 rounded shadow-sm">
                 <div class="me-auto">
-                    <h3 class="mb-0 lh-1">{{ __('Ubah ' . ucwords($pageName)) }}</h3>
+                    <h3 class="mb-0 lh-1">{{ __('Tambah Pencatatan') }}</h3>
                 </div>
                 <div class="ms-auto">
                     <a class="btn btn-{{ $colorTheme }}" href="{{ route($pageName . '.index') }}">{{ __('kembali') }}</a>
@@ -24,85 +24,88 @@
             <x-alert-component />
                 
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['modal' => $data->id]) }}">                        
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.store') }}">                        
                         @csrf
-                        @method('PUT')
-                        <input type="hidden" name="stock" value="{{ $stock }}" />
-                        <input type="hidden" name="item_id" value="{{ $data->item_id }}" />
-                        <input type="hidden" name="stock_id" value="{{ $data->stock_id }}" />
-                        <input type="hidden" id="balkg" name="balkg" value="{{ ($data->persediaan->bal_kg * 1000) }}" /> <!-- STOCKS.BAL_KG -->
+                        @method('POST')
+                       
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
-                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ $data->tanggal }}" required>
+                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
-                            @if ($stock == "IN")
                             <div class="col-md-4">
                                 <label for="item_id" class="form-label">Nama Barang</label>    
-                                <input type="text" class="form-control" readonly value="{{ $data->persediaan->item_name }}" required>
+                                <select class="form-control" id="item_id" name="item_id" required></select>                                
+                                <script type="text/javascript">
+                                    $('#item_id').select2({
+                                        placeholder: 'Pilih barang',
+                                        ajax: {
+                                            url: "{{ route('items.autocomplete') }}",
+                                            dataType: 'json',
+                                            delay: 250,
+                                            processResults: function (data) {
+                                                return {
+                                                    results: $.map(data, function (item) {
+                                                        return {
+                                                            text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
+                                                            id: item.id
+                                                        }
+                                                    })
+                                                };
+                                            },
+                                            cache: true
+                                        }
+                                    });
+
+                                    var studentSelect = $('#item_id');
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: "{{ route('items.autocomplete') }}/?term={{ $data->item->item_name }}",
+                                    }).then(function (data) {
+                                        // create the option and append to Select2
+                                        var option = new $.map(data, function (item) {
+                                                return {
+                                                    text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
+                                                    id: item.id
+                                                } 
+                                            });
+                                        console.log("option:" + option);
+                                        studentSelect.append(option).trigger('change');
+
+                                        // manually trigger the `select2:select` event
+                                        studentSelect.trigger({
+                                            type: 'select2:select',
+                                            params: function (data) {
+                                                return {
+                                                    results: $.map(data, function (item) {
+                                                        return {
+                                                            text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
+                                                            id: item.id
+                                                        }
+                                                    })
+                                                };
+                                            },
+                                        });
+                                    });
+                                </script>
                             </div>
-                            @elseif ($stock == "OUT")
-                            <div class="col-md-6">
-                                <label for="stock_id" class="form-label">Stock Barang</label>                          
-                                <input type="hidden" id="modal" value="{{ $data->persediaan->modal }}" /> <!-- STOCKS.MODAL  -->
-                                <input type="hidden" id="qty_gr" value="{{  $data->unit_gr }}" />  <!-- QTY GRAM SUATU UNIT  --> 
-                                <input type="hidden" id="stocksisa" value="{{ $data->persediaan->qty + $data->qty_gr }}" />                                
-                                <input type="hidden" id="sisa" value="{{ $data->persediaan->qty }}" required /> <!-- STOCKS.QTY -->
-                                <input type="text" class="form-control" readonly value="{{ $data->persediaan->item_name }}" required>
-                                
-                            </div>
-                            @endif
                             
-                            
                             <div class="col-md-2">
-                                <label for="unit" class="form-label">Unit</label>
-                                <select class="form-select" id="unit" name="unit" required>
-                                    <option value="bal">Bal</option>
-                                    @if ($stock == "OUT")
-                                        @foreach ($scales as $scale)                                            
-                                            @if ($data->unit == $scale->scalar)
-                                                <option value="{{ $scale->scalar }}" selected>{{ $scale->scalar }}</option>
-                                            @else
-                                                <option value="{{ $scale->scalar }}">{{ $scale->scalar }}</option>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </select>
+                                <label for="harga" class="form-label">Harga &amp; Qty</label>
+                                    <input type="text" class="form-control" id="harga" name="harga" value="{{ $data->harga }}" required>
                             </div>
-                            <div class="col-md-1">
-                                <label for="qty" class="form-label">Qty</label>
-                                    <input type="number" class="form-control" min="1" id="qty" name="qty" value="{{ $data->qty }}" required>
+                            <div class="col-md-4">
+                                <label for="note" class="form-label">Catatan</label>
+                                <input type="text" class="form-control" value="{{ $data->note; }}" id="note" name="note" max=200>
                             </div>
-                            <div class="col-md-2">
-                                <label for="unit_price" class="form-label">Harga</label>
-                                <input type="number" class="form-control" id="unit_price" name="unit_price" value="{{ $data->unit_price }}" required>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="sub_total" class="form-label">Subtotal</label>
-                                <input type="text" class="form-control" id="sub_total" name="sub_total" value="{{ ( $data->qty *  $data->unit_price ) }}" readonly>
-                            </div>
-                            @if ($stock == "OUT")
-                            <div class="col-md-2">
-                                <label for="profit" class="form-label">Profit</label>
-                                <input type="text" class="form-control" id="profit" name="profit" value="{{ $data->profit }}" readonly>
-                            </div>
-                            @endif
                             <div class="col-12 d-flex">
                                 <div class="me-auto">
                                     <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
                                 </div>    
                                 <div class="ms-auto">
-                                    <a class="btn btn-danger" href="#"
-                                        onclick="event.preventDefault();
-                                                        document.getElementById('delete-form').submit();">
-                                        {{ __('Delete') }}
-                                    </a>                                    
+                                    <button name="action" value="saveplus" class="saveButton btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
                                 </div>    
                             </div>
-                        </form>                        
-                        <form id="delete-form" method="POST" action="{{ route($pageName . '.destroy', [ $pageName => $data->id ]) }}" class="d-none">
-                            @csrf
-                            @method('DELETE')
                         </form>
 
                 </div>
@@ -112,7 +115,9 @@
     </div>
 </div>
 
-
-@include('modals.js') 
+<script type="text/javascript">    
+    // $("#item_id").select2().select2("val", null);
+    // $("#item_id").select2().select2("val", {{ $data->item_id }});
+</script>
 
 @endsection

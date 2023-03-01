@@ -7,8 +7,8 @@ use App\Http\Controllers\MiscController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\TempnoteController;
 use App\Http\Controllers\UserController;
-use App\Models\Tempnotes;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function() {
         '/modal' => InventoryController::class,
         '/penjualan' => PenjualanController::class,        
         '/misc' => MiscController::class,  
-        '/tempnotes' => Tempnotes::class,  
+        '/tempnotes' => TempnoteController::class,  
         '/users' => UserController::class, 
     ]);
 });

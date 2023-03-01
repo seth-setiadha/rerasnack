@@ -60,7 +60,7 @@
                             <a class="nav-link" href="{{ route('penjualan.index') }}">Penjualan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('reports.index') }}">Catatan Penjualan</a>
+                            <a class="nav-link" href="{{ route('tempnotes.index') }}">Pencatatan Sementara</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
