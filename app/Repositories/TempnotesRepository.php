@@ -48,4 +48,13 @@ class TempnotesRepository
         return ["data" => $data->paginate($this->perPage)->withQueryString(), "q" => $this->q, "tanggal" => $this->tanggalTransaksi, "sortBy" => $this->sortBy, "sort" => $this->sort];
     }
 
+    public function update($tempnote, $data) {
+        dd($data);
+        $tempnote->tanggal = $data['tanggal'];
+        if(! empty($data['item_id'])) { $tempnote->item_id = $data['item_id']; }
+        $tempnote->harga = $data['harga'];
+        $tempnote->note = $data['note'];
+        return $tempnote->save();
+    }
+
 }

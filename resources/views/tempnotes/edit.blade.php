@@ -24,18 +24,18 @@
             <x-alert-component />
                 
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
-                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.store') }}">                        
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['tempnote' => $data->id ]) }}">                        
                         @csrf
-                        @method('POST')
+                        @method('PUT')
                        
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
-                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
+                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ $data->tanggal }}" required>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-4">
-                                <label for="item_id" class="form-label">Nama Barang</label>    
-                                <select class="form-control" id="item_id" name="item_id" required></select>                                
+                                <label for="item_id" class="form-label">Nama Barang</label><br />{{ $data->item->item_name . " (" . $data->item->item_code. ")" }}
+                                <select class="form-control" id="item_id" name="item_id"></select>                                
                                 <script type="text/javascript">
                                     $('#item_id').select2({
                                         placeholder: 'Pilih barang',

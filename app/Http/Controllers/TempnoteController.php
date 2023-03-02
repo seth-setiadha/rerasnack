@@ -131,7 +131,7 @@ class TempnoteController extends Controller
             return redirect( route('tempnotes.edit') );
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('stocks.show', ['stock' => $tempnote->stock_id ]) );
+        return redirect( route('tempnotes.show', ['tempnote' => $tempnote->id ]) );
     }
 
     /**
