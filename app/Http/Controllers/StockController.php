@@ -65,10 +65,30 @@ class StockController extends Controller
     public function autocomplete(Request $request) {
         // $query = $request->get('query');
         $query = $request->get('term');
-        $items = Stock::select('stocks.id', 'stocks.item_name', 'stocks.bal_kg', 'modal')->selectRaw('DATE_FORMAT(stocks.tanggal, "%e %b \'%y") AS tanggal, FORMAT(stocks.qty / 1000,2) AS sisa')
+        $items = Stock::select('stocks.id', 'stocks.item_name', 'stocks.item_id', 'stocks.bal_kg', 'modal')->selectRaw('DATE_FORMAT(stocks.tanggal, "%e %b \'%y") AS tanggal, FORMAT(stocks.qty / 1000,2) AS sisa')
         ->where('stocks.qty', '>', 0)
         ->where('item_name', 'LIKE', '%'. $query. '%')->limit(10)->get();
-        return response()->json($items);
+
+        $arr = [];
+        foreach($items as  $item) {
+            $lastModal = Inventory::select('unit_price_gr')->where('item_id', '=', $item->item_id)->where('stock', '=', 'IN')->orderBy('created_at', 'DESC')->first();
+            if($lastModal) {
+                $latestModal = $lastModal->unit_price_gr;
+            } else {
+                $latestModal = 0;
+            }
+            $arr[] = [
+                'id' => $item->id,
+                'item_name' => $item->item_name,
+                'bal_kg' => $item->bal_kg,
+                'modal' => $item->modal,
+                'tanggal' => $item->tanggal,
+                'sisa' => $item->sisa,
+                'latestModal' => $latestModal,
+            ];
+        }
+
+        return response()->json($arr);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Scale;
+use App\Models\Tempnotes;
 use App\Repositories\InventoryRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -45,11 +46,19 @@ class PenjualanController extends Controller
     public function create()
     {
         if (! Gate::allows('admin-access')) { abort(403); }
+
+        $tempID = request()->query('tempID');
+        $tempNotes = null;
+        if($tempID) {
+            $tempNotes = Tempnotes::with('item')->where('id', '=', $tempID)->first();
+        }
+
         $data = new Inventory();
         $scales = Scale::orderBy('pergram', 'DESC')->get();
 
         return view('penjualan.create', [
             'data' => $data,
+            'tempNotes' => $tempNotes,
             'scales' => $scales,
             'stock' => 'OUT',
             'pageName' => 'penjualan',
@@ -116,9 +125,17 @@ class PenjualanController extends Controller
             $penjualan->profit = floor($penjualan->sub_total - ($penjualan->qty_gr * $penjualan->persediaan->modal));
 
             $scales = Scale::orderBy('pergram', 'DESC')->get();            
+
+            $tempID = request()->query('tempID');
+            $tempNotes = null;
+            if($tempID) {
+                $tempNotes = Tempnotes::with('item')->where('id', '=', $tempID)->first();
+            }
+
             return view('penjualan.edit', [
                 'data' => $penjualan,
                 'scales' => $scales,
+                'tempNotes' => $tempNotes,
                 'stock' => 'OUT',
                 'pageName' => 'penjualan',
                 'colorTheme' => 'primary'
