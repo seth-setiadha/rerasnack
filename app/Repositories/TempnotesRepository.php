@@ -49,7 +49,6 @@ class TempnotesRepository
     }
 
     public function update($tempnote, $data) {
-        dd($data);
         $tempnote->tanggal = $data['tanggal'];
         if(! empty($data['item_id'])) { $tempnote->item_id = $data['item_id']; }
         $tempnote->harga = $data['harga'];
