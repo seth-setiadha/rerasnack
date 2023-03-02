@@ -48,6 +48,8 @@
                                                     results: $.map(data, function (item) {
                                                         return {
                                                             text: item.item_name + ' (' + item.item_code + ') ' + item.bal_kg + ' kg/bal',
+                                                            balkg: parseInt(1000 * item.bal_kg),
+                                                            latestModal: parseInt(1000 * item.bal_kg * item.latestModal),
                                                             id: item.id
                                                         }
                                                     })
@@ -55,6 +57,10 @@
                                             },
                                             cache: true
                                         }
+                                    });
+
+                                    $('#item_id').on('select2:select', function (e) {
+                                        $('#harga').val(e.params.data.latestModal + " per bal");
                                     });
                                 </script>
                             </div>

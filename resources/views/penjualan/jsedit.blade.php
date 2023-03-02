@@ -14,6 +14,7 @@
                             modal: parseFloat(item.modal),
                             sisa: parseInt(1000 * item.sisa),
                             balkg: parseInt(1000 * item.bal_kg),
+                            latestModal: parseFloat(item.latestModal),
                             text: item.item_name + ' ' + item.bal_kg + ' kg/bal. Masuk ' + item.tanggal + '. Sisa ' + item.sisa + ' kg',
                             id: item.id
                         }
@@ -28,21 +29,44 @@
         $('#modal').val(e.params.data.modal);
         $('#balkg').val(e.params.data.balkg);
         checkSisa();
+        saranHarga();
     });
 
     $('#qty').focusout(function() {
         checkSisa();
+        saranHarga();
     });
     $('#unit').change(function() {        
         checkSisa();    
+        saranHarga();
     });
     $('#stock_id').change(function() {
         checkSisa();
+        saranHarga();
     });
 
     $('#unit_price').focusout(function() {
         checkSisa();
     });
+
+    function saranHarga() {
+        var unit = $('#unit option:selected').val();     
+        var modal = parseFloat( $('#modal').val() );
+        if(unit == 'bal') {
+            unit = balkg;
+        } else if(unit == '1kg') { 
+            unit = 1000;
+        } else {
+            unit = unit.replace(/[^.\d]/g, '');
+        }
+
+        //Kasih saran harga
+        var saran = parseInt(unit * modal);        
+        $('#unit_price').val(saran);
+        // if(unit_price > 0) { if(qty > 0) {} else { $('#unit_price').val(saran); } } else { $('#unit_price').val(saran); }
+
+        checkSisa();
+    }
 
     function checkSisa() {
         var qty = parseInt($('#qty').val());
@@ -64,12 +88,8 @@
         $('#qty_gr').val(unit);
         // $('#sub_total').val(0);
         $('#sisa').val(''); 
-        $('.saveButton').prop('disabled', true);
-
-        // console.log('qty: ', qty);
-        // console.log('qty_gr: ', qty_gr);
-        // console.log('unit: ', unit);
-        // console.log('stocksisa: ', stocksisa);
+        $('.saveButton').prop('disabled', true);        
+        
         if( qty > 0 && stocksisa > 0 && unit > 0) {
             sisa = stocksisa - (qty * unit);            
             $('#sisa').val(sisa);

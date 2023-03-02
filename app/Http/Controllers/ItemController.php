@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Models\Inventory;
 use App\Repositories\StockRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,8 +45,24 @@ class ItemController extends Controller
     public function autocomplete(Request $request) {
         // $query = $request->get('query');
         $query = $request->get('term');
-        $items = Item::select('id', 'item_name', 'bal_kg', 'item_code')->where('item_name', 'LIKE', '%'. $query. '%')->orWhere('item_code', 'LIKE', '%' . $query . '%')->limit(10)->get();   
-        return response()->json($items);
+        $items = Item::select('id', 'item_name', 'bal_kg', 'item_code')->where('item_name', 'LIKE', '%'. $query. '%')->orWhere('item_code', 'LIKE', '%' . $query . '%')->limit(10)->get();
+        $arr = [];
+        foreach($items as  $item) {
+            $lastModal = Inventory::select('unit_price_gr')->where('item_id', '=', $item->id)->where('stock', '=', 'IN')->orderBy('created_at', 'DESC')->first();
+            if($lastModal) {
+                $latestModal = $lastModal->unit_price_gr;
+            } else {
+                $latestModal = 0;
+            }
+            $arr[] = [
+                'id' => $item->id,
+                'item_name' => $item->item_name,
+                'bal_kg' => $item->bal_kg,
+                'item_code' => $item->item_code,
+                'latestModal' => $latestModal,
+            ];
+        }
+        return response()->json($arr);
     }
 
     /**

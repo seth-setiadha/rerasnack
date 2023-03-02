@@ -25,11 +25,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col"><x-header-table text="Tgl. Transaksi" field="tanggal" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
-                                    <!-- <th scope="col"><x-header-table text="Tgl. Input" field="updated_at" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th> -->
                                     <th scope="col"><x-header-table text="Nama Barang" field="item_name" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th scope="col" class="text-center"><x-header-table text="Harga/Qty" field="harga" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
                                     <th scope="col" class="text-center"><x-header-table text="Catatan" field="note" :sort="$sort" :sortBy="$sortBy" :link="$link"/></th>
-                                    <th scope="col" class="text-center">Status</th>
                                     <th scope="col">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -37,11 +35,9 @@
                                 @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $row->tanggal }}</td>
-                                    <!-- <td>{{ date("Y-m-d", strtotime($row->updated_at)) }}</td> -->
-                                    <td class="text-nowrap">{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>                                    
-                                    <td class="text-center">{{ $row->harga }}</td>
-                                    <td class="text-end">{{ $row->note }}</td>
-                                    <td class="text-end">{{ $row->saved }}</td>
+                                    <td class="">{{ $row->item_name . ' (' . $row->item_code . ')' }}</td>                                    
+                                    <td class="">{{ $row->harga }}</td>
+                                    <td class="">{{ $row->note }}</td>
                                     <td class="text-end">
                                         
                                     <form method="POST" action="{{ route($pageName . '.destroy', [ 'tempnote' => $row->id ]) }}">

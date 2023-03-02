@@ -22,7 +22,26 @@
             </div>
             
             <x-alert-component />
-                
+                @if ($tempNotes)
+                    <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
+                        <div class="col-12 d-flex">
+                            <div class="me-auto pb-2">
+                                <h4 class="mb-0 lh-1">{{ __('Pencatatan Sementara') }}</h4>
+                            </div>    
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">Tanggal:</div>
+                            <div class="col-md-3">{{ $tempNotes->tanggal }}</div>
+                            <div class="col-md-2">Nama Barang:</div>
+                            <div class="col-md-5">{{ $tempNotes->item->item_name . " (" . $tempNotes->item->item_code . ")" }}</div>
+                            
+                            <div class="col-md-2">Harga &amp; Qty:</div>
+                            <div class="col-md-3">{{ $tempNotes->harga }}</div>
+                            <div class="col-md-2">Catatan:</div>
+                            <div class="col-md-5">{{ $tempNotes->note }}</div>
+                        </div>
+                    </div>
+                @endif
                 <div class="p-3 my-3 bg-white p-2 text-dark bg-opacity-50 rounded shadow-sm">
                         <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['penjualan' => $data->id]) }}">                        
                         @csrf
