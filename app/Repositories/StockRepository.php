@@ -31,7 +31,7 @@ class StockRepository
 
         $data = $this->model->where("stocks.qty", $op, 0)
                 ->select("stocks.id", "stocks.item_name", "stocks.bal_kg", "inventories.tanggal", "inventories.qty")
-                ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg")
+                ->selectRaw("FORMAT((stocks.qty/1000), 2) AS qty_kg, stocks.qty AS qty_gr")
                 ->leftjoin('inventories', function($query) {
                     $query->on("stocks.id", "=", "inventories.stock_id")
                     ->where("inventories.stock", "=", "IN");

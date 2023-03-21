@@ -126,10 +126,10 @@ class StockController extends Controller
         $stock = Inventory::create($data);
         if(! $stock) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
-            return redirect( route('stocks.create') );
+            return redirect()->back();
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
-        return redirect( route('stocks.adjustment') );
+        return redirect()->back();
     }
 
     /**

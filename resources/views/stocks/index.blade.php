@@ -56,11 +56,26 @@
                                     <td class="text-center">{{ $row->qty_kg }}</td>
                                     <td class="text-end">
                                         @if (Auth::user()->email == "seth.setiadha@gmail.com" || Auth::user()->email == "rerasnack17@gmail.com")
-                                        <a href="{{ route('stocks.show', ['stock' => $row->id]) }}" class="btn btn-sm btn-secondary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                        </svg></a>
+                                        <form novalidate method="POST" action="{{ route('stocks.store') }}">                        
+                                        @csrf
+                                        @method('POST')                                        
+                                            <a href="{{ route('stocks.show', ['stock' => $row->id]) }}" class="btn btn-sm btn-secondary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                            </svg></a>
+
+                                            &nbsp;
+                                            <input type="hidden" name="stock_id" value="{{ $row->id }}" />
+                                            <input type="hidden" name="tanggal" value="{{ date('Y-m-d') }}" />
+                                            <input type="hidden" name="qty" value="{{ $row->qty_gr }}" />
+                                            <input type="hidden" name="unit" value="1gr" />
+                                            <button class="btn btn-sm btn-danger" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+                                                </svg>
+                                            </button>
+                                        </form>
                                         @endif
                                     </td>
                                 </tr>
