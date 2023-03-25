@@ -30,12 +30,12 @@
                        
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
-                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
+                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" >
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-4">
                                 <label for="item_id" class="form-label">Nama Barang</label>    
-                                <select class="form-control" id="item_id" name="item_id" required></select>                                
+                                <select class="form-control" id="item_id" name="item_id"></select>                                
                                 <script type="text/javascript">
                                     $('#item_id').select2({
                                         placeholder: 'Pilih barang',
@@ -67,7 +67,7 @@
                             
                             <div class="col-md-2">
                                 <label for="harga" class="form-label">Harga &amp; Qty</label>
-                                    <input type="text" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" required>
+                                    <input type="text" class="form-control" id="harga" name="harga" value="{{ old('harga') }}">
                             </div>
                             <div class="col-md-4">
                                 <label for="note" class="form-label">Catatan</label>

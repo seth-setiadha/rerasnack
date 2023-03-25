@@ -76,12 +76,24 @@ class PenjualanController extends Controller
     {
         if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
+        $tempID = null;
+        if(isset($data['temp_id']) && ! empty($data['temp_id'])) { 
+            $tempID = $data['temp_id'];
+            unset($data['temp_id']);
+        }
         $data["stock"] = "OUT";
 
         $penjualan = Inventory::create($data);
         if(! $penjualan) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('penjualan.create') );
+        }   
+        if($tempID) {
+            $tempNote = Tempnotes::find($tempID); 
+            if($tempNote) {
+                $tempNote->inventory_id = $penjualan->id;
+                $tempNote->save();
+            }
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
         if($request->action == "saveplus") {
@@ -156,11 +168,22 @@ class PenjualanController extends Controller
     {
         if (! Gate::allows('admin-access')) { abort(403); }
         $data = $request->validated();
-        
+        $tempID = null;
+        if(isset($data['temp_id']) && ! empty($data['temp_id'])) { 
+            $tempID = $data['temp_id'];
+            unset($data['temp_id']);
+        }
 
         if(! $this->repo->update($penjualan, $data ) ) {
             $request->session()->flash('error', 'Data belum berhasil disimpan');
             return redirect( route('penjualan.edit') );
+        }
+        if($tempID) {
+            $tempNote = Tempnotes::find($tempID); 
+            if($tempNote) {
+                $tempNote->inventory_id = $penjualan->id;
+                $tempNote->save();
+            }
         }
         $request->session()->flash('status', 'Data sudah berhasil disimpan');
         return redirect( route('stocks.show', ['stock' => $penjualan->stock_id ]) );

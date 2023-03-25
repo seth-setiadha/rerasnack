@@ -30,7 +30,7 @@
                                 <h4 class="mb-0 lh-1">{{ __('Pencatatan Sementara') }}</h4>
                             </div>    
                         </div>
-                        <div class="row">
+                        <div class="row">                            
                             <div class="col-md-2">Tanggal:</div>
                             <div class="col-md-3">{{ $tempNotes->tanggal }}</div>
                             <div class="col-md-2">Nama Barang:</div>
@@ -49,6 +49,7 @@
                     <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.store') }}">                        
                     @csrf
                     @method('POST')
+                    @if ($tempNotes)<input type="hidden" name="temp_id" value="{{  $tempNotes->id }}" />@endif
                     <input type="hidden" name="stock" value="{{ $stock }}" />
                         <div class="col-md-2">
                             <label for="tanggal" class="form-label">Tanggal</label>

@@ -29,6 +29,7 @@ class UpdateInventoryRequest extends FormRequest
             "unit" => '',
             "balkg" => '',
             "unit_price" => 'numeric',
+            "temp_id" => '',
         ];
     }
 }

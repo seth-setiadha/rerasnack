@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['reset' => false]);
+Auth::routes(['reset' => false, 'register' => false]);
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');

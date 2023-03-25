@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                 $inventory->qty_kg = $inventory->qty * $dataItem->bal_kg;
                 $inventory->qty_gr = $inventory->qty_kg * 1000;                
             } else {
-                $koef = Scale::where('scalar', '=', $inventory->unit)->first()->pergram;                
+                $koef = Scale::where('scalar', '=', $inventory->unit)->first()->pergram;
                 $inventory->qty_gr = $inventory->qty * $koef;
                 $inventory->qty_kg = round($inventory->qty_gr / 1000, 2);
             }

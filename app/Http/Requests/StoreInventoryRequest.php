@@ -30,6 +30,7 @@ class StoreInventoryRequest extends FormRequest
             "qty" => 'numeric',
             "unit" => '',
             "unit_price" => 'numeric',
+            "temp_id" => '',
         ];
     }
 }

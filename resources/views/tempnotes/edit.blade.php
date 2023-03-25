@@ -30,7 +30,7 @@
                        
                             <div class="col-md-2">
                                 <label for="tanggal" class="form-label">Tanggal</label>
-                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ $data->tanggal }}" required>
+                                <input type="text" class="form-control datepicker" id="tanggal" name="tanggal" value="{{ $data->tanggal }}" >
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-4">
@@ -92,7 +92,7 @@
                             
                             <div class="col-md-2">
                                 <label for="harga" class="form-label">Harga &amp; Qty</label>
-                                    <input type="text" class="form-control" id="harga" name="harga" value="{{ $data->harga }}" required>
+                                    <input type="text" class="form-control" id="harga" name="harga" value="{{ $data->harga }}" >
                             </div>
                             <div class="col-md-4">
                                 <label for="note" class="form-label">Catatan</label>
@@ -101,9 +101,6 @@
                             <div class="col-12 d-flex">
                                 <div class="me-auto">
                                     <button name="action" value="save" class="saveButton btn btn-{{ $colorTheme }}" type="submit">Simpan</button>
-                                </div>    
-                                <div class="ms-auto">
-                                    <button name="action" value="saveplus" class="saveButton btn btn-dark" type="submit">Simpan &amp; Tambah Lagi</button>
                                 </div>    
                             </div>
                         </form>

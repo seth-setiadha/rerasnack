@@ -30,6 +30,7 @@
                             </div>    
                         </div>
                         <div class="row">
+                            <input type="hidden" name="temp_id" value="{{  $tempNotes->id }}" />
                             <div class="col-md-2">Tanggal:</div>
                             <div class="col-md-3">{{ $tempNotes->tanggal }}</div>
                             <div class="col-md-2">Nama Barang:</div>
@@ -46,6 +47,7 @@
                         <form class="row g-3 needs-validation" autocomplete="off" novalidate method="POST" action="{{ route($pageName . '.update', ['penjualan' => $data->id]) }}">                        
                         @csrf
                         @method('PUT')
+                        @if ($tempNotes)<input type="hidden" name="temp_id" value="{{  $tempNotes->id }}" />@endif
                         <input type="hidden" name="stock" value="{{ $stock }}" />
                         <input type="hidden" name="item_id" value="{{ $data->item_id }}" />
                         <input type="hidden" name="stock_id" value="{{ $data->stock_id }}" />
